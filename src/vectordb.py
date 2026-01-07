@@ -1,0 +1,166 @@
+import os
+import chromadb
+from typing import List, Dict, Any
+from sentence_transformers import SentenceTransformer
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
+class VectorDB:
+    """
+    A simple vector database wrapper using ChromaDB with HuggingFace embeddings.
+    """
+
+    def __init__(self, collection_name: str = None, embedding_model: str = None):
+        """
+        Initialize the vector database.
+
+        Args:
+            collection_name: Name of the ChromaDB collection
+            embedding_model: HuggingFace model name for embeddings
+        """
+        self.collection_name = collection_name or os.getenv(
+            "CHROMA_COLLECTION_NAME", "rag_documents"
+        )
+        self.embedding_model_name = embedding_model or os.getenv(
+            "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+        # Initialize ChromaDB client
+        self.client = chromadb.PersistentClient(path="./chroma_db")
+
+        # Load embedding model
+        print(f"Loading embedding model: {self.embedding_model_name}")
+        self.embedding_model = SentenceTransformer(self.embedding_model_name)
+
+        # Get or create collection
+        self.collection = self.client.get_or_create_collection(
+            name=self.collection_name,
+            metadata={"description": "RAG document collection"},
+        )
+
+        print(f"Vector database initialized with collection: {self.collection_name}")
+
+    def chunk_text(self, text: str, chunk_size: int = 500, chunk_overlap: int = 200) -> List[str]:
+        """
+        Simple text chunking by splitting on spaces and grouping into chunks.
+
+        Args:
+            text: Input text to chunk
+            chunk_size: Approximate number of characters per chunk
+
+        Returns:
+            List of text chunks
+        """
+        # Use LangChain's RecursiveCharacterTextSplitter
+        #   - from langchain_text_splitters import RecursiveCharacterTextSplitter
+        #   - Automatically handles sentence boundaries and preserves context better
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+        )
+        return text_splitter.split_text(text)
+
+        # chunks = []
+        # # Your implementation here
+
+        # return chunks
+
+    def add_documents(self, documents: List) -> None:
+        """
+        Add documents to the vector database.
+
+        Args:
+            documents: List of documents
+        """
+        # TODO: Implement document ingestion logic
+        # HINT: Loop through each document in the documents list
+        # HINT: Extract 'content' and 'metadata' from each document dict
+        # HINT: Use self.chunk_text() to split each document into chunks
+        # HINT: Create unique IDs for each chunk (e.g., "doc_0_chunk_0")
+        # HINT: Use self.embedding_model.encode() to create embeddings for all chunks
+        # HINT: Store the embeddings, documents, metadata, and IDs in your vector database
+        # HINT: Print progress messages to inform the user
+
+        print(f"Processing {len(documents)} documents...")
+        
+        all_chunks = []
+        all_metadatas = []
+        all_ids = []
+        
+        # Process each document
+        for doc_idx, document in enumerate(documents):
+            # Extract content and metadata
+            content = document.get('content', '')
+            metadata = document.get('metadata', {})
+            
+            # Chunk the document
+            chunks = self.chunk_text(content)
+            print(f"Document {doc_idx + 1}: Split into {len(chunks)} chunks")
+            
+            # Create unique IDs and metadata for each chunk
+            for chunk_idx, chunk in enumerate(chunks):
+                chunk_id = f"doc_{doc_idx}_chunk_{chunk_idx}"
+                chunk_metadata = {
+                    **metadata,
+                    'doc_index': doc_idx,
+                    'chunk_index': chunk_idx
+                }
+                
+                all_chunks.append(chunk)
+                all_metadatas.append(chunk_metadata)
+                all_ids.append(chunk_id)
+        
+        if not all_chunks:
+            print("No chunks to add!")
+            return
+        
+        # Create embeddings for all chunks
+        print(f"Creating embeddings for {len(all_chunks)} chunks...")
+        embeddings = self.embedding_model.encode(all_chunks, show_progress_bar=True)
+        
+        # Add to ChromaDB collection
+        print("Adding to vector database...")
+        self.collection.add(
+            ids=all_ids,
+            embeddings=embeddings.tolist(),
+            documents=all_chunks,
+            metadatas=all_metadatas
+        )
+        
+        print(f"Successfully added {len(all_chunks)} chunks to vector database")
+
+    def search(self, query: str, n_results: int = 5) -> Dict[str, Any]:
+        """
+        Search for similar documents in the vector database.
+
+        Args:
+            query: Search query
+            n_results: Number of results to return
+
+        Returns:
+            Dictionary containing search results with keys: 'documents', 'metadatas', 'distances', 'ids'
+        """
+        # TODO: Implement similarity search logic
+        # HINT: Use self.embedding_model.encode([query]) to create query embedding
+        # HINT: Convert the embedding to appropriate format for your vector database
+        # HINT: Use your vector database's search/query method with the query embedding and n_results
+        # HINT: Return a dictionary with keys: 'documents', 'metadatas', 'distances', 'ids'
+        # HINT: Handle the case where results might be empty
+
+        # Create query embedding
+        query_embedding = self.embedding_model.encode([query])
+        
+        # Search in ChromaDB
+        results = self.collection.query(
+            query_embeddings=query_embedding.tolist(),
+            n_results=n_results
+        )
+        
+        # ChromaDB returns results in a specific format
+        # Extract the actual results (they're in lists, take the first element)
+        return {
+            "documents": results['documents'][0] if results['documents'] else [],
+            "metadatas": results['metadatas'][0] if results['metadatas'] else [],
+            "distances": results['distances'][0] if results['distances'] else [],
+            "ids": results['ids'][0] if results['ids'] else [],
+        }
