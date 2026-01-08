@@ -1,0 +1,26 @@
+# RAG Assistant - Configuration File
+
+# ============================================================================
+# Embedding Model Configuration
+# ============================================================================
+embedding:
+  model: sentence-transformers/all-MiniLM-L6-v2
+
+# ============================================================================
+# Vector Database Configuration
+# ============================================================================
+database:
+  collection_name: rag_documents  # ChromaDB collection name
+  path: ./chroma_db               # Path to store vector database
+
+# ============================================================================
+# LLM Configuration
+# ============================================================================
+llm:
+  temperature: 0.0         
+
+# ============================================================================
+# File Paths
+# ============================================================================
+paths:
+  data_directory: data     # Directory containing your documents

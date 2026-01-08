@@ -7,6 +7,7 @@ from vectordb import VectorDB
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 from langchain_google_genai import ChatGoogleGenerativeAI
+import config
 
 # Load environment variables
 load_dotenv()
@@ -25,7 +26,7 @@ def load_documents() -> List[str]:
     #   - Your implementation depends on the type of documents you are using (.txt, .pdf, etc.)
 
     # Define the data directory path
-    data_dir = "data"
+    data_dir = config.DATA_DIRECTORY
     
     # Check if data directory exists
     if not os.path.exists(data_dir):
@@ -127,14 +128,14 @@ class RAGAssistant:
             model_name = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
             print(f"Using OpenAI model: {model_name}")
             return ChatOpenAI(
-                api_key=os.getenv("OPENAI_API_KEY"), model=model_name, temperature=0.0
+                api_key=os.getenv("OPENAI_API_KEY"), model=model_name, temperature=config.DEFAULT_LLM_TEMPERATURE
             )
 
         elif os.getenv("GROQ_API_KEY"):
             model_name = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
             print(f"Using Groq model: {model_name}")
             return ChatGroq(
-                api_key=os.getenv("GROQ_API_KEY"), model=model_name, temperature=0.0
+                api_key=os.getenv("GROQ_API_KEY"), model=model_name, temperature=config.DEFAULT_LLM_TEMPERATURE
             )
 
         elif os.getenv("GOOGLE_API_KEY"):
@@ -143,7 +144,7 @@ class RAGAssistant:
             return ChatGoogleGenerativeAI(
                 google_api_key=os.getenv("GOOGLE_API_KEY"),
                 model=model_name,
-                temperature=0.0,
+                temperature=config.DEFAULT_LLM_TEMPERATURE,
             )
 
         else:
