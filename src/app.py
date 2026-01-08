@@ -20,9 +20,9 @@ def load_documents() -> List[str]:
     """
     results = []
     # TODO: Implement document loading
-    # HINT: Read the documents from the data directory
-    # HINT: Return a list of documents
-    # HINT: Your implementation depends on the type of documents you are using (.txt, .pdf, etc.)
+    #   - Read the documents from the data directory
+    #   - Return a list of documents
+    #   - Your implementation depends on the type of documents you are using (.txt, .pdf, etc.)
 
     # Define the data directory path
     data_dir = "data"
@@ -92,9 +92,9 @@ class RAGAssistant:
 
         # Create RAG prompt template
         # TODO: Implement your RAG prompt template
-        # HINT: Use ChatPromptTemplate.from_template() with a template string
-        # HINT: Your template should include placeholders for {context} and {question}
-        # HINT: Design your prompt to effectively use retrieved context to answer questions
+        #   - Use ChatPromptTemplate.from_template() with a template string
+        #   - Your template should include placeholders for {context} and {question}
+        #   - Design your prompt to effectively use retrieved context to answer questions
         template = """You are a helpful AI assistant. Use the following context to answer the user's question.
         Use clear, concise language with bullet points where appropriate.
         Given the some documents that should be relevant to the user's question, answer the user's question.
@@ -173,10 +173,10 @@ class RAGAssistant:
         """
         llm_answer = ""
         # TODO: Implement the RAG query pipeline
-        # HINT: Use self.vector_db.search() to retrieve relevant context chunks
-        # HINT: Combine the retrieved document chunks into a single context string
-        # HINT: Use self.chain.invoke() with context and question to generate the response
-        # HINT: Return a string answer from the LLM
+        #   - Use self.vector_db.search() to retrieve relevant context chunks
+        #   - Combine the retrieved document chunks into a single context string
+        #   - Use self.chain.invoke() with context and question to generate the response
+        #   - Return a string answer from the LLM
 
         # Step 1: Search for relevant context chunks
         search_results = self.vector_db.search(input, n_results=n_results)
