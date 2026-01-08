@@ -3,7 +3,7 @@ import chromadb
 from typing import List, Dict, Any
 from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
+import config
 
 class VectorDB:
     """
@@ -19,14 +19,14 @@ class VectorDB:
             embedding_model: HuggingFace model name for embeddings
         """
         self.collection_name = collection_name or os.getenv(
-            "CHROMA_COLLECTION_NAME", "rag_documents"
+            "CHROMA_COLLECTION_NAME", config.CHROMA_COLLECTION_NAME
         )
         self.embedding_model_name = embedding_model or os.getenv(
-            "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
+            "EMBEDDING_MODEL", config.EMBEDDING_MODEL
         )
 
         # Initialize ChromaDB client
-        self.client = chromadb.PersistentClient(path="./chroma_db")
+        self.client = chromadb.PersistentClient(path=config.CHROMA_DB_PATH)
 
         # Load embedding model
         print(f"Loading embedding model: {self.embedding_model_name}")
