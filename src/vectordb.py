@@ -52,18 +52,13 @@ class VectorDB:
             List of text chunks
         """
         # Use LangChain's RecursiveCharacterTextSplitter
-        #   - from langchain_text_splitters import RecursiveCharacterTextSplitter
+        #   - From langchain_text_splitters import RecursiveCharacterTextSplitter
         #   - Automatically handles sentence boundaries and preserves context better
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
         )
         return text_splitter.split_text(text)
-
-        # chunks = []
-        # # Your implementation here
-
-        # return chunks
 
     def add_documents(self, documents: List) -> None:
         """
@@ -73,13 +68,13 @@ class VectorDB:
             documents: List of documents
         """
         # TODO: Implement document ingestion logic
-        # HINT: Loop through each document in the documents list
-        # HINT: Extract 'content' and 'metadata' from each document dict
-        # HINT: Use self.chunk_text() to split each document into chunks
-        # HINT: Create unique IDs for each chunk (e.g., "doc_0_chunk_0")
-        # HINT: Use self.embedding_model.encode() to create embeddings for all chunks
-        # HINT: Store the embeddings, documents, metadata, and IDs in your vector database
-        # HINT: Print progress messages to inform the user
+        #   - Loop through each document in the documents list
+        #   - Extract 'content' and 'metadata' from each document dict
+        #   - Use self.chunk_text() to split each document into chunks
+        #   - Create unique IDs for each chunk (e.g., "doc_0_chunk_0")
+        #   - Use self.embedding_model.encode() to create embeddings for all chunks
+        #   - Store the embeddings, documents, metadata, and IDs in your vector database
+        #   - Print progress messages to inform the user
 
         print(f"Processing {len(documents)} documents...")
         
@@ -141,11 +136,11 @@ class VectorDB:
             Dictionary containing search results with keys: 'documents', 'metadatas', 'distances', 'ids'
         """
         # TODO: Implement similarity search logic
-        # HINT: Use self.embedding_model.encode([query]) to create query embedding
-        # HINT: Convert the embedding to appropriate format for your vector database
-        # HINT: Use your vector database's search/query method with the query embedding and n_results
-        # HINT: Return a dictionary with keys: 'documents', 'metadatas', 'distances', 'ids'
-        # HINT: Handle the case where results might be empty
+        #   - Use self.embedding_model.encode([query]) to create query embedding
+        #   - Convert the embedding to appropriate format for your vector database
+        #   - Use your vector database's search/query method with the query embedding and n_results
+        #   - Return a dictionary with keys: 'documents', 'metadatas', 'distances', 'ids'
+        #   - Handle the case where results might be empty
 
         # Create query embedding
         query_embedding = self.embedding_model.encode([query])
