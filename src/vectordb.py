@@ -40,7 +40,7 @@ class VectorDB:
 
         print(f"Vector database initialized with collection: {self.collection_name}")
 
-    def chunk_text(self, text: str, chunk_size: int = 500, chunk_overlap: int = 200) -> List[str]:
+    def chunk_text(self, text: str, chunk_size: int = 500, chunk_overlap: int = 50) -> List[str]:
         """
         Simple text chunking by splitting on spaces and grouping into chunks.
 
@@ -54,11 +54,16 @@ class VectorDB:
         # Use LangChain's RecursiveCharacterTextSplitter
         #   - From langchain_text_splitters import RecursiveCharacterTextSplitter
         #   - Automatically handles sentence boundaries and preserves context better
+
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
         )
-        return text_splitter.split_text(text)
+
+        # Split the text into chunks
+        chunks = text_splitter.split_text(text)
+        
+        return chunks
 
     def add_documents(self, documents: List) -> None:
         """
