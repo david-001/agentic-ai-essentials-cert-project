@@ -1,7 +1,7 @@
 # RAG-Based AI Assistant for Document Q&A
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![LangChain](https://img.shields.io/badge/LangChain-Latest-green.svg)](https://python.langchain.com/)
 
 ## 📑 Table of Contents
@@ -15,14 +15,14 @@
 - [Repository Structure](#-repository-structure)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
-  - [Step-by-Step Setup](#step-1-clone-the-repository)
+  - [Step-by-Step Setup](#step-by-step-setup)
   - [Verify Installation](#verify-installation)
 - [Usage](#-usage)
   - [Basic Usage](#basic-usage)
   - [Example Session](#example-session)
   - [Example Questions](#example-questions)
-  - [Advanced Usage](#advanced-usage)
 - [Configuration](#️-configuration)
+- [Testing](#-testing)
 - [Troubleshooting](#troubleshooting)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
@@ -40,6 +40,8 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 - 📚 Support for multiple document formats (.txt, .md)
 - 🤖 Multi-provider LLM support (OpenAI, Groq, Google Gemini)
 - 💾 Persistent vector storage with ChromaDB
+- ⚙️ YAML-based configuration for easy customization
+- 🔄 Intelligent text chunking with RecursiveCharacterTextSplitter
 
 ---
 
@@ -66,7 +68,7 @@ The system implements a complete RAG pipeline:
          ▼
 ┌─────────────────┐     ┌──────────────────┐
 │ Text Chunking   │────▶│ Create Embeddings│
-│ (500 chars)     │     │ (Vector Space)   │
+│ (Intelligent)   │     │ (Vector Space)   │
 └─────────────────┘     └────────┬─────────┘
                                  │
                                  ▼
@@ -88,12 +90,12 @@ The system implements a complete RAG pipeline:
 **Step-by-Step Process:**
 
 1. **Document Loading**: Reads documents from the `data/` directory
-2. **Text Chunking**: Splits documents into ~500 character chunks with 50 character overlap
+2. **Text Chunking**: Uses LangChain's RecursiveCharacterTextSplitter for intelligent chunking
 3. **Embedding Creation**: Converts text chunks to 384-dimensional vectors using sentence-transformers
 4. **Vector Storage**: Stores embeddings in ChromaDB for fast similarity search
 5. **Query Processing**: When you ask a question:
    - Your question is converted to a vector
-   - System finds the 3 most similar document chunks
+   - System finds the most similar document chunks
    - Chunks are combined as context for the LLM
    - LLM generates an answer based on the retrieved context
 
@@ -137,46 +139,54 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 ## 📁 Repository Structure
 
 ```
-rag-assistant/
-├── app.py                      # Main application with RAG pipeline
-├── app_with_retry.py          # Enhanced version with rate limit handling
-├── vectordb.py                # Vector database wrapper for ChromaDB
-├── requirements.txt           # Python dependencies
-├── LICENSE                    # MIT License
-├── README.md                  # This file
-├── .env.example              # Environment variables template
+agentic-ai-essentials-cert-project/
 │
-├── data/                      # Place your documents here
-│   ├── company_policies.txt  # Sample document
-│   └── product_documentation.txt  # Sample document
+├── src/                          # Source code directory
+│   ├── app.py                    # Main application with RAG pipeline
+│   ├── vectordb.py               # Vector database wrapper for ChromaDB
+│   └── config.py                 # Configuration loader (loads from YAML)
 │
-├── chroma_db/                # Vector database storage (auto-created)
+├── config/                       # Configuration directory
+│   └── config.yaml              # YAML configuration file (edit settings here)
 │
-└── docs/                     # Additional documentation
-    ├── SETUP_GUIDE.md       # Step-by-step setup instructions
-    ├── IMPLEMENTATION_SUMMARY.md  # Detailed implementation guide
-    ├── RATE_LIMIT_SOLUTIONS.md   # Troubleshooting guide
-    ├── QUICK_FIX.md         # Common issues and fixes
-    └── LICENSE_GUIDE.md     # License selection guide
+├── data/                         # Document collection
+│   ├── api_documentation.txt    # Sample: API documentation
+│   ├── company_policies.txt     # Sample: HR policies
+│   ├── customer_faq.txt         # Sample: FAQ
+│   ├── product_documentation.txt # Sample: Product info
+│   └── security_compliance.txt   # Sample: Security docs
+│
+├── requirements.txt              # Python dependencies
+├── .env                         # Environment variables (API keys)
+├── .gitignore                   # Git ignore rules
+├── LICENSE                      # MIT License
+└── README.md                    # This file
+│
+└── chroma_db/                   # Vector database storage (auto-created)
 ```
 
 ### Key Files Explained
 
-| File | Purpose | When to Modify |
-|------|---------|----------------|
-| `app.py` | Main application entry point | Add features, modify prompt template |
-| `vectordb.py` | Handles chunking, embedding, search | Adjust chunk size, embedding model |
-| `requirements.txt` | Python dependencies | Add new libraries |
-| `.env` | API keys and configuration | Set your API keys |
+| File/Directory | Purpose | When to Modify |
+|----------------|---------|----------------|
+| `src/app.py` | Main application entry point | Add features, modify prompt template |
+| `src/vectordb.py` | Handles chunking, embedding, search | Adjust embedding logic |
+| `src/config.py` | Loads configuration from YAML | Rarely (handles loading automatically) |
+| `config/config.yaml` | **Main configuration file** | **Change settings here** |
+| `.env` | API keys and secrets | Set your API keys here |
 | `data/` | Your document collection | Add your .txt or .md files |
 
 ---
+
+## 🌟 Features
 
 - 📚 **Document Loading**: Automatically loads .txt and .md files from `data/` folder
 - 🔍 **Semantic Search**: Uses sentence transformers for accurate document retrieval
 - 💾 **Persistent Storage**: ChromaDB vector database with local persistence
 - 🤖 **Multi-LLM Support**: Works with OpenAI, Groq, or Google Gemini
-- 🔄 **Smart Chunking**: Overlapping text chunks for better context preservation
+- 🔄 **Smart Chunking**: Uses RecursiveCharacterTextSplitter for context preservation
+- ⚙️ **YAML Configuration**: Easy-to-edit configuration file
+- 🎯 **Reproducible Results**: Fixed random seed for consistent behavior
 
 ---
 
@@ -184,21 +194,23 @@ rag-assistant/
 
 ### Prerequisites
 
-- **Python 3.8 or higher**
+- **Python 3.10 or higher**
 - **pip** (Python package installer)
 - **One of these API keys** (at least one required):
   - OpenAI API key (recommended for production)
   - Google Gemini API key (recommended for free tier)
   - Groq API key (fastest, but rate-limited)
 
-### Step 1: Clone the Repository
+### Step-by-Step Setup
+
+#### Step 1: Clone the Repository
 
 ```bash
 git clone <your-repo-url>
-cd rag-assistant
+cd agentic-ai-essentials-cert-project
 ```
 
-### Step 2: Create Virtual Environment (Recommended)
+#### Step 2: Create Virtual Environment (Recommended)
 
 **On macOS/Linux:**
 ```bash
@@ -212,84 +224,102 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### Step 3: Install Dependencies
+#### Step 3: Install Dependencies
 
 ```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-This installs:
+**Key dependencies:**
 - `langchain-core` - LLM orchestration framework
 - `langchain-openai`, `langchain-groq`, `langchain-google-genai` - LLM provider integrations
+- `langchain-text-splitters` - Intelligent text chunking
 - `chromadb` - Vector database
 - `sentence-transformers` - Embedding models
 - `python-dotenv` - Environment variable management
+- `pyyaml` - YAML configuration support
+- `numpy` - Numerical operations
 
 **Installation time:** 2-3 minutes depending on internet speed
 
-### Step 4: Set Up Environment Variables
+#### Step 4: Set Up Environment Variables
 
-1. Copy the example environment file:
+Create a `.env` file with your API key:
+
 ```bash
+# Copy the example (if you have one)
 cp .env.example .env
+
+# Or create manually
+nano .env
 ```
 
-2. Edit `.env` and add your API key:
+Add **at least one** API key to `.env`:
 
-**Option A: Google Gemini (Recommended - Free)**
-```env
+```bash
+# OpenAI (Recommended for production quality)
+OPENAI_API_KEY=sk-proj-your-key-here
+OPENAI_MODEL=gpt-4o-mini
+
+# OR Groq (Fastest, but rate limited)
+GROQ_API_KEY=gsk-your-key-here
+GROQ_MODEL=llama-3.1-8b-instant
+
+# OR Google Gemini (Free tier with generous limits)
 GOOGLE_API_KEY=AIza-your-key-here
 GOOGLE_MODEL=gemini-2.0-flash
 ```
-Get key at: https://aistudio.google.com/app/apikey
 
-**Option B: OpenAI (Best Quality - Paid)**
-```env
-OPENAI_API_KEY=sk-proj-your-key-here
-OPENAI_MODEL=gpt-4o-mini
-```
-Get key at: https://platform.openai.com/api-keys
+**Where to get API keys:**
+- **OpenAI:** https://platform.openai.com/api-keys
+- **Groq:** https://console.groq.com/keys
+- **Google Gemini:** https://makersuite.google.com/app/apikey
 
-**Option C: Groq (Fastest - Free with Limits)**
-```env
-GROQ_API_KEY=gsk_your-key-here
-GROQ_MODEL=llama-3.1-8b-instant
-```
-Get key at: https://console.groq.com/keys
+#### Step 5: Add Your Documents
 
-### Step 5: Add Your Documents
-
-Place your .txt or .md files in the `data/` folder:
+Place your documents in the `data/` folder:
 
 ```bash
-mkdir -p data
-# Copy your documents to the data/ folder
+# The project includes 5 sample documents:
+# - api_documentation.txt
+# - company_policies.txt
+# - customer_faq.txt
+# - product_documentation.txt
+# - security_compliance.txt
+
+# To add your own:
+cp your_document.txt data/
+cp your_other_doc.md data/
 ```
 
-**Supported formats:**
-- `.txt` - Plain text files
-- `.md` - Markdown files
-
-**Document guidelines:**
-- Use clear, well-formatted text
-- Each file should contain cohesive content
-- Aim for 500-5000 words per document
-- Use descriptive filenames
+**Supported formats:** `.txt` and `.md` files
 
 ### Verify Installation
 
+Run a quick test to ensure everything is set up correctly:
+
 ```bash
+cd src
 python app.py
 ```
 
-If successful, you should see:
+**Expected output:**
 ```
-Initializing RAG Assistant...
 Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-Using [Provider] model: [model-name]
-Vector database initialized with collection: rag_documents
-RAG Assistant initialized successfully
+Using OpenAI model: gpt-4o-mini
+Loading documents from: data
+Loaded 5 documents
+Processing documents...
+Vector database initialized
+
+Welcome to the RAG Assistant!
+Ask questions about your documents (type 'quit' to exit)
+
+Your question: 
 ```
+
+If you see this, installation was successful! ✅
 
 ---
 
@@ -297,312 +327,302 @@ RAG Assistant initialized successfully
 
 ### Basic Usage
 
-1. **Start the assistant:**
-```bash
-python app.py
-```
+1. **Navigate to the src directory:**
+   ```bash
+   cd src
+   ```
 
-2. **Wait for initialization** (first run downloads embedding model ~90MB)
+2. **Run the assistant:**
+   ```bash
+   python app.py
+   ```
 
-3. **Ask questions** about your documents:
-```
-Your question: What is the remote work policy?
-```
+3. **Ask questions about your documents:**
+   ```
+   Your question: What is the remote work policy?
+   ```
 
-4. **Type 'quit' to exit**
+4. **Exit when done:**
+   ```
+   Your question: quit
+   ```
 
 ### Example Session
 
 ```bash
+$ cd src
 $ python app.py
 
-Initializing RAG Assistant...
 Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
 Using OpenAI model: gpt-4o-mini
-Vector database initialized with collection: rag_documents
-RAG Assistant initialized successfully
+Vector database initialized
 
-Loading documents...
-Loaded: company_policies.txt
-Loaded: product_documentation.txt
-Loaded 2 sample documents
-Processing 2 documents...
-Document 1: Split into 8 chunks
-Document 2: Split into 10 chunks
-Creating embeddings for 18 chunks...
-Adding to vector database...
-Successfully added 18 chunks to vector database
+Welcome to the RAG Assistant!
+Ask questions about your documents (type 'quit' to exit)
 
-==================================================
-RAG Assistant is ready!
-==================================================
-You can now ask questions about your documents.
-Type 'quit' to exit.
+Your question: What vacation days do employees get?
 
-Your question: What is the remote work policy?
+Answer: Full-time employees receive 15-20 days of paid vacation annually,
+depending on tenure. New employees start with 15 days, increasing to 20
+days after 3 years of service. Vacation requests should be submitted at
+least 2 weeks in advance through the HR portal.
 
-Thinking...
+Your question: What's the API rate limit?
 
-Answer: According to the company policy, employees are eligible to work 
-remotely up to 3 days per week with manager approval. Remote work arrangements 
-must be documented and reviewed quarterly. Employees must maintain regular 
-communication and be available during core business hours (10 AM - 3 PM local time).
-
---------------------------------------------------
+Answer: The API rate limits vary by plan: Starter plan has 100 requests
+per hour, Professional plan has 1,000 requests per hour, and Business
+plan has 10,000 requests per hour. Enterprise customers can request
+custom rate limits.
 
 Your question: quit
-Goodbye!
+
+Thank you for using the RAG Assistant!
 ```
 
 ### Example Questions
 
-**For Company Policies:**
-- "What is the vacation policy?"
+Try these sample questions with the included documents:
+
+**Company Policies:**
+- "What is the remote work policy?"
 - "How many vacation days do employees get?"
-- "What are the core working hours?"
-- "What is the professional development budget?"
-- "How do I request remote work?"
+- "What are the parental leave benefits?"
+- "Does the company provide health insurance?"
 
-**For Product Documentation:**
-- "What are the pricing plans?"
-- "What security features are available?"
-- "How do I share files with external users?"
+**API Documentation:**
+- "What's the API rate limit for the Professional plan?"
+- "How do I authenticate with the API?"
+- "What are the available endpoints?"
+- "How do webhooks work?"
+
+**Product Information:**
+- "What pricing plans are available?"
+- "What integrations does the product support?"
 - "What are the system requirements?"
-- "How much storage do I get?"
+- "Is there a free trial?"
 
-### Advanced Usage
-
-**Adjust number of retrieved chunks:**
-```python
-# In app.py, modify the invoke() call:
-result = assistant.invoke(question, n_results=5)  # Default is 3
-```
-
-**Change chunk size:**
-```python
-# In vectordb.py, modify chunk_text():
-def chunk_text(self, text: str, chunk_size: int = 800):  # Default is 500
-```
-
-**Switch embedding model:**
-```python
-# In .env file:
-EMBEDDING_MODEL=sentence-transformers/all-mpnet-base-v2  # More accurate but slower
-```
-
-**Use retry logic for rate limits:**
-```bash
-# Use the version with automatic retry
-python app_with_retry.py
-```
+**Security & Compliance:**
+- "Is the platform GDPR compliant?"
+- "What encryption is used?"
+- "What certifications does the company have?"
+- "What is the data retention policy?"
 
 ---
 
 ## ⚙️ Configuration
 
-### Chunk Size
+Configuration is managed through `config/config.yaml`. This makes it easy to adjust settings without modifying code.
 
-Modify in `vectordb.py`:
+### Viewing Current Settings
 
-```python
-def chunk_text(self, text: str, chunk_size: int = 500, chunk_overlap: int = 50)
+```bash
+# From the src directory:
+cd src
+python config.py
 ```
 
-- **chunk_size**: Characters per chunk (default: 500)
-- **chunk_overlap**: Overlapping characters (default: 50)
+This displays all current configuration values.
 
-### Number of Retrieved Chunks
+### Main Configuration File: `config/config.yaml`
 
-Modify in `app.py` when calling `query()`:
+```yaml
+# Embedding Model Configuration
+embedding:
+  model: sentence-transformers/all-MiniLM-L6-v2
 
-```python
-result = assistant.query(question, n_results=3)  # Change 3 to desired number
+# Vector Database Configuration
+database:
+  collection_name: rag_documents
+  path: ./chroma_db
+
+# LLM Configuration
+llm:
+  temperature: 0.0
+
+# File Paths
+paths:
+  data_directory: data
 ```
 
-### Embedding Model
+### Common Adjustments
 
-Change in `.env`:
+#### Change Embedding Model
 
-```env
-# Faster, lighter model (default)
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-
-# More accurate, heavier model
-# EMBEDDING_MODEL=sentence-transformers/all-mpnet-base-v2
+```yaml
+embedding:
+  # Faster, lighter (default)
+  model: sentence-transformers/all-MiniLM-L6-v2
+  
+  # OR more accurate, heavier
+  # model: sentence-transformers/all-mpnet-base-v2
 ```
 
-## Supported LLM Providers
+#### Change Data Directory
 
-### OpenAI (Recommended for best quality)
-```env
-OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-4o-mini  # or gpt-4o, gpt-4-turbo
+```yaml
+paths:
+  data_directory: my_documents  # Change from 'data'
 ```
 
-### Groq (Fastest, free tier available)
-```env
-GROQ_API_KEY=gsk_...
-GROQ_MODEL=llama-3.1-8b-instant  # or llama-3.1-70b-versatile
+#### Adjust LLM Temperature
+
+```yaml
+llm:
+  temperature: 0.0    # Deterministic (default)
+  # temperature: 0.7  # More creative
 ```
 
-### Google Gemini (Good balance)
-```env
-GOOGLE_API_KEY=AIza...
-GOOGLE_MODEL=gemini-2.0-flash  # or gemini-1.5-pro
+### After Changing Configuration
+
+If you change embedding model or chunking settings, delete the vector database to re-index:
+
+```bash
+rm -rf chroma_db/
+cd src
+python app.py
 ```
 
-## Project Structure
+---
 
-```
-rag-assistant/
-├── app.py                 # Main application and RAG pipeline
-├── vectordb.py           # Vector database wrapper
-├── requirements.txt      # Python dependencies
-├── .env.example         # Environment variables template
-├── .env                 # Your API keys (create this)
-├── data/                # Your documents go here
-│   ├── document1.txt
-│   └── document2.md
-└── chroma_db/           # Vector database storage (auto-created)
-```
+## 🔧 Troubleshooting
 
-## Implementation Details
+### Common Issues
 
-### Key Functions
+#### "No valid API key found"
+**Solution:**
+- Create `.env` file in project root
+- Add at least one API key:
+  ```bash
+  OPENAI_API_KEY=sk-your-key-here
+  ```
+- Remove placeholder text like `your_key_here`
 
-#### `load_documents()` in `app.py`
-- Reads all .txt and .md files from `data/` folder
-- Returns list of documents with content and metadata
-
-#### `chunk_text()` in `vectordb.py`
-- Splits text into overlapping chunks
-- Preserves context at chunk boundaries
-- Uses word-based splitting for clean breaks
-
-#### `add_documents()` in `vectordb.py`
-- Chunks each document
-- Creates embeddings using sentence transformers
-- Stores in ChromaDB with metadata
-
-#### `search()` in `vectordb.py`
-- Creates query embedding
-- Performs similarity search in ChromaDB
-- Returns top N most relevant chunks
-
-#### `query()` in `app.py`
-- Retrieves relevant chunks via search
-- Builds context from retrieved chunks
-- Generates answer using LLM chain
-
-## Troubleshooting
-
-### "No valid API key found"
-- Make sure you've created `.env` file (copy from `.env.example`)
-- Add at least one API key
-- Remove the `your_key_here` placeholder text
-
-### "No documents found"
-- Check that `data/` folder exists
-- Add .txt or .md files to the folder
-- Make sure files have content
-
-### "ModuleNotFoundError"
-- Run `pip install -r requirements.txt`
-- Use a virtual environment (recommended)
-
-### Poor answers
-- Try increasing `n_results` for more context
-- Adjust `chunk_size` for better/worse granularity
-- Use a more powerful LLM model
-- Add more relevant documents
-
-## Advanced: Adding PDF Support
-
-Uncomment in `requirements.txt`:
-```
-pypdf2==3.0.1
+#### "ModuleNotFoundError: No module named 'X'"
+**Solution:**
+```bash
+pip install -r requirements.txt
 ```
 
-Add to `load_documents()` in `app.py`:
-```python
-elif filename.endswith('.pdf'):
-    import PyPDF2
-    with open(filepath, 'rb') as f:
-        pdf_reader = PyPDF2.PdfReader(f)
-        content = ""
-        for page in pdf_reader.pages:
-            content += page.extract_text()
-        results.append({
-            'content': content,
-            'metadata': {'source': filename}
-        })
+#### "No documents found in data directory"
+**Solution:**
+- Add `.txt` or `.md` files to `data/` folder
+- Check that files have content
+- Verify file permissions
+
+#### "Rate limit exceeded"
+**Solution:**
+- Switch to Google Gemini (more generous free tier)
+- Wait a few minutes and try again
+- Upgrade your API plan
+
+#### "Python version not supported"
+**Solution:**
+- Check your Python version: `python --version`
+- Upgrade to Python 3.9+ (3.10 or 3.11 recommended)
+- Create fresh virtual environment with correct Python version
+
+#### "Slow first run"
+**Note:** First run downloads the embedding model (~90MB). Subsequent runs are much faster.
+
+#### "ImportError: cannot import name 'config'"
+**Solution:**
+```bash
+# Make sure you're running from the src directory
+cd src
+python app.py
 ```
 
-## Tips for Best Results
+### Getting Help
+
+- Check the configuration: `python src/config.py`
+- Verify API key: `echo $OPENAI_API_KEY` (Linux/Mac)
+- Check Python version: `python --version`
+- Reinstall dependencies: `pip install --force-reinstall -r requirements.txt`
+
+---
+
+## 💡 Tips for Best Results
 
 1. **Document Quality**: Well-formatted, clear documents work best
-2. **Chunk Size**: Smaller chunks (300-500) for specific facts, larger (800-1200) for concepts
-3. **Overlap**: 10-20% overlap helps maintain context
-4. **Number of Results**: Start with 3-5, adjust based on answer quality
-5. **Prompt Engineering**: Modify the prompt template in `app.py` for your use case
+2. **File Organization**: Keep related documents in the `data/` folder
+3. **Question Phrasing**: Ask specific questions for better answers
+4. **API Selection**: 
+   - OpenAI for best quality
+   - Google Gemini for free tier
+   - Groq for speed (watch rate limits)
+5. **Configuration**: Adjust `config/config.yaml` to tune performance
 
-## Next Steps
+---
 
-- Add support for more file types (.pdf, .docx, .csv)
-- Implement metadata filtering for targeted search
-- Add conversation history for multi-turn dialogues
-- Create a web interface with Streamlit or Gradio
-- Add citation tracking to show source documents
+## 📊 Project Stats
 
-## Resources
+- **Lines of Code:** ~500 (excluding documentation)
+- **Number of Core Dependencies:** 10+ packages
+- **Supported File Formats:** 2 (txt, md)
+- **Supported LLM Providers:** 3 (OpenAI, Groq, Google)
+- **Embedding Dimensions:** 384 (all-MiniLM-L6-v2)
+- **Sample Documents:** 5 included (~15KB total)
 
-- [ChromaDB Documentation](https://docs.trychroma.com/)
-- [Sentence Transformers](https://www.sbert.net/)
-- [LangChain Documentation](https://python.langchain.com/)
-- [OpenAI API](https://platform.openai.com/docs)
-- [Groq API](https://console.groq.com/docs)
+---
+
+## 🔒 Data Privacy & Security
+
+### Privacy Features
+
+- ✅ **Local Processing**: All documents processed locally
+- ✅ **Local Storage**: Vector embeddings stored in `chroma_db/`
+- ✅ **Minimal Data Sent**: Only query text and relevant chunks sent to LLM APIs
+- ✅ **Full Documents Never Sent**: Your complete documents stay on your machine
+
+### API Costs (Approximate)
+
+| Provider | Model | Cost per Query | 100 Queries |
+|----------|-------|----------------|-------------|
+| OpenAI | gpt-4o-mini | ~$0.001 | ~$0.10 |
+| Google | Gemini | Free tier | Free |
+| Groq | Llama 3.1 | Free tier | Free |
+
+### Limitations
+
+- Maximum document size limited by available RAM
+- Search quality depends on embedding model
+- Answer quality depends on LLM model choice
+- Rate limits apply to free tiers
+
+---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for full details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ### What This Means
 
-The MIT License is one of the most permissive open-source licenses. You are free to:
+The MIT License allows you to:
 
-- ✅ **Use** this project for commercial purposes
-- ✅ **Modify** the code to fit your needs
-- ✅ **Distribute** your modified versions
+- ✅ **Use** commercially
+- ✅ **Modify** as needed
+- ✅ **Distribute** freely
 - ✅ **Sublicense** under different terms
-- ✅ **Use privately** without any restrictions
+- ✅ **Use privately** without restrictions
 
-**The only requirement:** Include the original copyright notice and license text in any substantial portion of the software.
+**Requirement:** Include the original copyright notice and license text.
 
-**No Warranty:** The software is provided "as is" without warranty of any kind. The authors are not liable for any damages or issues arising from its use.
-
-### Why MIT License?
-
-We chose the MIT License because:
-- It's simple and easy to understand
-- It's compatible with virtually all other licenses
-- It allows maximum freedom for users
-- It's the industry standard for educational projects
-- It encourages collaboration and learning
+**No Warranty:** Software provided "as is" without warranty.
 
 ---
 
 ## 🙏 Acknowledgments
 
-This project was created as part of the **Agentic AI Essentials Certification Program** and uses the following excellent open-source libraries:
+This project uses the following excellent open-source libraries:
 
-- **[LangChain](https://github.com/langchain-ai/langchain)** (MIT License) - LLM application framework
+- **[LangChain](https://github.com/langchain-ai/langchain)** (MIT License) - LLM framework
 - **[ChromaDB](https://github.com/chroma-core/chroma)** (Apache 2.0) - Vector database
-- **[Sentence Transformers](https://github.com/UKPLab/sentence-transformers)** (Apache 2.0) - Embedding models
+- **[Sentence Transformers](https://github.com/UKPLab/sentence-transformers)** (Apache 2.0) - Embeddings
 - **[OpenAI API](https://platform.openai.com/)** - GPT models
 - **[Groq API](https://groq.com/)** - Fast LLM inference
 - **[Google Gemini API](https://ai.google.dev/)** - Gemini models
 
-Special thanks to the Anthropic team and the Agentic AI Essentials program for providing the learning framework that made this project possible.
+Special thanks to the **Agentic AI Essentials Certification Program** for the learning framework.
 
 ---
 
@@ -610,38 +630,34 @@ Special thanks to the Anthropic team and the Agentic AI Essentials program for p
 
 ### Getting Help
 
-- **Documentation:** Check the `docs/` folder for detailed guides
-  - `SETUP_GUIDE.md` - Step-by-step installation
-  - `IMPLEMENTATION_SUMMARY.md` - Code explanations
-  - `RATE_LIMIT_SOLUTIONS.md` - Troubleshooting common issues
-  
-- **Issues:** Found a bug? [Open an issue](https://github.com/your-username/rag-assistant/issues)
-- **Questions:** Have questions about the code? Check the implementation summary or reach out
+- **Issues:** [Open an issue](https://github.com/your-username/rag-assistant/issues) on GitHub
+- **Documentation:** Check the README and code comments
+- **Questions:** Reach out through GitHub discussions
 
 ### Contributing
 
-While this is primarily an educational project, contributions are welcome! Feel free to:
+Contributions welcome! Feel free to:
 - Report bugs
-- Suggest enhancements
+- Suggest enhancements  
 - Submit pull requests
-- Share your improvements
+- Share improvements
 
 ---
 
 ## 🎓 Educational Context
 
-This project is part of the **Agentic AI Essentials Certification Program - Module 1** and demonstrates:
+This project is part of the **Agentic AI Essentials Certification Program - Module 1**.
 
 ### Learning Objectives Covered
 
-1. ✅ **Document Loading** - Reading and parsing various file formats
-2. ✅ **Text Chunking** - Splitting text while preserving context
+1. ✅ **Document Loading** - Reading and parsing file formats
+2. ✅ **Text Chunking** - Intelligent splitting with RecursiveCharacterTextSplitter
 3. ✅ **Vector Embeddings** - Converting text to numerical representations
-4. ✅ **Vector Databases** - Storing and querying embeddings efficiently
-5. ✅ **Semantic Search** - Finding relevant information by meaning, not keywords
+4. ✅ **Vector Databases** - ChromaDB storage and querying
+5. ✅ **Semantic Search** - Finding relevant information by meaning
 6. ✅ **RAG Architecture** - Combining retrieval with generation
 7. ✅ **LLM Integration** - Working with multiple AI providers
-8. ✅ **Production Patterns** - Error handling, configuration, modularity
+8. ✅ **Production Patterns** - Configuration, error handling, modularity
 
 ### Skills Demonstrated
 
@@ -649,106 +665,34 @@ This project is part of the **Agentic AI Essentials Certification Program - Modu
 - AI/ML engineering fundamentals
 - Vector database operations
 - API integration and management
+- YAML-based configuration
 - Software architecture and design patterns
 - Documentation and project organization
-- Open-source best practices
 
 ---
 
 ## 🔮 Future Enhancements
 
-Potential improvements for this project:
-
-### Near-term (Easy)
+### Near-term
 - [ ] Add support for PDF documents
 - [ ] Implement conversation history/memory
 - [ ] Add source citations in responses
 - [ ] Create web UI with Streamlit
 - [ ] Add document metadata filtering
 
-### Mid-term (Moderate)
+### Mid-term
 - [ ] Support for Word documents (.docx)
 - [ ] Hybrid search (semantic + keyword)
 - [ ] Re-ranking of search results
 - [ ] Multiple language support
 - [ ] Export/import knowledge bases
 
-### Long-term (Advanced)
+### Long-term
 - [ ] Multi-user support with access control
 - [ ] Real-time document updates
-- [ ] Advanced analytics and usage tracking
-- [ ] Custom fine-tuning of embedding models
-- [ ] Integration with popular platforms (Slack, Teams)
-
----
-
-## 📊 Project Stats
-
-- **Lines of Code:** ~500 (excluding documentation)
-- **Number of Dependencies:** 8 core packages
-- **Supported File Formats:** 2 (txt, md)
-- **Supported LLM Providers:** 3 (OpenAI, Groq, Google)
-- **Default Chunk Size:** 500 characters
-- **Default Overlap:** 50 characters
-- **Embedding Dimensions:** 384 (all-MiniLM-L6-v2)
-
----
-
-## ⚠️ Important Notes
-
-### Data Privacy
-- All documents are processed locally
-- Vector embeddings are stored locally in `chroma_db/`
-- Only query text and retrieved chunks are sent to LLM APIs
-- Your full documents are never sent to external APIs
-
-### API Costs
-- **OpenAI gpt-4o-mini:** ~$0.001 per query (~$0.10 for 100 queries)
-- **Google Gemini:** Free tier (generous limits)
-- **Groq:** Free tier (limited requests per minute)
-
-### Limitations
-- Maximum document size: Limited by available RAM
-- Chunk size affects answer quality vs. context length trade-off
-- Search quality depends on embedding model
-- Answer quality depends on LLM model choice
-
----
-
-## 🎯 Quick Reference
-
-### Common Commands
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Set up environment
-cp .env.example .env
-# Edit .env with your API key
-
-# Run the assistant
-python app.py
-
-# Run with retry logic (for rate limits)
-python app_with_retry.py
-
-# Add new documents
-cp your_document.txt data/
-
-# Clear vector database (fresh start)
-rm -rf chroma_db/
-```
-
-### Troubleshooting
-
-| Problem | Solution |
-|---------|----------|
-| Rate limit error | Switch to Google Gemini or use `app_with_retry.py` |
-| No API key found | Check `.env` file exists and has valid key |
-| Import errors | Run `pip install -r requirements.txt` |
-| No documents found | Add .txt or .md files to `data/` folder |
-| Slow first run | First run downloads embedding model (~90MB) |
+- [ ] Advanced analytics
+- [ ] Custom embedding model fine-tuning
+- [ ] Platform integrations (Slack, Teams)
 
 ---
 
@@ -757,13 +701,53 @@ rm -rf chroma_db/
 - [ChromaDB Documentation](https://docs.trychroma.com/)
 - [LangChain Documentation](https://python.langchain.com/)
 - [Sentence Transformers](https://www.sbert.net/)
-- [RAG Architecture Overview](https://www.anthropic.com/research/retrieval-augmented-generation)
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [Google Gemini API Documentation](https://ai.google.dev/docs)
 - [Groq API Documentation](https://console.groq.com/docs)
+- [Python Best Practices](https://docs.python-guide.org/)
 
 ---
 
-**Built with ❤️ for the Agentic AI Essentials Certification Program**
+## 🎯 Quick Reference
+
+### Common Commands
+
+```bash
+# Setup
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Configure
+nano .env  # Add API key
+
+# Run
+cd src
+python app.py
+
+# Add documents
+cp my_doc.txt data/
+
+# Reset database
+rm -rf chroma_db/
+
+# View configuration
+python src/config.py
+
+# Run tests
+pytest
+```
+
+### Directory Navigation
+
+```bash
+# Project structure
+cd agentic-ai-essentials-cert-project  # Project root
+cd src                                  # Source code
+cd config                              # Configuration
+cd data                                # Documents
+```
+
+---
 
 *Last Updated: January 2026*
