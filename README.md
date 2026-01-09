@@ -110,29 +110,7 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 **Why RAG Instead of Fine-Tuning:**
 - ✅ No expensive model retraining needed
 - ✅ Update knowledge base by just adding documents
-- ✅ Cites sources (you can see which chunks were used)
 - ✅ Reduces hallucinations (answers based on your docs)
-- ✅ Works with any LLM provider
-
-### Value Proposition
-
-**For Developers:**
-- Learn how to build production RAG systems
-- Understand vector databases and embeddings
-- Gain experience with LangChain framework
-- Portfolio piece demonstrating AI engineering skills
-
-**For Organizations:**
-- Build internal knowledge bases
-- Automate customer support with company-specific info
-- Create searchable documentation systems
-- Reduce time spent searching for information
-
-**For Students:**
-- Complete certification project requirements
-- Hands-on experience with cutting-edge AI
-- Reusable template for future projects
-- Understanding of modern AI architectures
 
 ---
 
@@ -197,9 +175,9 @@ agentic-ai-essentials-cert-project/
 - **Python 3.10 or higher**
 - **pip** (Python package installer)
 - **One of these API keys** (at least one required):
-  - OpenAI API key (recommended for production)
-  - Google Gemini API key (recommended for free tier)
-  - Groq API key (fastest, but rate-limited)
+  - OpenAI API key
+  - Google Gemini API key
+  - Groq API key
 
 ### Step-by-Step Setup
 
@@ -227,7 +205,6 @@ venv\Scripts\activate
 #### Step 3: Install Dependencies
 
 ```bash
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
@@ -239,7 +216,6 @@ pip install -r requirements.txt
 - `sentence-transformers` - Embedding models
 - `python-dotenv` - Environment variable management
 - `pyyaml` - YAML configuration support
-- `numpy` - Numerical operations
 
 **Installation time:** 2-3 minutes depending on internet speed
 
@@ -258,15 +234,15 @@ nano .env
 Add **at least one** API key to `.env`:
 
 ```bash
-# OpenAI (Recommended for production quality)
+# OpenAI
 OPENAI_API_KEY=sk-proj-your-key-here
 OPENAI_MODEL=gpt-4o-mini
 
-# OR Groq (Fastest, but rate limited)
+# OR Groq
 GROQ_API_KEY=gsk-your-key-here
 GROQ_MODEL=llama-3.1-8b-instant
 
-# OR Google Gemini (Free tier with generous limits)
+# OR Google Gemini
 GOOGLE_API_KEY=AIza-your-key-here
 GOOGLE_MODEL=gemini-2.0-flash
 ```
@@ -282,11 +258,11 @@ Place your documents in the `data/` folder:
 
 ```bash
 # The project includes 5 sample documents:
-# - api_documentation.txt
-# - company_policies.txt
-# - customer_faq.txt
-# - product_documentation.txt
-# - security_compliance.txt
+# - api_documentation.md
+# - company_policies.md
+# - customer_faq.md
+# - product_documentation.md
+# - security_compliance.md
 
 # To add your own:
 cp your_document.txt data/
@@ -518,11 +494,9 @@ pip install -r requirements.txt
 #### "Python version not supported"
 **Solution:**
 - Check your Python version: `python --version`
-- Upgrade to Python 3.9+ (3.10 or 3.11 recommended)
+- Ensure you are using Python 3.10 or higher (Python 3.10 or 3.11 recommended)
 - Create fresh virtual environment with correct Python version
 
-#### "Slow first run"
-**Note:** First run downloads the embedding model (~90MB). Subsequent runs are much faster.
 
 #### "ImportError: cannot import name 'config'"
 **Solution:**
@@ -547,9 +521,9 @@ python app.py
 2. **File Organization**: Keep related documents in the `data/` folder
 3. **Question Phrasing**: Ask specific questions for better answers
 4. **API Selection**: 
-   - OpenAI for best quality
-   - Google Gemini for free tier
-   - Groq for speed (watch rate limits)
+   - OpenAI
+   - Google Gemini
+   - Groq for speed
 5. **Configuration**: Adjust `config/config.yaml` to tune performance
 
 ---
