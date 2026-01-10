@@ -84,7 +84,7 @@ The system implements a complete RAG pipeline:
 │  User Question  │────▶│ Semantic Search  │────▶│   LLM Generates  │
 │                 │     │ (Find Top 3)     │     │   Answer with    │
 └─────────────────┘     └──────────────────┘     │   Context        │
-                                                  └──────────────────┘
+                                                 └──────────────────┘
 ```
 
 **Step-by-Step Process:**
@@ -282,17 +282,30 @@ python app.py
 
 **Expected output:**
 ```
+Initializing RAG Assistant...
+Using Google Gemini model: gemini-2.0-flash
 Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-Using OpenAI model: gpt-4o-mini
-Loading documents from: data
-Loaded 5 documents
-Processing documents...
-Vector database initialized
+Vector database initialized with collection: rag_documents
+RAG Assistant initialized successfully
 
-Welcome to the RAG Assistant!
-Ask questions about your documents (type 'quit' to exit)
-
-Your question: 
+Loading documents...
+Loaded: api_documentation.md
+Loaded: customer_faq.md
+Loaded: company_policies.md
+Loaded: security_compliance.md
+Loaded: product_documentation.md
+Loaded 5 sample documents
+Processing 5 documents...
+Document 1: Split into 33 chunks
+Document 2: Split into 55 chunks
+Document 3: Split into 37 chunks
+Document 4: Split into 45 chunks
+Document 5: Split into 40 chunks
+Creating embeddings for 210 chunks...
+Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:02<00:00,  3.10it/s]
+Adding to vector database...
+Successfully added 210 chunks to vector database
+Enter a question or 'quit' to exit: 
 ```
 
 If you see this, installation was successful! ✅
@@ -329,30 +342,34 @@ If you see this, installation was successful! ✅
 $ cd src
 $ python app.py
 
+Initializing RAG Assistant...
+Using Google Gemini model: gemini-2.0-flash
 Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-Using OpenAI model: gpt-4o-mini
-Vector database initialized
+Vector database initialized with collection: rag_documents
+RAG Assistant initialized successfully
 
-Welcome to the RAG Assistant!
-Ask questions about your documents (type 'quit' to exit)
-
-Your question: What vacation days do employees get?
-
-Answer: Full-time employees receive 15-20 days of paid vacation annually,
-depending on tenure. New employees start with 15 days, increasing to 20
-days after 3 years of service. Vacation requests should be submitted at
-least 2 weeks in advance through the HR portal.
-
-Your question: What's the API rate limit?
-
-Answer: The API rate limits vary by plan: Starter plan has 100 requests
-per hour, Professional plan has 1,000 requests per hour, and Business
-plan has 10,000 requests per hour. Enterprise customers can request
-custom rate limits.
-
-Your question: quit
-
-Thank you for using the RAG Assistant!
+Loading documents...
+Loaded: api_documentation.md
+Loaded: customer_faq.md
+Loaded: company_policies.md
+Loaded: security_compliance.md
+Loaded: product_documentation.md
+Loaded 5 sample documents
+Processing 5 documents...
+Document 1: Split into 33 chunks
+Document 2: Split into 55 chunks
+Document 3: Split into 37 chunks
+Document 4: Split into 45 chunks
+Document 5: Split into 40 chunks
+Creating embeddings for 210 chunks...
+Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:02<00:00,  3.08it/s]
+Adding to vector database...
+Successfully added 210 chunks to vector database
+Enter a question or 'quit' to exit: What vacation days do employees get?
+Employees get vacation days based on their years of service:
+*   0-2 years: 20 days (4 weeks) per year
+*   3-5 years: 25 days (5 weeks) per year
+*   6+ years: 30 days (6 weeks) per year
 ```
 
 ### Example Questions
@@ -368,7 +385,6 @@ Try these sample questions with the included documents:
 **API Documentation:**
 - "What's the API rate limit for the Professional plan?"
 - "How do I authenticate with the API?"
-- "What are the available endpoints?"
 - "How do webhooks work?"
 
 **Product Information:**
@@ -418,34 +434,6 @@ llm:
 # File Paths
 paths:
   data_directory: data
-```
-
-### Common Adjustments
-
-#### Change Embedding Model
-
-```yaml
-embedding:
-  # Faster, lighter (default)
-  model: sentence-transformers/all-MiniLM-L6-v2
-  
-  # OR more accurate, heavier
-  # model: sentence-transformers/all-mpnet-base-v2
-```
-
-#### Change Data Directory
-
-```yaml
-paths:
-  data_directory: my_documents  # Change from 'data'
-```
-
-#### Adjust LLM Temperature
-
-```yaml
-llm:
-  temperature: 0.0    # Deterministic (default)
-  # temperature: 0.7  # More creative
 ```
 
 ### After Changing Configuration
