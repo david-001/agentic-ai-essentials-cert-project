@@ -72,7 +72,7 @@ class VectorDB:
         Args:
             documents: List of documents
         """
-        # TODO: Implement document ingestion logic
+        # Implement document ingestion logic
         #   - Loop through each document in the documents list
         #   - Extract 'content' and 'metadata' from each document dict
         #   - Use self.chunk_text() to split each document into chunks
@@ -140,7 +140,7 @@ class VectorDB:
         Returns:
             Dictionary containing search results with keys: 'documents', 'metadatas', 'distances', 'ids'
         """
-        # TODO: Implement similarity search logic
+        # Implement similarity search logic
         #   - Use self.embedding_model.encode([query]) to create query embedding
         #   - Convert the embedding to appropriate format for your vector database
         #   - Use your vector database's search/query method with the query embedding and n_results

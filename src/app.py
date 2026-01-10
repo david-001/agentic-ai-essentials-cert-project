@@ -20,10 +20,10 @@ def load_documents() -> List[str]:
         List of sample documents
     """
     results = []
-    # TODO: Implement document loading
+    # Implement document loading
     #   - Read the documents from the data directory
     #   - Return a list of documents
-    #   - Your implementation depends on the type of documents you are using (.txt, .pdf, etc.)
+    #   - Support .txt and .md files
 
     # Define the data directory path
     data_dir = config.DATA_DIRECTORY
@@ -92,10 +92,10 @@ class RAGAssistant:
         self.vector_db = VectorDB()
 
         # Create RAG prompt template
-        # TODO: Implement your RAG prompt template
+        # Implement your RAG prompt template
         #   - Use ChatPromptTemplate.from_template() with a template string
-        #   - Your template should include placeholders for {context} and {question}
-        #   - Design your prompt to effectively use retrieved context to answer questions
+        #   - Template includes placeholders for {context} and {question}
+        #   - Prompt designed to effectively use retrieved context to answer questions
         template = """You are a helpful AI assistant. Use the following context to answer the user's question.
         Use clear, concise language with bullet points where appropriate.
         Given the some documents that should be relevant to the user's question, answer the user's question.
@@ -173,7 +173,7 @@ class RAGAssistant:
             Dictionary containing the answer and retrieved context
         """
         llm_answer = ""
-        # TODO: Implement the RAG query pipeline
+        # Implement the RAG query pipeline
         #   - Use self.vector_db.search() to retrieve relevant context chunks
         #   - Combine the retrieved document chunks into a single context string
         #   - Use self.chain.invoke() with context and question to generate the response
