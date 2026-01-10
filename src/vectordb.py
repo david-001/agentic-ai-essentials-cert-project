@@ -129,7 +129,7 @@ class VectorDB:
         
         print(f"Successfully added {len(all_chunks)} chunks to vector database")
 
-    def search(self, query: str, n_results: int = 5) -> Dict[str, Any]:
+    def search(self, query: str, n_results: int = 3) -> Dict[str, Any]:
         """
         Search for similar documents in the vector database.
 
