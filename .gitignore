@@ -43,3 +43,12 @@ chroma_db/
 Thumbs.db
 
 lesson.md
+
+# Performance reports
+performance_report.csv
+performance_report.json
+performance_report.md
+
+# test coverage
+htmlcov/
+.coverage

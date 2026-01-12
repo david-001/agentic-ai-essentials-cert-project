@@ -448,6 +448,203 @@ python app.py
 
 ---
 
+## 🧪 Testing
+
+The project includes comprehensive unit and integration tests with 35+ test cases covering all critical functionality.
+
+### Quick Start
+
+```bash
+# Install test dependencies (if not already installed)
+pip install pytest pytest-cov
+
+# Run all tests
+pytest
+
+# Run all tests from project root
+pytest tests/
+
+# Run with verbose output
+pytest -v
+```
+
+### Running Specific Tests
+
+```bash
+# Run specific test file
+pytest tests/test_app.py
+pytest tests/test_vectordb.py
+pytest tests/test_generation_quality.py
+pytest tests/test_performance_metrics.py
+pytest tests/test_retrieval_quality.py
+
+# Run specific test class
+pytest tests/test_app.py::TestRAGAssistantInitialization
+pytest tests/test_vectordb.py::TestVectorSearch
+pytest tests/test_generation_quality.py::TestFactualAccuracy
+pytest tests/test_performance_metrics.py::TestPrecisionRecallMetrics
+pytest tests/test_retrieval_quality.py::TestRetrievalAccuracy
+
+# Run specific test function
+pytest tests/test_app.py::test_end_to_end_workflow
+pytest tests/test_vectordb.py::TestEmbedding::test_embedding_dimensions
+pytest tests/test_generation_quality.py::TestFactualAccuracy::test_specific_fact_retrieval
+pytest tests/test_performance_metrics.py::TestPrecisionRecallMetrics::test_precision_at_k_perfect_retrieval
+pytest tests/test_retrieval_quality.py::TestRetrievalAccuracy::test_exact_topic_retrieval
+
+# Run tests by marker
+pytest -m unit          # Run only unit tests
+pytest -m integration   # Run only integration tests
+pytest -m generation   # Run only RAG generation tests
+pytest -m performance   # Run only RAG performance tests
+pytest -m quality   # Run only RAG quality tests
+```
+
+### Test Coverage Report
+
+```bash
+# Generate coverage report
+pytest --cov=src --cov-report=term-missing
+
+# Generate HTML coverage report
+pytest --cov=src --cov-report=html
+# View report: open htmlcov/index.html
+
+# Generate coverage with specific format
+pytest --cov=src --cov-report=term --cov-report=html
+```
+
+### Test Organization
+
+The test suite is organized into two main files:
+
+#### **tests/test_app.py** - Integration Tests (20 tests)
+Tests the complete RAG pipeline and application workflow:
+
+- **RAG Assistant Initialization** (4 tests)
+  - ✅ Initialization with API keys
+  - ✅ Error handling for missing API keys
+  - ✅ Prompt template creation
+  - ✅ LangChain chain construction
+
+- **Document Loading** (5 tests)
+  - ✅ Loading documents from directory
+  - ✅ File extension filtering (.txt, .md)
+  - ✅ Empty directory handling
+  - ✅ Metadata preservation
+
+- **RAG Pipeline** (6 tests)
+  - ✅ Document addition to vector database
+  - ✅ Context retrieval for queries
+  - ✅ Query result format validation
+  - ✅ Context relevance verification
+  - ✅ Configurable n_results parameter
+
+- **LLM Provider Selection** (3 tests)
+  - ✅ OpenAI provider selection
+  - ✅ Groq provider fallback
+  - ✅ Google Gemini fallback
+
+- **Error Handling** (2 tests)
+  - ✅ Empty query handling
+  - ✅ Queries with no documents loaded
+
+- **End-to-End Workflow** (1 test)
+  - ✅ Complete workflow from loading to querying
+
+#### **tests/test_vectordb.py** - Unit Tests (15 tests)
+Tests individual VectorDB component functionality:
+
+- **Text Chunking** (6 tests)
+  - ✅ Basic chunking functionality
+  - ✅ Content preservation
+  - ✅ Chunk size compliance
+  - ✅ Empty string handling
+  - ✅ Short text handling
+
+- **Embedding Generation** (4 tests)
+  - ✅ Model loading verification
+  - ✅ Embedding dimensions (384D)
+  - ✅ Embedding consistency
+  - ✅ Different texts produce different embeddings
+
+- **Document Addition** (4 tests)
+  - ✅ Basic document addition
+  - ✅ Metadata preservation
+  - ✅ Empty document list handling
+  - ✅ Automatic chunking of long documents
+
+- **Vector Search** (6 tests)
+  - ✅ Search result structure
+  - ✅ Result relevance
+  - ✅ n_results parameter compliance
+  - ✅ No matches behavior
+  - ✅ Empty query handling
+
+- **Collection Management** (2 tests)
+  - ✅ Collection creation
+  - ✅ Persistence across instances
+
+### Test Markers
+
+Tests are organized using pytest markers:
+
+- `@pytest.mark.unit` - Unit tests (fast, isolated)
+- `@pytest.mark.integration` - Integration tests (slower, multiple components)
+
+### Expected Test Output
+
+When running all tests successfully, you should see:
+
+```bash
+$ pytest tests/ -v
+
+tests/test_app.py::TestRAGAssistantInitialization::test_assistant_initialization_with_api_key PASSED
+tests/test_app.py::TestRAGAssistantInitialization::test_assistant_initialization_without_api_key PASSED
+tests/test_app.py::TestRAGAssistantInitialization::test_prompt_template_created PASSED
+tests/test_app.py::TestRAGAssistantInitialization::test_chain_created PASSED
+tests/test_app.py::TestDocumentLoading::test_load_documents_from_directory PASSED
+tests/test_app.py::TestDocumentLoading::test_load_documents_filters_extensions PASSED
+tests/test_app.py::TestDocumentLoading::test_load_documents_empty_directory PASSED
+tests/test_app.py::TestDocumentLoading::test_load_documents_preserves_metadata PASSED
+tests/test_app.py::TestRAGPipeline::test_add_documents PASSED
+tests/test_app.py::TestRAGPipeline::test_query_retrieves_context PASSED
+tests/test_app.py::TestRAGPipeline::test_query_returns_string PASSED
+tests/test_app.py::TestRAGPipeline::test_query_context_relevance PASSED
+tests/test_app.py::TestRAGPipeline::test_query_n_results_parameter PASSED
+tests/test_app.py::TestLLMProviderSelection::test_openai_provider_selected PASSED
+tests/test_app.py::TestLLMProviderSelection::test_groq_provider_fallback PASSED
+tests/test_app.py::TestLLMProviderSelection::test_google_provider_fallback PASSED
+tests/test_app.py::TestErrorHandling::test_query_with_empty_string PASSED
+tests/test_app.py::TestErrorHandling::test_query_with_no_documents PASSED
+tests/test_app.py::test_end_to_end_workflow PASSED
+tests/test_vectordb.py::TestTextChunking::test_chunk_text_basic PASSED
+tests/test_vectordb.py::TestTextChunking::test_chunk_text_preserves_content PASSED
+tests/test_vectordb.py::TestTextChunking::test_chunk_text_respects_size PASSED
+tests/test_vectordb.py::TestTextChunking::test_chunk_text_empty_string PASSED
+tests/test_vectordb.py::TestTextChunking::test_chunk_text_short_text PASSED
+tests/test_vectordb.py::TestEmbedding::test_embedding_model_loaded PASSED
+tests/test_vectordb.py::TestEmbedding::test_embedding_dimensions PASSED
+tests/test_vectordb.py::TestEmbedding::test_embedding_consistency PASSED
+tests/test_vectordb.py::TestEmbedding::test_embedding_different_texts PASSED
+tests/test_vectordb.py::TestDocumentAddition::test_add_documents_basic PASSED
+tests/test_vectordb.py::TestDocumentAddition::test_add_documents_with_metadata PASSED
+tests/test_vectordb.py::TestDocumentAddition::test_add_empty_documents PASSED
+tests/test_vectordb.py::TestDocumentAddition::test_add_documents_creates_chunks PASSED
+tests/test_vectordb.py::TestVectorSearch::test_search_returns_results PASSED
+tests/test_vectordb.py::TestVectorSearch::test_search_relevance PASSED
+tests/test_vectordb.py::TestVectorSearch::test_search_n_results PASSED
+tests/test_vectordb.py::TestVectorSearch::test_search_with_no_matches PASSED
+tests/test_vectordb.py::TestVectorSearch::test_search_empty_query PASSED
+tests/test_vectordb.py::TestCollectionManagement::test_collection_created PASSED
+tests/test_vectordb.py::TestCollectionManagement::test_collection_persistence PASSED
+tests/test_vectordb.py::test_vectordb_initialization PASSED
+
+====== 35 passed in 8.45s ======
+```
+
+---
+
 ## 🔧 Troubleshooting
 
 ### Common Issues
