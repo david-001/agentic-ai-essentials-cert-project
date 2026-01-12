@@ -11,7 +11,6 @@
   - [What This Project Does](#what-this-project-does)
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
-  - [Value Proposition](#value-proposition)
 - [Repository Structure](#-repository-structure)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
@@ -27,7 +26,6 @@
   - [Running Tests](#running-tests)
   - [Performance Metrics](#performance-metrics)
 - [Troubleshooting](#troubleshooting)
-- [Security Best Practices](#-security-best-practices)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
@@ -47,7 +45,6 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 - ⚙️ YAML-based configuration for easy customization
 - 🔄 Intelligent text chunking with RecursiveCharacterTextSplitter
 - 🧪 Comprehensive test suite with performance metrics
-- 📊 Advanced quality and performance monitoring
 
 ---
 
