@@ -110,9 +110,9 @@ class TestFactualAccuracy:
     def test_numerical_accuracy(self, assistant_with_knowledge):
         """Test that numerical values are accurately reported."""
         test_cases = [
-            ("remote work days per week", "3"),
-            ("health insurance basic plan deductible", "2000" or "2,000"),
-            ("equipment stipend amount", "500"),
+            ("eye exam", "200"),
+            ("dental insurance", "1500" or "1,500"),
+            ("gym membership", "100"),
         ]
         
         # For each test case, verify the number appears in context
@@ -245,9 +245,9 @@ class TestHallucinationDetection:
     def test_no_contradictory_information(self, assistant_with_knowledge):
         """Test that answers don't contradict the knowledge base."""
         queries_and_correct_facts = [
-            ("entry-level vacation days", ["15", "entry-level", "0-2 years"]),
-            ("remote work days", ["3 days", "per week"]),
-            ("basic health plan", ["$0", "employee contribution"]),
+            ("entry-level vacation days", ["20 days", "0-2 years"]),
+            ("office hours", ["9:00 AM", "5:00 PM"]),
+            ("basic health plan", ["maximum out-of-pocket", "$3,000"]),
         ]
         
         for query, required_elements in queries_and_correct_facts:
