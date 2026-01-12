@@ -169,6 +169,7 @@ agentic-ai-essentials-cert-project/
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/` | Comprehensive test suite | Extend with new tests |
+| `tests/performance_reporter.py` | **Performance metrics calculator** | Use for generating evaluation reports |
 | `pytest.ini` | Test runner configuration | Modify test settings |
 
 ---
@@ -183,7 +184,9 @@ agentic-ai-essentials-cert-project/
 - ⚙️ **YAML Configuration**: Easy-to-edit configuration file
 - 🎯 **Reproducible Results**: Fixed random seed for consistent behavior
 - 🧪 **Comprehensive Testing**: Unit, integration, and quality tests
-- 📊 **Performance Monitoring**: Built-in metrics and reporting
+- 📊 **Performance Monitoring**: Built-in metrics and reporting with performance_reporter.py
+- 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
+- 📄 **Multiple Performance Report Formats**: JSON, CSV, and Markdown exports
 - 🔐 **Environment-based Secrets**: Secure API key management
 
 ---
@@ -547,14 +550,39 @@ The test suite includes a sophisticated performance reporting system that tracks
 **Generation Metrics:**
 - **Answer Relevance**: How well answers address the question
 - **Context Precision**: Accuracy of retrieved context
-- **Faithfulness**: Consistency with source documents
-- **Answer Length**: Response size statistics
+- **Faithfulness**: Degree to which answers are grounded in context
+- **Hallucination Rate**: Detection of fabricated information
 
-**Performance Reports:**
-The `performance_reporter.py` utility generates reports in multiple formats:
+### Performance Reporter Utility
+
+The `tests/performance_reporter.py` module provides comprehensive performance evaluation capabilities:
+
+**Calculated Metrics:**
+
+*Retrieval Performance:*
+- `precision_at_3`: Proportion of top-3 results that are relevant
+- `recall_at_3`: Proportion of relevant docs retrieved in top-3
+- `mrr`: Mean reciprocal rank (1/rank of first relevant result)
+- `ndcg_at_5`: Normalized discounted cumulative gain at position 5
+- `avg_latency_ms`: Average retrieval time in milliseconds
+
+*Generation Quality:*
+- `faithfulness`: % of answer tokens found in retrieved context
+- `answer_relevance`: Semantic similarity between answer and question
+- `hallucination_rate`: % of claims not supported by context
+- `context_adherence`: How closely answer follows retrieved information
+
+**Performance Reporter Usage:**
+```bash
+python tests/performance_reporter.py
+```
+
+**Performance Report Formats:**
+
 - JSON format for programmatic access
 - CSV format for spreadsheet analysis
 - Markdown format for documentation
+
 
 ### Test Configuration
 
@@ -696,42 +724,6 @@ pip install pytest pytest-cov
 
 ---
 
-## 💡 Tips for Best Results
-
-1. **Document Quality**: Well-formatted, clear documents work best
-2. **File Organization**: Keep related documents in the `data/` folder
-3. **Question Phrasing**: Ask specific questions for better answers
-4. **API Selection**: 
-   - OpenAI
-   - Google Gemini
-   - Groq for speed
-5. **Configuration**: Adjust `config/config.yaml` to tune performance
-
----
-
-## 📊 Project Stats
-
-- **Lines of Code:** ~1,500+ (including comprehensive tests)
-- **Test Coverage:** Extensive (unit, integration, quality, performance)
-- **Number of Core Dependencies:** 150+ packages
-- **Supported File Formats:** 2 (.txt, .md)
-- **Supported LLM Providers:** 3 (OpenAI, Groq, Google)
-- **Embedding Dimensions:** 384 (all-MiniLM-L6-v2)
-- **Sample Documents:** 5 included (~75KB total in .md format)
-- **Test Files:** 6 comprehensive test suites
-- **Performance Metrics Tracked:** 10+ metrics
-
----
-
-## 🔒 Data Privacy & Security
-
-### Privacy Features
-
-- ✅ **Local Processing**: All documents processed locally
-- ✅ **Local Storage**: Vector embeddings stored in `chroma_db/`
-- ✅ **Minimal Data Sent**: Only query text and relevant chunks sent to LLM APIs
-- ✅ **Full Documents Never Sent**: Your complete documents stay on your machine
-
 
 ### Limitations
 
@@ -850,7 +842,13 @@ pytest                            # Run all tests
 pytest -v                         # Verbose output
 pytest -m unit                    # Unit tests only
 pytest -m integration             # Integration tests only
+pytest -m quality                 # Quality tests only
+pytest -m performance             # Performance tests only
+pytest -m generation              # Generation tests only
 pytest --cov=src --cov-report=html  # Coverage report
+
+# ==== Performance Report =======
+python tests/performance_reporter.py  # Generate performance report
 
 # ===== Document Management =====
 cp my_doc.md data/               # Add document
