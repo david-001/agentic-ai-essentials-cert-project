@@ -82,6 +82,11 @@ class VectorDB:
         #   - Print progress messages to inform the user
 
         print(f"Processing {len(documents)} documents...")
+
+        # Handle empty document list
+        if not documents:
+            print("No documents to process.")
+            return
         
         all_chunks = []
         all_metadatas = []

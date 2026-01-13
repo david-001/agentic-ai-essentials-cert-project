@@ -11,7 +11,6 @@
   - [What This Project Does](#what-this-project-does)
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
-  - [Value Proposition](#value-proposition)
 - [Repository Structure](#-repository-structure)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
@@ -23,6 +22,9 @@
   - [Example Questions](#example-questions)
 - [Configuration](#️-configuration)
 - [Testing](#-testing)
+  - [Test Categories](#test-categories)
+  - [Running Tests](#running-tests)
+  - [Performance Metrics](#performance-metrics)
 - [Troubleshooting](#troubleshooting)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
@@ -32,7 +34,7 @@
 
 ## 📋 Project Summary
 
-An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers based on your own document collection. Built as part of the Agentic AI Essentials certification program, this assistant combines semantic search with large language models to create a personalized knowledge base that you can query in natural language.
+An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers based on your own document collection. Built as part of the [Ready Tensor Agentic AI Essentials certification program](https://www.readytensor.ai/agentic-ai-essentials-cert/), this assistant combines semantic search with large language models to create a personalized knowledge base that you can query in natural language.
 
 **Key Capabilities:**
 - 🔍 Semantic document search using vector embeddings
@@ -42,6 +44,7 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 - 💾 Persistent vector storage with ChromaDB
 - ⚙️ YAML-based configuration for easy customization
 - 🔄 Intelligent text chunking with RecursiveCharacterTextSplitter
+- 🧪 Comprehensive test suite with performance metrics
 
 ---
 
@@ -111,6 +114,7 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 - ✅ No expensive model retraining needed
 - ✅ Update knowledge base by just adding documents
 - ✅ Reduces hallucinations (answers based on your docs)
+- ✅ Transparent and explainable results
 
 ---
 
@@ -128,14 +132,24 @@ agentic-ai-essentials-cert-project/
 │   └── config.yaml              # YAML configuration file (edit settings here)
 │
 ├── data/                         # Document collection
-│   ├── api_documentation.txt    # Sample: API documentation
-│   ├── company_policies.txt     # Sample: HR policies
-│   ├── customer_faq.txt         # Sample: FAQ
-│   ├── product_documentation.txt # Sample: Product info
-│   └── security_compliance.txt   # Sample: Security docs
+│   ├── api_documentation.md     # Sample: API documentation
+│   ├── company_policies.md      # Sample: HR policies
+│   ├── customer_faq.md          # Sample: FAQ
+│   ├── product_documentation.md # Sample: Product info
+│   └── security_compliance.md   # Sample: Security docs
+│
+├── tests/                        # Comprehensive test suite
+│   ├── test_app.py              # Integration tests
+│   ├── test_vectordb.py         # Vector database tests
+│   ├── test_retrieval_quality.py # Retrieval performance tests
+│   ├── test_generation_quality.py # Answer quality tests
+│   ├── test_performance_metrics.py # Performance benchmarks
+│   └── performance_reporter.py   # Metrics reporting utility
 │
 ├── requirements.txt              # Python dependencies
-├── .env                         # Environment variables (API keys)
+├── pytest.ini                   # Test configuration
+├── .env                         # Environment variables (API keys) - DO NOT COMMIT
+├── .env.example                 # Example environment file (safe to share)
 ├── .gitignore                   # Git ignore rules
 ├── LICENSE                      # MIT License
 └── README.md                    # This file
@@ -152,7 +166,11 @@ agentic-ai-essentials-cert-project/
 | `src/config.py` | Loads configuration from YAML | Rarely (handles loading automatically) |
 | `config/config.yaml` | **Main configuration file** | **Change settings here** |
 | `.env` | API keys and secrets | Set your API keys here |
+| `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
+| `tests/` | Comprehensive test suite | Extend with new tests |
+| `tests/performance_reporter.py` | **Performance metrics calculator** | Use for generating evaluation reports |
+| `pytest.ini` | Test runner configuration | Modify test settings |
 
 ---
 
@@ -164,7 +182,11 @@ agentic-ai-essentials-cert-project/
 - 🤖 **Multi-LLM Support**: Works with OpenAI, Groq, or Google Gemini
 - 🔄 **Smart Chunking**: Uses RecursiveCharacterTextSplitter for context preservation
 - ⚙️ **YAML Configuration**: Easy-to-edit configuration file
-- 🎯 **Reproducible Results**: Fixed random seed for consistent behavior
+- 🧪 **Comprehensive Testing**: Unit, integration, and quality tests
+- 📊 **Performance Monitoring**: Built-in metrics and reporting with performance_reporter.py
+- 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
+- 📄 **Multiple Performance Report Formats**: JSON, CSV, and Markdown exports
+- 🔐 **Environment-based Secrets**: Secure API key management
 
 ---
 
@@ -172,7 +194,7 @@ agentic-ai-essentials-cert-project/
 
 ### Prerequisites
 
-- **Python 3.10 or higher**
+- **Python 3.10 or higher** (Python 3.10 or 3.11 recommended)
 - **pip** (Python package installer)
 - **One of these API keys** (at least one required):
   - OpenAI API key
@@ -192,7 +214,7 @@ cd agentic-ai-essentials-cert-project
 
 **On macOS/Linux:**
 ```bash
-python3 -m venv venv
+python -m venv venv
 source venv/bin/activate
 ```
 
@@ -209,25 +231,30 @@ pip install -r requirements.txt
 ```
 
 **Key dependencies:**
-- `langchain-core` - LLM orchestration framework
+- `langchain` (v0.3.27) - LLM orchestration framework
+- `langchain-core` (v0.3.76) - Core LangChain functionality
 - `langchain-openai`, `langchain-groq`, `langchain-google-genai` - LLM provider integrations
-- `langchain-text-splitters` - Intelligent text chunking
-- `chromadb` - Vector database
-- `sentence-transformers` - Embedding models
-- `python-dotenv` - Environment variable management
-- `pyyaml` - YAML configuration support
+- `langchain-text-splitters` (v0.3.11) - Intelligent text chunking
+- `chromadb` (v1.0.12) - Vector database
+- `sentence-transformers` (v5.1.0) - Embedding models
+- `python-dotenv` (v1.1.1) - Environment variable management
+- `pyyaml` (v6.0.2) - YAML configuration support
+- `pytest` (v9.0.2) - Testing framework
+- `pytest-cov` (v7.0.0) - Test coverage reporting
 
 **Installation time:** 2-3 minutes depending on internet speed
 
 #### Step 4: Set Up Environment Variables
 
+**IMPORTANT SECURITY NOTE:** Never commit your `.env` file to version control. It should already be in `.gitignore`.
+
 Create a `.env` file with your API key:
 
 ```bash
-# Copy the example (if you have one)
+# Copy the example
 cp .env.example .env
 
-# Or create manually
+# Edit with your favorite editor
 nano .env
 ```
 
@@ -245,6 +272,19 @@ GROQ_MODEL=llama-3.1-8b-instant
 # OR Google Gemini
 GOOGLE_API_KEY=AIza-your-key-here
 GOOGLE_MODEL=gemini-2.0-flash
+
+# Embedding Configuration (usually no need to change)
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+
+# Vector Database Configuration
+CHROMA_COLLECTION_NAME=rag_documents
+CHROMA_DB_PATH=./chroma_db
+
+# LLM Configuration
+DEFAULT_LLM_TEMPERATURE=0.0
+
+# File Paths
+DATA_DIRECTORY=data
 ```
 
 **Where to get API keys:**
@@ -257,58 +297,36 @@ GOOGLE_MODEL=gemini-2.0-flash
 Place your documents in the `data/` folder:
 
 ```bash
-# The project includes 5 sample documents:
-# - api_documentation.md
-# - company_policies.md
-# - customer_faq.md
-# - product_documentation.md
-# - security_compliance.md
+# The project includes 5 sample documents (.md format):
+data/
+  ├── api_documentation.md
+  ├── company_policies.md
+  ├── customer_faq.md
+  ├── product_documentation.md
+  └── security_compliance.md
 
-# To add your own:
-cp your_document.txt data/
-cp your_other_doc.md data/
+# Add your own documents (supported formats: .txt, .md)
+cp your_document.md data/
+cp another_doc.txt data/
 ```
 
-**Supported formats:** `.txt` and `.md` files
+**Supported formats:** `.txt`, `.md`
+
+**Document tips:**
+- Keep documents focused on specific topics
+- Use clear section headers for better chunking
+- Aim for 1-50 pages per document
+- Plain text works best
 
 ### Verify Installation
 
-Run a quick test to ensure everything is set up correctly:
+Run this to verify everything is set up correctly:
 
 ```bash
-cd src
-python app.py
+python src/app.py
 ```
 
-**Expected output:**
-```
-Initializing RAG Assistant...
-Using Google Gemini model: gemini-2.0-flash
-Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-Vector database initialized with collection: rag_documents
-RAG Assistant initialized successfully
-
-Loading documents...
-Loaded: api_documentation.md
-Loaded: customer_faq.md
-Loaded: company_policies.md
-Loaded: security_compliance.md
-Loaded: product_documentation.md
-Loaded 5 sample documents
-Processing 5 documents...
-Document 1: Split into 33 chunks
-Document 2: Split into 55 chunks
-Document 3: Split into 37 chunks
-Document 4: Split into 45 chunks
-Document 5: Split into 40 chunks
-Creating embeddings for 210 chunks...
-Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:02<00:00,  3.10it/s]
-Adding to vector database...
-Successfully added 210 chunks to vector database
-Enter a question or 'quit' to exit: 
-```
-
-If you see this, installation was successful! ✅
+If you see the interactive prompt, you're ready to go!
 
 ---
 
@@ -316,22 +334,17 @@ If you see this, installation was successful! ✅
 
 ### Basic Usage
 
-1. **Navigate to the src directory:**
+1. **Run the assistant:**
    ```bash
-   cd src
+   python src/app.py
    ```
 
-2. **Run the assistant:**
-   ```bash
-   python app.py
-   ```
-
-3. **Ask questions about your documents:**
+2. **Ask questions about your documents:**
    ```
    Your question: What is the remote work policy?
    ```
 
-4. **Exit when done:**
+3. **Exit when done:**
    ```
    Your question: quit
    ```
@@ -339,8 +352,7 @@ If you see this, installation was successful! ✅
 ### Example Session
 
 ```bash
-$ cd src
-$ python app.py
+$ python src/app.py
 
 Initializing RAG Assistant...
 Using Google Gemini model: gemini-2.0-flash
@@ -374,12 +386,11 @@ Employees get vacation days based on their years of service:
 
 ### Example Questions
 
-Try these sample questions with the included documents:
+Try these questions with the sample documents:
 
 **Company Policies:**
 - "What is the remote work policy?"
 - "How many vacation days do employees get?"
-- "What are the parental leave benefits?"
 - "Does the company provide health insurance?"
 
 **API Documentation:**
@@ -390,32 +401,18 @@ Try these sample questions with the included documents:
 **Product Information:**
 - "What pricing plans are available?"
 - "What integrations does the product support?"
-- "What are the system requirements?"
 - "Is there a free trial?"
 
 **Security & Compliance:**
 - "Is the platform GDPR compliant?"
 - "What encryption is used?"
-- "What certifications does the company have?"
 - "What is the data retention policy?"
 
 ---
 
 ## ⚙️ Configuration
 
-Configuration is managed through `config/config.yaml`. This makes it easy to adjust settings without modifying code.
-
-### Viewing Current Settings
-
-```bash
-# From the src directory:
-cd src
-python config.py
-```
-
-This displays all current configuration values.
-
-### Main Configuration File: `config/config.yaml`
+### YAML Configuration (`config/config.yaml`)
 
 ```yaml
 # Embedding Model Configuration
@@ -442,36 +439,239 @@ If you change embedding model or chunking settings, delete the vector database t
 
 ```bash
 rm -rf chroma_db/
-cd src
-python app.py
+python src/app.py
+```
+
+---
+
+## 🧪 Testing
+
+This project includes a comprehensive test suite with multiple categories of tests to ensure quality and performance.
+
+### Test Categories
+
+The test suite is organized into several categories using pytest markers:
+
+1. **Unit Tests** (`@pytest.mark.unit`)
+   - Individual component testing
+   - Vector database operations
+   - Document loading functions
+
+2. **Integration Tests** (`@pytest.mark.integration`)
+   - End-to-end RAG pipeline
+   - Multi-component interactions
+   - Complete workflow testing
+
+3. **Retrieval Quality Tests** (`@pytest.mark.quality`)
+   - Precision@k metrics
+   - Recall@k metrics
+   - Mean Reciprocal Rank (MRR)
+   - NDCG@k scores
+
+4. **Generation Quality Tests** (`@pytest.mark.generation`)
+   - Answer relevance
+   - Context usage
+   - Factual accuracy
+   - Response completeness
+
+5. **Performance Tests** (`@pytest.mark.performance`)
+   - Retrieval latency
+   - Generation latency
+   - End-to-end response time
+   - Throughput metrics
+
+### Running Tests
+
+**Run all tests:**
+```bash
+pytest
+```
+
+**Run with verbose output:**
+```bash
+pytest -v
+```
+
+**Run specific test categories:**
+```bash
+# Unit tests only
+pytest -m unit
+
+# Integration tests only
+pytest -m integration
+
+# Quality tests only
+pytest -m quality
+
+# Performance tests only
+pytest -m performance
+
+# Generation tests only
+pytest -m generation
+```
+
+**Run specific test files:**
+```bash
+# Vector database tests
+pytest tests/test_vectordb.py
+
+# Application integration tests
+pytest tests/test_app.py
+
+# Retrieval quality tests
+pytest tests/test_retrieval_quality.py
+
+# Generation quality tests
+pytest tests/test_generation_quality.py
+
+# Performance metrics tests
+pytest tests/test_performance_metrics.py
+```
+
+**Run with coverage report:**
+```bash
+pytest --cov=src --cov-report=html
+```
+
+This generates an HTML coverage report in `htmlcov/index.html`.
+
+### Performance Metrics
+
+The test suite includes a sophisticated performance reporting system that tracks:
+
+**Retrieval Metrics:**
+- **Precision@3**: Accuracy of top 3 retrieved documents
+- **Recall@3**: Coverage of relevant documents in top 3
+- **MRR (Mean Reciprocal Rank)**: Ranking quality of first relevant result
+- **NDCG@5**: Normalized discounted cumulative gain at 5
+- **Average Latency**: Retrieval speed in milliseconds
+
+**Generation Metrics:**
+- **Answer Relevance**: How well answers address the question
+- **Context Precision**: Accuracy of retrieved context
+- **Faithfulness**: Degree to which answers are grounded in context
+- **Hallucination Rate**: Detection of fabricated information
+
+### Performance Reporter Utility
+
+The `tests/performance_reporter.py` module provides comprehensive performance evaluation capabilities:
+
+**Calculated Metrics:**
+
+*Retrieval Performance:*
+- `precision_at_3`: Proportion of top-3 results that are relevant
+- `recall_at_3`: Proportion of relevant docs retrieved in top-3
+- `mrr`: Mean reciprocal rank (1/rank of first relevant result)
+- `ndcg_at_5`: Normalized discounted cumulative gain at position 5
+- `avg_latency_ms`: Average retrieval time in milliseconds
+
+*Generation Quality:*
+- `faithfulness`: % of answer tokens found in retrieved context
+- `answer_relevance`: Semantic similarity between answer and question
+- `hallucination_rate`: % of claims not supported by context
+- `context_adherence`: How closely answer follows retrieved information
+
+**Performance Reporter Usage:**
+```bash
+python tests/performance_reporter.py
+```
+
+**Performance Report Formats:**
+
+- JSON format for programmatic access
+- CSV format for spreadsheet analysis
+- Markdown format for documentation
+
+
+### Test Configuration
+
+Tests are configured via `pytest.ini`:
+
+```ini
+[pytest]
+# Test discovery
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+
+# Test paths
+testpaths = tests
+
+# Output options
+addopts = -v --strict-markers --tb=short --disable-warnings
+
+# Test markers
+markers =
+    unit: Unit tests
+    integration: Integration tests
+    generation: Generation tests
+    performance: Performance tests
+    quality: Quality tests
+```
+
+### Writing Your Own Tests
+
+To add custom tests:
+
+1. Create a new file in `tests/` following the `test_*.py` pattern
+2. Use pytest fixtures from existing tests
+3. Add appropriate markers: `@pytest.mark.unit`, `@pytest.mark.integration`, etc.
+4. Run your new tests: `pytest tests/your_test_file.py`
+
+Example test structure:
+```python
+import pytest
+from src.app import RAGAssistant
+
+@pytest.mark.unit
+def test_document_loading():
+    """Test that documents load correctly."""
+    # Your test code here
+    pass
+
+@pytest.mark.integration
+def test_full_pipeline():
+    """Test the complete RAG pipeline."""
+    # Your test code here
+    pass
 ```
 
 ---
 
 ## 🔧 Troubleshooting
 
-### Common Issues
+### Common Issues and Solutions
 
-#### "No valid API key found"
+#### "Environment variable not set"
 **Solution:**
 - Create `.env` file in project root
 - Add at least one API key:
   ```bash
   OPENAI_API_KEY=sk-your-key-here
   ```
-- Remove placeholder text like `your_key_here`
+- Remove placeholder text like `sk-your-key-here`
+- Ensure no spaces around the `=` sign
+- **Never commit `.env` to version control**
 
 #### "ModuleNotFoundError: No module named 'X'"
 **Solution:**
 ```bash
+# Ensure virtual environment is activated
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+
+# Reinstall all dependencies
 pip install -r requirements.txt
+
+# If still failing, try force reinstall
+pip install --force-reinstall -r requirements.txt
 ```
 
 #### "No documents found in data directory"
 **Solution:**
 - Add `.txt` or `.md` files to `data/` folder
-- Check that files have content
-- Verify file permissions
+- Check that files have content (not empty)
+- Verify file permissions (should be readable)
 
 #### "Rate limit exceeded"
 **Solution:**
@@ -482,67 +682,40 @@ pip install -r requirements.txt
 #### "Python version not supported"
 **Solution:**
 - Check your Python version: `python --version`
-- Ensure you are using Python 3.10 or higher (Python 3.10 or 3.11 recommended)
-- Create fresh virtual environment with correct Python version
-
+- Ensure you are using Python 3.10 or higher
+- Python 3.10 or 3.11 recommended
+- Create fresh virtual environment with correct Python version:
+  ```bash
+  python -m venv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  ```
 
 #### "ImportError: cannot import name 'config'"
 **Solution:**
 ```bash
-# Make sure you're running from the src directory
-cd src
-python app.py
+# Ensure you're in the correct directory
+cd agentic-ai-essentials-cert-project
+
+# Run from src directory
+python src/app.py
 ```
 
-### Getting Help
+#### "Test failures"
+**Solution:**
+```bash
+# Run tests with verbose output to see details
+pytest -v
 
-- Check the configuration: `python src/config.py`
-- Verify API key: `echo $OPENAI_API_KEY` (Linux/Mac)
-- Check Python version: `python --version`
-- Reinstall dependencies: `pip install --force-reinstall -r requirements.txt`
+# Run specific failing test
+pytest tests/test_name.py::test_function
 
----
-
-## 💡 Tips for Best Results
-
-1. **Document Quality**: Well-formatted, clear documents work best
-2. **File Organization**: Keep related documents in the `data/` folder
-3. **Question Phrasing**: Ask specific questions for better answers
-4. **API Selection**: 
-   - OpenAI
-   - Google Gemini
-   - Groq for speed
-5. **Configuration**: Adjust `config/config.yaml` to tune performance
+# Check test dependencies are installed
+pip install pytest pytest-cov
+```
 
 ---
 
-## 📊 Project Stats
-
-- **Lines of Code:** ~500 (excluding documentation)
-- **Number of Core Dependencies:** 10+ packages
-- **Supported File Formats:** 2 (txt, md)
-- **Supported LLM Providers:** 3 (OpenAI, Groq, Google)
-- **Embedding Dimensions:** 384 (all-MiniLM-L6-v2)
-- **Sample Documents:** 5 included (~15KB total)
-
----
-
-## 🔒 Data Privacy & Security
-
-### Privacy Features
-
-- ✅ **Local Processing**: All documents processed locally
-- ✅ **Local Storage**: Vector embeddings stored in `chroma_db/`
-- ✅ **Minimal Data Sent**: Only query text and relevant chunks sent to LLM APIs
-- ✅ **Full Documents Never Sent**: Your complete documents stay on your machine
-
-### API Costs (Approximate)
-
-| Provider | Model | Cost per Query | 100 Queries |
-|----------|-------|----------------|-------------|
-| OpenAI | gpt-4o-mini | ~$0.001 | ~$0.10 |
-| Google | Gemini | Free tier | Free |
-| Groq | Llama 3.1 | Free tier | Free |
 
 ### Limitations
 
@@ -583,8 +756,9 @@ This project uses the following excellent open-source libraries:
 - **[OpenAI API](https://platform.openai.com/)** - GPT models
 - **[Groq API](https://groq.com/)** - Fast LLM inference
 - **[Google Gemini API](https://ai.google.dev/)** - Gemini models
+- **[Pytest](https://pytest.org/)** - Testing framework
 
-Special thanks to the **Agentic AI Essentials Certification Program** for the learning framework.
+Special thanks to the **Agentic AI Essentials Certification Program** for the learning framework and project structure.
 
 ---
 
@@ -595,78 +769,45 @@ Special thanks to the **Agentic AI Essentials Certification Program** for the le
 - **Issues:** [Open an issue](https://github.com/your-username/rag-assistant/issues) on GitHub
 - **Documentation:** Check the README and code comments
 - **Questions:** Reach out through GitHub discussions
+- **Tests:** Run `pytest`
 
 ### Contributing
 
-Contributions welcome! Feel free to:
-- Report bugs
-- Suggest enhancements  
-- Submit pull requests
-- Share improvements
+Contributions are welcome! Here's how to contribute:
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes**
+4. **Add tests** for new functionality
+5. **Run the test suite** (`pytest`)
+6. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+7. **Push to the branch** (`git push origin feature/amazing-feature`)
+8. **Open a Pull Request**
+
+**Contribution Guidelines:**
+- Follow existing code style
+- Add tests for new features
+- Update documentation as needed
+- Keep commits focused and descriptive
 
 ---
 
-## 🎓 Educational Context
-
-This project is part of the **Agentic AI Essentials Certification Program - Module 1**.
-
-### Learning Objectives Covered
-
-1. ✅ **Document Loading** - Reading and parsing file formats
-2. ✅ **Text Chunking** - Intelligent splitting with RecursiveCharacterTextSplitter
-3. ✅ **Vector Embeddings** - Converting text to numerical representations
-4. ✅ **Vector Databases** - ChromaDB storage and querying
-5. ✅ **Semantic Search** - Finding relevant information by meaning
-6. ✅ **RAG Architecture** - Combining retrieval with generation
-7. ✅ **LLM Integration** - Working with multiple AI providers
-8. ✅ **Production Patterns** - Configuration, error handling, modularity
-
-### Skills Demonstrated
-
-- Python programming with modern libraries
-- AI/ML engineering fundamentals
-- Vector database operations
-- API integration and management
-- YAML-based configuration
-- Software architecture and design patterns
-- Documentation and project organization
-
----
-
-## 🔮 Future Enhancements
-
-### Near-term
-- [ ] Add support for PDF documents
-- [ ] Implement conversation history/memory
-- [ ] Add source citations in responses
-- [ ] Create web UI with Streamlit
-- [ ] Add document metadata filtering
-
-### Mid-term
-- [ ] Support for Word documents (.docx)
-- [ ] Hybrid search (semantic + keyword)
-- [ ] Re-ranking of search results
-- [ ] Multiple language support
-- [ ] Export/import knowledge bases
-
-### Long-term
-- [ ] Multi-user support with access control
-- [ ] Real-time document updates
-- [ ] Advanced analytics
-- [ ] Custom embedding model fine-tuning
-- [ ] Platform integrations (Slack, Teams)
-
----
 
 ## 📚 Additional Resources
 
+### Official Documentation
 - [ChromaDB Documentation](https://docs.trychroma.com/)
 - [LangChain Documentation](https://python.langchain.com/)
 - [Sentence Transformers](https://www.sbert.net/)
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [Google Gemini API Documentation](https://ai.google.dev/docs)
 - [Groq API Documentation](https://console.groq.com/docs)
+
+### Learning Resources
 - [Python Best Practices](https://docs.python-guide.org/)
+- [RAG Best Practices](https://www.pinecone.io/learn/retrieval-augmented-generation/)
+- [Vector Database Guide](https://www.pinecone.io/learn/vector-database/)
+- [Pytest Documentation](https://docs.pytest.org/)
 
 ---
 
@@ -675,40 +816,42 @@ This project is part of the **Agentic AI Essentials Certification Program - Modu
 ### Common Commands
 
 ```bash
-# Setup
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# ===== Setup =====
+python -m venv venv
+source venv/bin/activate          # Linux/Mac
+venv\Scripts\activate             # Windows
 pip install -r requirements.txt
 
-# Configure
-nano .env  # Add API key
+# ===== Configuration =====
+cp .env.example .env              # Create environment file
+nano .env                         # Edit with your API key
 
-# Run
-cd src
-python app.py
+# ===== Running =====
+python src/app.py                     # Start interactive assistant
 
-# Add documents
-cp my_doc.txt data/
+# ===== Testing =====
+pytest                            # Run all tests
+pytest -v                         # Verbose output
+pytest -m unit                    # Unit tests only
+pytest -m integration             # Integration tests only
+pytest -m quality                 # Quality tests only
+pytest -m performance             # Performance tests only
+pytest -m generation              # Generation tests only
+pytest --cov=src --cov-report=html  # Coverage report
 
-# Reset database
-rm -rf chroma_db/
+# ==== Performance Report =======
+python tests/performance_reporter.py  # Generate performance report
 
-# View configuration
-python src/config.py
+# ===== Document Management =====
+cp my_doc.md data/               # Add document
+ls -lh data/                     # List documents
 
-# Run tests
-pytest
+# ===== Database Management =====
+rm -rf chroma_db/                # Reset database (will rebuild)
+du -sh chroma_db/                # Check database size
+
 ```
 
-### Directory Navigation
-
-```bash
-# Project structure
-cd agentic-ai-essentials-cert-project  # Project root
-cd src                                  # Source code
-cd config                              # Configuration
-cd data                                # Documents
-```
 
 ---
 
