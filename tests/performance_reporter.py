@@ -7,12 +7,19 @@ import json
 import csv
 import os
 import sys
+import numpy as np
+import random
 from datetime import datetime
 from typing import Dict, List, Any
-import numpy as np
+
+# Set random seeds for reproducibility
+np.random.seed(42)
+random.seed(42)
 
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from report_formatters import format_markdown_report, get_status, get_status_emoji
 
 
 class PerformanceReporter:
@@ -209,85 +216,32 @@ class PerformanceReporter:
             thresholds = self._get_thresholds()
             
             for metric, value in self.metrics.items():
-                status = self._get_status(metric, value, thresholds)
+                status = get_status(metric, value, thresholds)
                 writer.writerow([metric, f"{value:.4f}", status])
         
         print(f"CSV report saved to: {filepath}")
     
     def generate_report_markdown(self, filepath: str = None) -> str:
         """
-        Generate Markdown report.
+        Generate markdown report.
         
         Args:
-            filepath: Optional path to save Markdown file
+            filepath: Optional path to save markdown file
         
         Returns:
             Markdown string
         """
-        lines = [
-            "# RAG System Performance Report",
-            "",
-            f"**Generated:** {self.timestamp}",
-            "",
-            "## Summary",
-            "",
-            self._generate_summary(),
-            "",
-            "## Detailed Metrics",
-            "",
-            "### Retrieval Metrics",
-            ""
-        ]
-        
-        # Retrieval metrics table
-        retrieval_metrics = [
-            'precision_at_3', 'recall_at_3', 'mrr', 'ndcg_at_5', 'avg_latency_ms'
-        ]
-        
-        lines.append("| Metric | Value | Status |")
-        lines.append("|--------|-------|--------|")
-        
         thresholds = self._get_thresholds()
+        summary = self._generate_summary()
+        recommendations = self._generate_recommendations()
         
-        for metric in retrieval_metrics:
-            if metric in self.metrics:
-                value = self.metrics[metric]
-                status = self._get_status(metric, value, thresholds)
-                emoji = self._get_status_emoji(status)
-                lines.append(f"| {metric} | {value:.4f} | {status} {emoji} |")
-        
-        lines.extend([
-            "",
-            "### Generation Metrics",
-            "",
-            "| Metric | Value | Status |",
-            "|--------|-------|--------|"
-        ])
-        
-        generation_metrics = [
-            'faithfulness', 'answer_relevance', 'hallucination_rate', 
-            'ground_truth_overlap'
-        ]
-        
-        for metric in generation_metrics:
-            if metric in self.metrics:
-                value = self.metrics[metric]
-                status = self._get_status(metric, value, thresholds)
-                emoji = self._get_status_emoji(status)
-                lines.append(f"| {metric} | {value:.4f} | {status} {emoji} |")
-        
-        lines.extend([
-            "",
-            "## Performance Grade",
-            "",
-            self._calculate_grade(),
-            "",
-            "## Recommendations",
-            "",
-            self._generate_recommendations()
-        ])
-        
-        markdown = "\n".join(lines)
+        markdown = format_markdown_report(
+            self.metrics, 
+            self.timestamp, 
+            thresholds, 
+            summary, 
+            recommendations
+        )
         
         if filepath:
             with open(filepath, 'w') as f:
@@ -331,44 +285,6 @@ class PerformanceReporter:
             'avg_latency_ms': {'excellent': 200, 'good': 500}
         }
     
-    def _get_status(
-        self, 
-        metric: str, 
-        value: float, 
-        thresholds: Dict[str, Dict[str, float]]
-    ) -> str:
-        """Determine status (Excellent/Good/Needs Improvement) for a metric."""
-        if metric not in thresholds:
-            return "N/A"
-        
-        thresh = thresholds[metric]
-        
-        # For metrics where lower is better
-        if metric in ['hallucination_rate', 'avg_latency_ms']:
-            if value <= thresh['excellent']:
-                return "Excellent"
-            elif value <= thresh['good']:
-                return "Good"
-            else:
-                return "Needs Improvement"
-        else:
-            # For metrics where higher is better
-            if value >= thresh['excellent']:
-                return "Excellent"
-            elif value >= thresh['good']:
-                return "Good"
-            else:
-                return "Needs Improvement"
-    
-    def _get_status_emoji(self, status: str) -> str:
-        """Get emoji for status."""
-        return {
-            'Excellent': '🟢',
-            'Good': '🟡',
-            'Needs Improvement': '🔴',
-            'N/A': '⚪'
-        }.get(status, '')
-    
     def _calculate_grade(self) -> str:
         """Calculate overall grade."""
         if not self.metrics:
@@ -378,7 +294,7 @@ class PerformanceReporter:
         scores = []
         
         for metric, value in self.metrics.items():
-            status = self._get_status(metric, value, thresholds)
+            status = get_status(metric, value, thresholds)
             if status == "Excellent":
                 scores.append(3)
             elif status == "Good":
@@ -406,7 +322,7 @@ class PerformanceReporter:
         thresholds = self._get_thresholds()
         
         for metric, value in self.metrics.items():
-            status = self._get_status(metric, value, thresholds)
+            status = get_status(metric, value, thresholds)
             
             if status == "Needs Improvement":
                 if metric == 'precision_at_3':
