@@ -12,8 +12,13 @@
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
 - [Repository Structure](#-repository-structure)
+  - [Key Files Explained](#key-files-explained)
 - [Features](#-features)
 - [Code Architecture](#️-code-architecture)
+  - [Modular Test Architecture](#-modular-test-architecture)
+  - [Utility Modules](#-utility-modules)
+  - [Reproducible Testing](#-reproducible-testing)
+  - [Benefits](#-benefits)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -23,14 +28,26 @@
   - [Example Session](#example-session)
   - [Example Questions](#example-questions)
 - [Configuration](#️-configuration)
+  - [YAML Configuration](#yaml-configuration)
+  - [After Changing Configuration](#after-changing-configuration)
 - [Testing](#-testing)
   - [Test Categories](#test-categories)
   - [Running Tests](#running-tests)
   - [Performance Metrics](#performance-metrics)
 - [Troubleshooting](#-troubleshooting)
+  - [Common Issues and Solutions](#common-issues-and-solutions)
+  - [Limitations](#limitations)
+- [Additional Resources](#-additional-resources)
+  - [Official Documentation](#official-documentation)
+  - [Learning Resources](#learning-resources)
+- [Quick Reference](#-quick-reference)
+  - [Common Commands](#common-commands)
 - [License](#-license)
+  - [What This Means](#what-this-means)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
+  - [Getting Help](#getting-help)
+  - [Contributing](#contributing)
 
 ---
 
@@ -203,12 +220,12 @@ agentic-ai-essentials-cert-project/
 
 ## 🏗️ Code Architecture
 
-#### ✅ Modular Test Architecture
+### ✅ Modular Test Architecture
 - **Separated Concerns**: Test logic split into focused utility modules
 - **Reusable Components**: Core metrics and formatting functions extracted for reuse
 - **Reduced File Complexity**: All test files now under 500 lines for better readability
 
-#### 📦 New Utility Modules
+### 📦 Utility Modules
 
 | Module | Purpose | Key Functions |
 |--------|---------|---------------|
@@ -216,12 +233,12 @@ agentic-ai-essentials-cert-project/
 | `report_formatters.py` | Report generation | `format_markdown_report()`, `get_status()`, `get_status_emoji()` |
 | `generation_test_helpers.py` | Test helpers | `generate_answer_quality_report()`, `check_refusal_phrases()` |
 
-#### 🎲 Reproducible Testing
+### 🎲 Reproducible Testing
 - **Explicit Random Seeds**: All test files set `random.seed(42)` and `np.random.seed(42)`
 - **Consistent Results**: Tests produce identical results across runs
 - **Better Debugging**: Reproducibility aids in issue diagnosis
 
-#### 📊 Benefits
+### 📊 Benefits
 - **Easier Maintenance**: Smaller, focused modules are easier to understand and modify
 - **Better Testing**: Individual utility functions can be tested in isolation
 - **Code Reuse**: Metrics functions can be imported across different test files
@@ -451,7 +468,9 @@ Try these questions with the sample documents:
 
 ## ⚙️ Configuration
 
-### YAML Configuration (`config/config.yaml`)
+### YAML Configuration
+
+YAML Configuration (`config/config.yaml`)
 
 ```yaml
 # Embedding Model Configuration
