@@ -12,6 +12,7 @@
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
 - [Repository Structure](#-repository-structure)
+- [Features](#-features)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -25,7 +26,7 @@
   - [Test Categories](#test-categories)
   - [Running Tests](#running-tests)
   - [Performance Metrics](#performance-metrics)
-- [Troubleshooting](#troubleshooting)
+- [Troubleshooting](#-troubleshooting)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
@@ -144,7 +145,10 @@ agentic-ai-essentials-cert-project/
 │   ├── test_retrieval_quality.py # Retrieval performance tests
 │   ├── test_generation_quality.py # Answer quality tests
 │   ├── test_performance_metrics.py # Performance benchmarks
-│   └── performance_reporter.py   # Metrics reporting utility
+│   ├── performance_reporter.py   # Metrics reporting utility
+│   ├── metrics_utils.py         # Metric calculation utilities
+│   ├── report_formatters.py     # Report formatting utilities
+│   └── generation_test_helpers.py # Generation test helpers
 │
 ├── requirements.txt              # Python dependencies
 ├── pytest.ini                   # Test configuration
@@ -169,7 +173,10 @@ agentic-ai-essentials-cert-project/
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/` | Comprehensive test suite | Extend with new tests |
-| `tests/performance_reporter.py` | **Performance metrics calculator** | Use for generating evaluation reports |
+| `tests/performance_reporter.py` | Performance metrics calculator | Use for generating evaluation reports |
+| `tests/metrics_utils.py` | Metric calculation utilities | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
+| `tests/report_formatters.py` | Report formatting utilities | Markdown/CSV/JSON report generation |
+| `tests/generation_test_helpers.py` | Generation test helpers | Helper functions for quality testing |
 | `pytest.ini` | Test runner configuration | Modify test settings |
 
 ---
@@ -551,6 +558,43 @@ The test suite includes a sophisticated performance reporting system that tracks
 - **Context Precision**: Accuracy of retrieved context
 - **Faithfulness**: Degree to which answers are grounded in context
 - **Hallucination Rate**: Detection of fabricated information
+
+### Utility Modules for Testing
+
+The testing infrastructure has been modularized for better maintainability:
+
+#### `metrics_utils.py`
+Core metric calculation functions used across test files:
+```python
+from metrics_utils import (
+    calculate_precision_at_k,
+    calculate_recall_at_k,
+    calculate_mrr,
+    calculate_ndcg,
+    calculate_faithfulness,
+    calculate_answer_relevance
+)
+```
+
+#### `report_formatters.py`
+Report generation and formatting utilities:
+```python
+from report_formatters import (
+    format_markdown_report,
+    get_status,
+    get_status_emoji
+)
+```
+
+#### `generation_test_helpers.py`
+Helper functions for generation quality tests:
+```python
+from generation_test_helpers import (
+    generate_answer_quality_report,
+    check_refusal_phrases,
+    check_context_reference_phrases
+)
+```
 
 ### Performance Reporter Utility
 

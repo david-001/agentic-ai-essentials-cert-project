@@ -7,13 +7,24 @@ context adherence, and response formatting.
 import pytest
 import os
 import sys
+import numpy as np
+import random
 from unittest.mock import patch, MagicMock
 import re
+
+# Set random seeds for reproducibility
+np.random.seed(42)
+random.seed(42)
 
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from app import RAGAssistant
+from generation_test_helpers import (
+    generate_answer_quality_report,
+    check_refusal_phrases,
+    check_context_reference_phrases
+)
 
 
 @pytest.fixture
@@ -209,13 +220,7 @@ class TestHallucinationDetection:
             )
             
             # Should refuse to answer or say not answerable
-            refuses = any(phrase in result.lower() for phrase in [
-                'not answerable',
-                'not available',
-                'cannot answer',
-                'no information',
-                'not found'
-            ])
+            refuses = check_refusal_phrases(result)
             
             assert refuses, "Should refuse to answer out-of-scope questions"
     
@@ -328,12 +333,7 @@ class TestContextAdherence:
             result = assistant_with_knowledge.query(query)
             
             # Should indicate inability to answer
-            refuses = any(phrase in result.lower() for phrase in [
-                'not answerable',
-                'cannot answer',
-                'no information',
-                'not found in'
-            ])
+            refuses = check_refusal_phrases(result)
             
             assert refuses or len(result) < 50, \
                 "Should refuse or give minimal response when info not available"
@@ -485,39 +485,6 @@ class TestEdgeCaseGeneration:
             
             # Should either ask for clarification or provide general policy info
             assert len(result) > 0
-
-
-def generate_answer_quality_report(assistant_with_knowledge) -> str:
-    """Generate a comprehensive answer quality report."""
-    report = "\n" + "="*60 + "\n"
-    report += "ANSWER QUALITY REPORT\n"
-    report += "="*60 + "\n\n"
-    
-    test_queries = [
-        "How many vacation days do entry-level employees get?",
-        "What is the remote work policy?",
-        "What are the health insurance options?",
-        "When are performance reviews conducted?"
-    ]
-    
-    report += "Test Queries:\n"
-    for i, query in enumerate(test_queries, 1):
-        report += f"{i}. {query}\n"
-    
-    report += "\nAnswers Generated:\n"
-    report += "(Note: Answers depend on LLM being mocked or real)\n\n"
-    
-    # Check context retrieval quality
-    report += "Context Retrieval Check:\n"
-    for query in test_queries:
-        results = assistant_with_knowledge.vector_db.search(query, n_results=1)
-        has_context = len(results['documents']) > 0 and len(results['documents'][0]) > 0
-        report += f"  {query[:40]+'...' if len(query) > 40 else query}: "
-        report += f"{'✓ Context found' if has_context else '✗ No context'}\n"
-    
-    report += "\n" + "="*60 + "\n"
-    
-    return report
 
 
 @pytest.mark.generation

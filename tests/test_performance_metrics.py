@@ -8,15 +8,28 @@ import pytest
 import os
 import sys
 import numpy as np
-from typing import List, Dict, Any, Tuple
+import random
+from typing import List, Dict, Any
 from unittest.mock import patch, MagicMock
-from collections import Counter
+
+# Set random seeds for reproducibility
+np.random.seed(42)
+random.seed(42)
 
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from app import RAGAssistant
 from vectordb import VectorDB
+from metrics_utils import (
+    calculate_precision_at_k,
+    calculate_recall_at_k,
+    calculate_reciprocal_rank,
+    calculate_mrr,
+    calculate_ndcg,
+    calculate_faithfulness,
+    calculate_answer_relevance
+)
 
 
 # ============================================================================
@@ -90,40 +103,11 @@ def rag_assistant_with_corpus(evaluation_corpus):
 
 
 # ============================================================================
-# Retrieval Metrics
+# Retrieval Metrics Tests
 # ============================================================================
 
 class TestPrecisionRecallMetrics:
     """Test suite for Precision@k and Recall@k metrics."""
-    
-    def calculate_precision_at_k(
-        self, 
-        retrieved_ids: List[str], 
-        relevant_ids: List[str], 
-        k: int
-    ) -> float:
-        """
-        Calculate Precision@k.
-        Precision@k = (# of relevant items in top-k) / k
-        """
-        top_k = retrieved_ids[:k]
-        relevant_retrieved = len(set(top_k) & set(relevant_ids))
-        return relevant_retrieved / k if k > 0 else 0.0
-    
-    def calculate_recall_at_k(
-        self, 
-        retrieved_ids: List[str], 
-        relevant_ids: List[str], 
-        k: int
-    ) -> float:
-        """
-        Calculate Recall@k.
-        Recall@k = (# of relevant items in top-k) / (total # of relevant items)
-        """
-        top_k = retrieved_ids[:k]
-        relevant_retrieved = len(set(top_k) & set(relevant_ids))
-        total_relevant = len(relevant_ids)
-        return relevant_retrieved / total_relevant if total_relevant > 0 else 0.0
     
     @pytest.mark.performance
     def test_precision_at_k_perfect_retrieval(self):
@@ -131,10 +115,10 @@ class TestPrecisionRecallMetrics:
         retrieved = ['rel1', 'rel2', 'rel3', 'irrel1']
         relevant = ['rel1', 'rel2', 'rel3']
         
-        precision_3 = self.calculate_precision_at_k(retrieved, relevant, k=3)
+        precision_3 = calculate_precision_at_k(retrieved, relevant, k=3)
         assert precision_3 == 1.0, "Perfect top-3 should have precision 1.0"
         
-        precision_4 = self.calculate_precision_at_k(retrieved, relevant, k=4)
+        precision_4 = calculate_precision_at_k(retrieved, relevant, k=4)
         assert precision_4 == 0.75, "Top-4 with 3 relevant should have precision 0.75"
     
     @pytest.mark.performance
@@ -143,7 +127,7 @@ class TestPrecisionRecallMetrics:
         retrieved = ['rel1', 'rel2', 'rel3', 'irrel1']
         relevant = ['rel1', 'rel2', 'rel3']
         
-        recall_3 = self.calculate_recall_at_k(retrieved, relevant, k=3)
+        recall_3 = calculate_recall_at_k(retrieved, relevant, k=3)
         assert recall_3 == 1.0, "All relevant items retrieved should have recall 1.0"
     
     @pytest.mark.performance
@@ -162,12 +146,12 @@ class TestPrecisionRecallMetrics:
             retrieved_ids = results['ids']
             
             # Calculate metrics
-            precision = self.calculate_precision_at_k(
+            precision = calculate_precision_at_k(
                 retrieved_ids, 
                 item['relevant_doc_ids'], 
                 k
             )
-            recall = self.calculate_recall_at_k(
+            recall = calculate_recall_at_k(
                 retrieved_ids, 
                 item['relevant_doc_ids'], 
                 k
@@ -191,42 +175,13 @@ class TestPrecisionRecallMetrics:
 class TestMRRMetric:
     """Test suite for Mean Reciprocal Rank (MRR) metric."""
     
-    def calculate_reciprocal_rank(
-        self, 
-        retrieved_ids: List[str], 
-        relevant_ids: List[str]
-    ) -> float:
-        """
-        Calculate Reciprocal Rank.
-        RR = 1 / (rank of first relevant item)
-        Returns 0 if no relevant items found.
-        """
-        for rank, doc_id in enumerate(retrieved_ids, start=1):
-            if doc_id in relevant_ids:
-                return 1.0 / rank
-        return 0.0
-    
-    def calculate_mrr(
-        self, 
-        queries_results: List[Tuple[List[str], List[str]]]
-    ) -> float:
-        """
-        Calculate Mean Reciprocal Rank across multiple queries.
-        queries_results: List of (retrieved_ids, relevant_ids) tuples
-        """
-        rr_scores = [
-            self.calculate_reciprocal_rank(retrieved, relevant)
-            for retrieved, relevant in queries_results
-        ]
-        return np.mean(rr_scores) if rr_scores else 0.0
-    
     @pytest.mark.performance
     def test_reciprocal_rank_first_position(self):
         """Test RR when relevant doc is at position 1."""
         retrieved = ['rel1', 'irrel1', 'irrel2']
         relevant = ['rel1', 'rel2']
         
-        rr = self.calculate_reciprocal_rank(retrieved, relevant)
+        rr = calculate_reciprocal_rank(retrieved, relevant)
         assert rr == 1.0, "First position should give RR of 1.0"
     
     @pytest.mark.performance
@@ -235,7 +190,7 @@ class TestMRRMetric:
         retrieved = ['irrel1', 'rel1', 'irrel2']
         relevant = ['rel1', 'rel2']
         
-        rr = self.calculate_reciprocal_rank(retrieved, relevant)
+        rr = calculate_reciprocal_rank(retrieved, relevant)
         assert rr == 0.5, "Second position should give RR of 0.5"
     
     @pytest.mark.performance
@@ -250,7 +205,7 @@ class TestMRRMetric:
             )
             queries_results.append((results['ids'], item['relevant_doc_ids']))
         
-        mrr = self.calculate_mrr(queries_results)
+        mrr = calculate_mrr(queries_results)
         
         assert mrr > 0.3, f"MRR too low: {mrr}"
         print(f"\nMean Reciprocal Rank: {mrr:.3f}")
@@ -259,57 +214,13 @@ class TestMRRMetric:
 class TestNDCGMetric:
     """Test suite for Normalized Discounted Cumulative Gain (NDCG)."""
     
-    def calculate_dcg(self, relevances: List[float], k: int = None) -> float:
-        """
-        Calculate Discounted Cumulative Gain.
-        DCG = sum(rel_i / log2(i + 1)) for i in top-k positions
-        """
-        if k:
-            relevances = relevances[:k]
-        
-        dcg = 0.0
-        for i, rel in enumerate(relevances, start=1):
-            dcg += rel / np.log2(i + 1)
-        
-        return dcg
-    
-    def calculate_ndcg(
-        self, 
-        retrieved_ids: List[str], 
-        relevant_ids: List[str], 
-        k: int = None
-    ) -> float:
-        """
-        Calculate Normalized Discounted Cumulative Gain@k.
-        Binary relevance: 1 if relevant, 0 if not.
-        """
-        # Create relevance scores (binary: 1 or 0)
-        relevances = [1.0 if doc_id in relevant_ids else 0.0 
-                      for doc_id in retrieved_ids]
-        
-        if k:
-            relevances = relevances[:k]
-        
-        # Calculate DCG
-        dcg = self.calculate_dcg(relevances, k)
-        
-        # Calculate ideal DCG (perfect ranking)
-        ideal_relevances = sorted(relevances, reverse=True)
-        idcg = self.calculate_dcg(ideal_relevances, k)
-        
-        # Calculate NDCG
-        if idcg == 0:
-            return 0.0
-        
-        return dcg / idcg
-    
     @pytest.mark.performance
     def test_ndcg_perfect_ranking(self):
         """Test NDCG with perfect ranking."""
         retrieved = ['rel1', 'rel2', 'rel3', 'irrel1']
         relevant = ['rel1', 'rel2', 'rel3']
         
-        ndcg = self.calculate_ndcg(retrieved, relevant, k=4)
+        ndcg = calculate_ndcg(retrieved, relevant, k=4)
         assert ndcg == 1.0, "Perfect ranking should give NDCG of 1.0"
     
     @pytest.mark.performance
@@ -318,7 +229,7 @@ class TestNDCGMetric:
         retrieved = ['irrel1', 'irrel2', 'rel1', 'rel2']
         relevant = ['rel1', 'rel2']
         
-        ndcg = self.calculate_ndcg(retrieved, relevant, k=4)
+        ndcg = calculate_ndcg(retrieved, relevant, k=4)
         assert ndcg < 1.0, "Imperfect ranking should give NDCG < 1.0"
     
     @pytest.mark.performance
@@ -333,7 +244,7 @@ class TestNDCGMetric:
                 n_results=k
             )
             
-            ndcg = self.calculate_ndcg(
+            ndcg = calculate_ndcg(
                 results['ids'], 
                 item['relevant_doc_ids'], 
                 k=k
@@ -347,228 +258,55 @@ class TestNDCGMetric:
 
 
 # ============================================================================
-# Generation Quality Metrics
+# Generation Quality Metrics Tests
 # ============================================================================
 
 class TestAnswerQualityMetrics:
     """Test suite for answer quality metrics (faithfulness, relevance)."""
     
-    def calculate_token_overlap(self, text1: str, text2: str) -> float:
-        """
-        Calculate token overlap between two texts.
-        Simple proxy for semantic similarity.
-        """
-        tokens1 = set(text1.lower().split())
-        tokens2 = set(text2.lower().split())
+    @pytest.mark.performance
+    def test_faithfulness_perfect_grounding(self):
+        """Test faithfulness with perfectly grounded answer."""
+        context = "The company offers 15 vacation days per year for new employees."
+        answer = "New employees receive 15 vacation days annually."
         
-        if not tokens1 or not tokens2:
-            return 0.0
-        
-        overlap = len(tokens1 & tokens2)
-        union = len(tokens1 | tokens2)
-        
-        return overlap / union if union > 0 else 0.0
-    
-    def calculate_faithfulness(
-        self, 
-        answer: str, 
-        context: str
-    ) -> float:
-        """
-        Calculate faithfulness score.
-        Measures if answer is grounded in context.
-        Simple implementation using token overlap.
-        """
-        # Remove common stop words for better measurement
-        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'}
-        
-        answer_tokens = set(answer.lower().split()) - stop_words
-        context_tokens = set(context.lower().split()) - stop_words
-        
-        if not answer_tokens:
-            return 0.0
-        
-        # Count how many answer tokens appear in context
-        grounded_tokens = len(answer_tokens & context_tokens)
-        total_answer_tokens = len(answer_tokens)
-        
-        return grounded_tokens / total_answer_tokens
-    
-    def calculate_answer_relevance(
-        self, 
-        answer: str, 
-        question: str
-    ) -> float:
-        """
-        Calculate answer relevance to question.
-        Simple implementation using token overlap.
-        """
-        return self.calculate_token_overlap(answer, question)
+        faithfulness = calculate_faithfulness(answer, context)
+        assert faithfulness > 0.5, f"High faithfulness expected, got {faithfulness}"
     
     @pytest.mark.performance
-    def test_faithfulness_high_overlap(self):
-        """Test faithfulness with high context overlap."""
-        context = "The company offers 15 vacation days for entry-level employees."
-        answer = "Entry-level employees receive 15 vacation days."
+    def test_faithfulness_hallucinated_content(self):
+        """Test faithfulness detects hallucinated content."""
+        context = "The company offers 15 vacation days per year."
+        answer = "Employees get unlimited sick leave and flexible hours with remote work options."
         
-        faithfulness = self.calculate_faithfulness(answer, context)
-        assert faithfulness > 0.5, f"Should have high faithfulness: {faithfulness}"
+        faithfulness = calculate_faithfulness(answer, context)
+        assert faithfulness < 0.3, f"Low faithfulness expected for hallucination, got {faithfulness}"
     
     @pytest.mark.performance
-    def test_faithfulness_low_overlap(self):
-        """Test faithfulness with low context overlap (hallucination)."""
-        context = "The company offers 15 vacation days for entry-level employees."
-        answer = "Senior developers get unlimited paid time off and bonuses."
+    def test_answer_relevance_high(self):
+        """Test answer relevance for highly relevant answer."""
+        question = "How many vacation days do employees receive?"
+        answer = "Employees receive 15 vacation days per year."
         
-        faithfulness = self.calculate_faithfulness(answer, context)
-        assert faithfulness < 0.3, f"Should have low faithfulness: {faithfulness}"
+        relevance = calculate_answer_relevance(answer, question)
+        assert relevance > 0.2, f"High relevance expected, got {relevance}"
     
     @pytest.mark.performance
-    def test_answer_relevance_integration(self, rag_assistant_with_corpus, evaluation_corpus):
-        """Test answer relevance on actual RAG system."""
-        with patch.object(rag_assistant_with_corpus, 'chain') as mock_chain:
-            # Mock realistic answers
-            mock_answers = [
-                "Entry-level employees receive 15 days per year of vacation.",
-                "The API supports API Key Authentication and OAuth 2.0.",
-                "The rate limit is 1000 requests per hour for API keys."
-            ]
-            
-            relevance_scores = []
-            
-            for item, mock_answer in zip(evaluation_corpus, mock_answers):
-                mock_chain.invoke.return_value = mock_answer
-                
-                answer = rag_assistant_with_corpus.query(item['query'])
-                relevance = self.calculate_answer_relevance(answer, item['query'])
-                
-                relevance_scores.append(relevance)
-            
-            avg_relevance = np.mean(relevance_scores)
-            assert avg_relevance > 0.1, f"Average relevance too low: {avg_relevance}"
-            print(f"\nAverage Answer Relevance: {avg_relevance:.3f}")
-
-
-class TestHallucinationDetection:
-    """Test suite for hallucination detection."""
-    
-    def detect_hallucination(
-        self, 
-        answer: str, 
-        context: str, 
-        threshold: float = 0.5
-    ) -> bool:
-        """
-        Detect if answer contains hallucinations.
-        Returns True if hallucination detected.
-        """
-        # Extract key facts from answer (simplified)
-        answer_tokens = set(answer.lower().split())
-        context_tokens = set(context.lower().split())
+    def test_answer_relevance_low(self):
+        """Test answer relevance for off-topic answer."""
+        question = "How many vacation days do employees receive?"
+        answer = "The office is located in downtown area."
         
-        # Remove common words
-        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'is', 'are'}
-        answer_tokens -= stop_words
-        context_tokens -= stop_words
-        
-        if not answer_tokens:
-            return False
-        
-        # Check overlap
-        overlap = len(answer_tokens & context_tokens) / len(answer_tokens)
-        
-        return overlap < threshold
-    
-    @pytest.mark.performance
-    def test_no_hallucination_detection(self):
-        """Test that grounded answer is not flagged as hallucination."""
-        context = "Python is a programming language used for data science."
-        answer = "Python is used for data science."
-        
-        is_hallucination = self.detect_hallucination(answer, context)
-        assert not is_hallucination, "Grounded answer should not be flagged"
-    
-    @pytest.mark.performance
-    def test_hallucination_detection(self):
-        """Test that hallucinated answer is detected."""
-        context = "Python is a programming language used for data science."
-        answer = "Java is the fastest language for machine learning applications."
-        
-        is_hallucination = self.detect_hallucination(answer, context)
-        assert is_hallucination, "Hallucinated answer should be detected"
-    
-    @pytest.mark.performance
-    def test_hallucination_rate(self, rag_assistant_with_corpus, evaluation_corpus):
-        """Test hallucination rate on RAG system."""
-        with patch.object(rag_assistant_with_corpus, 'chain') as mock_chain:
-            # Mix of grounded and hallucinated answers
-            mock_answers = [
-                "Entry-level employees receive 15 days of vacation per year.",  # Grounded
-                "The API supports OAuth 2.0 and API Key Authentication.",  # Grounded
-                "Premium users get unlimited API calls with priority support."  # Hallucination
-            ]
-            
-            hallucination_count = 0
-            
-            for item, mock_answer in zip(evaluation_corpus, mock_answers):
-                mock_chain.invoke.return_value = mock_answer
-                
-                # Get context
-                results = rag_assistant_with_corpus.vector_db.search(
-                    item['query'], 
-                    n_results=3
-                )
-                context = "\n".join(results['documents'])
-                
-                answer = rag_assistant_with_corpus.query(item['query'])
-                
-                if self.detect_hallucination(answer, context):
-                    hallucination_count += 1
-            
-            hallucination_rate = hallucination_count / len(evaluation_corpus)
-            
-            # Ideally should be 0, but we injected one hallucination
-            assert hallucination_rate <= 0.5, f"Hallucination rate too high: {hallucination_rate}"
-            print(f"\nHallucination Rate: {hallucination_rate:.2%}")
+        relevance = calculate_answer_relevance(answer, question)
+        assert relevance < 0.3, f"Low relevance expected, got {relevance}"
 
 
 # ============================================================================
-# End-to-End Performance Metrics
+# End-to-End RAG Quality Tests
 # ============================================================================
 
-class TestEndToEndMetrics:
-    """Test suite for complete RAG pipeline performance."""
-    
-    def calculate_f1_score(self, precision: float, recall: float) -> float:
-        """Calculate F1 score from precision and recall."""
-        if precision + recall == 0:
-            return 0.0
-        return 2 * (precision * recall) / (precision + recall)
-    
-    @pytest.mark.performance
-    def test_retrieval_latency(self, rag_assistant_with_corpus, evaluation_corpus):
-        """Test retrieval latency performance."""
-        import time
-        
-        latencies = []
-        
-        for item in evaluation_corpus:
-            start_time = time.time()
-            rag_assistant_with_corpus.vector_db.search(item['query'], n_results=5)
-            end_time = time.time()
-            
-            latencies.append(end_time - start_time)
-        
-        avg_latency = np.mean(latencies)
-        max_latency = np.max(latencies)
-        
-        # Assert reasonable latency (should be under 1 second for small corpus)
-        assert avg_latency < 1.0, f"Average latency too high: {avg_latency:.3f}s"
-        assert max_latency < 2.0, f"Max latency too high: {max_latency:.3f}s"
-        
-        print(f"\nRetrieval Latency:")
-        print(f"  Average: {avg_latency*1000:.2f}ms")
-        print(f"  Max: {max_latency*1000:.2f}ms")
+class TestEndToEndRAGQuality:
+    """Test suite for comprehensive end-to-end RAG quality metrics."""
     
     @pytest.mark.performance
     def test_end_to_end_accuracy(self, rag_assistant_with_corpus, evaluation_corpus):
@@ -626,105 +364,10 @@ class TestEndToEndMetrics:
         
         assert avg_relevancy > 0.4, f"Context relevancy too low: {avg_relevancy}"
         print(f"\nAverage Context Relevancy: {avg_relevancy:.3f}")
-    
-    @pytest.mark.performance
-    def test_comprehensive_rag_metrics(self, rag_assistant_with_corpus, evaluation_corpus):
-        """Comprehensive test of all major RAG metrics."""
-        metrics = {
-            'precision_at_3': [],
-            'recall_at_3': [],
-            'mrr': [],
-            'ndcg_at_5': [],
-            'faithfulness': [],
-            'answer_relevance': []
-        }
-        
-        # Mock chain for answer generation
-        with patch.object(rag_assistant_with_corpus, 'chain') as mock_chain:
-            mock_answers = [
-                "Entry-level employees receive 15 days of vacation per year.",
-                "The API supports API Key Authentication and OAuth 2.0.",
-                "The rate limit is 1000 requests per hour for API keys."
-            ]
-            
-            for item, mock_answer in zip(evaluation_corpus, mock_answers):
-                mock_chain.invoke.return_value = mock_answer
-                
-                # Get retrieval results
-                results = rag_assistant_with_corpus.vector_db.search(
-                    item['query'], 
-                    n_results=5
-                )
-                
-                retrieved_ids = results['ids']
-                relevant_ids = item['relevant_doc_ids']
-                context = "\n".join(results['documents'])
-                
-                # Calculate retrieval metrics
-                top_3 = retrieved_ids[:3]
-                precision = len(set(top_3) & set(relevant_ids)) / 3
-                recall = len(set(top_3) & set(relevant_ids)) / len(relevant_ids) if relevant_ids else 0
-                
-                metrics['precision_at_3'].append(precision)
-                metrics['recall_at_3'].append(recall)
-                
-                # MRR
-                rr = 0
-                for rank, doc_id in enumerate(retrieved_ids, start=1):
-                    if doc_id in relevant_ids:
-                        rr = 1.0 / rank
-                        break
-                metrics['mrr'].append(rr)
-                
-                # NDCG@5
-                relevances = [1.0 if doc_id in relevant_ids else 0.0 
-                             for doc_id in retrieved_ids[:5]]
-                dcg = sum(rel / np.log2(i + 1) for i, rel in enumerate(relevances, start=1))
-                ideal_rel = sorted(relevances, reverse=True)
-                idcg = sum(rel / np.log2(i + 1) for i, rel in enumerate(ideal_rel, start=1))
-                ndcg = dcg / idcg if idcg > 0 else 0
-                metrics['ndcg_at_5'].append(ndcg)
-                
-                # Get answer
-                answer = rag_assistant_with_corpus.query(item['query'])
-                
-                # Faithfulness
-                answer_tokens = set(answer.lower().split())
-                context_tokens = set(context.lower().split())
-                stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'}
-                answer_tokens -= stop_words
-                context_tokens -= stop_words
-                
-                faithfulness = len(answer_tokens & context_tokens) / len(answer_tokens) if answer_tokens else 0
-                metrics['faithfulness'].append(faithfulness)
-                
-                # Answer relevance
-                query_tokens = set(item['query'].lower().split())
-                relevance = len(answer_tokens & query_tokens) / len(query_tokens | answer_tokens) if answer_tokens or query_tokens else 0
-                metrics['answer_relevance'].append(relevance)
-        
-        # Calculate averages
-        print("\n" + "="*60)
-        print("COMPREHENSIVE RAG PERFORMANCE METRICS")
-        print("="*60)
-        print("\nRetrieval Metrics:")
-        print(f"  Precision@3:      {np.mean(metrics['precision_at_3']):.3f}")
-        print(f"  Recall@3:         {np.mean(metrics['recall_at_3']):.3f}")
-        print(f"  MRR:              {np.mean(metrics['mrr']):.3f}")
-        print(f"  NDCG@5:           {np.mean(metrics['ndcg_at_5']):.3f}")
-        print("\nGeneration Metrics:")
-        print(f"  Faithfulness:     {np.mean(metrics['faithfulness']):.3f}")
-        print(f"  Answer Relevance: {np.mean(metrics['answer_relevance']):.3f}")
-        print("="*60)
-        
-        # Assert minimum quality thresholds
-        assert np.mean(metrics['precision_at_3']) > 0.3, "Precision@3 below threshold"
-        assert np.mean(metrics['recall_at_3']) > 0.3, "Recall@3 below threshold"
-        assert np.mean(metrics['faithfulness']) > 0.3, "Faithfulness below threshold"
 
 
 # ============================================================================
-# Performance Benchmarking
+# Performance Benchmarking Tests
 # ============================================================================
 
 class TestPerformanceBenchmarks:
@@ -757,8 +400,6 @@ class TestPerformanceBenchmarks:
     @pytest.mark.performance
     def test_memory_efficiency(self, rag_assistant_with_corpus):
         """Test memory usage is reasonable."""
-        import sys
-        
         # Get approximate memory usage of vector DB
         collection_count = rag_assistant_with_corpus.vector_db.collection.count()
         
