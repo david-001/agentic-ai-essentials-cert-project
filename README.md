@@ -34,7 +34,7 @@
 
 ## 📋 Project Summary
 
-An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers based on your own document collection. Built as part of the Agentic AI Essentials certification program, this assistant combines semantic search with large language models to create a personalized knowledge base that you can query in natural language.
+An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers based on your own document collection. Built as part of the [Ready Tensor Agentic AI Essentials certification program](https://www.readytensor.ai/agentic-ai-essentials-cert/), this assistant combines semantic search with large language models to create a personalized knowledge base that you can query in natural language.
 
 **Key Capabilities:**
 - 🔍 Semantic document search using vector embeddings
@@ -182,7 +182,6 @@ agentic-ai-essentials-cert-project/
 - 🤖 **Multi-LLM Support**: Works with OpenAI, Groq, or Google Gemini
 - 🔄 **Smart Chunking**: Uses RecursiveCharacterTextSplitter for context preservation
 - ⚙️ **YAML Configuration**: Easy-to-edit configuration file
-- 🎯 **Reproducible Results**: Fixed random seed for consistent behavior
 - 🧪 **Comprehensive Testing**: Unit, integration, and quality tests
 - 📊 **Performance Monitoring**: Built-in metrics and reporting with performance_reporter.py
 - 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
@@ -215,7 +214,7 @@ cd agentic-ai-essentials-cert-project
 
 **On macOS/Linux:**
 ```bash
-python3 -m venv venv
+python -m venv venv
 source venv/bin/activate
 ```
 
@@ -397,7 +396,7 @@ Try these questions with the sample documents:
 **API Documentation:**
 - "What's the API rate limit for the Professional plan?"
 - "How do I authenticate with the API?"
-- "What are the rate limits?"
+- "How do webhooks work?"
 
 **Product Information:**
 - "What pricing plans are available?"
@@ -617,7 +616,7 @@ To add custom tests:
 1. Create a new file in `tests/` following the `test_*.py` pattern
 2. Use pytest fixtures from existing tests
 3. Add appropriate markers: `@pytest.mark.unit`, `@pytest.mark.integration`, etc.
-4. Run your new tests: `pytest tests/your_test_file.py -v`
+4. Run your new tests: `pytest tests/your_test_file.py`
 
 Example test structure:
 ```python
@@ -650,7 +649,7 @@ def test_full_pipeline():
   ```bash
   OPENAI_API_KEY=sk-your-key-here
   ```
-- Remove placeholder text like `your_key_here`
+- Remove placeholder text like `sk-your-key-here`
 - Ensure no spaces around the `=` sign
 - **Never commit `.env` to version control**
 
@@ -687,7 +686,7 @@ pip install --force-reinstall -r requirements.txt
 - Python 3.10 or 3.11 recommended
 - Create fresh virtual environment with correct Python version:
   ```bash
-  python3.10 -m venv venv
+  python -m venv venv
   source venv/bin/activate
   pip install -r requirements.txt
   ```
@@ -714,13 +713,6 @@ pytest tests/test_name.py::test_function
 # Check test dependencies are installed
 pip install pytest pytest-cov
 ```
-
-### Getting Help
-
-- Check the configuration: `python src/config.py`
-- Verify API key (Check in .env)
-- Check Python version: `python --version`
-- Reinstall dependencies: `pip install --force-reinstall -r requirements.txt`
 
 ---
 
@@ -825,7 +817,7 @@ Contributions are welcome! Here's how to contribute:
 
 ```bash
 # ===== Setup =====
-python3 -m venv venv
+python -m venv venv
 source venv/bin/activate          # Linux/Mac
 venv\Scripts\activate             # Windows
 pip install -r requirements.txt
