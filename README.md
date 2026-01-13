@@ -13,7 +13,7 @@
   - [Technical Approach](#technical-approach)
 - [Repository Structure](#-repository-structure)
 - [Features](#-features)
-- [Code Quality & Architecture](#️-code-quality--architecture)
+- [Code Architecture](#️-code-architecture)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -54,7 +54,7 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 
 ### What This Project Does
 
-This RAG assistant solves a common problem: **how to make AI understand and answer questions about YOUR specific documents**. Unlike general-purpose chatbots that only know information from their training data, this system:
+This RAG assistant solves a common problem: **How to make AI understand and answer questions about YOUR specific documents**. Unlike general-purpose chatbots that only know information from their training data, this system:
 
 1. **Ingests** your documents (company policies, research papers, documentation, etc.)
 2. **Indexes** them using semantic embeddings for intelligent search
@@ -127,8 +127,8 @@ agentic-ai-essentials-cert-project/
 │
 ├── src/                          # Source code directory
 │   ├── app.py                    # Main application with RAG pipeline
-│   ├── vectordb.py               # Vector database wrapper for ChromaDB
-│   └── config.py                 # Configuration loader (loads from YAML)
+│   ├── config.py                 # Configuration loader (loads from YAML)
+│   └── vectordb.py               # Vector database wrapper for ChromaDB
 │
 ├── config/                       # Configuration directory
 │   └── config.yaml              # YAML configuration file (edit settings here)
@@ -141,15 +141,16 @@ agentic-ai-essentials-cert-project/
 │   └── security_compliance.md   # Sample: Security docs
 │
 ├── tests/                        # Comprehensive test suite
+│   ├── conftest.py # 
+│   ├── generation_test_helpers.py # Generation test helpers
+│   ├── metrics_utils.py         # Metric calculation utilities
+│   ├── performance_reporter.py   # Metrics reporting utility
+│   ├── report_formatters.py     # Report formatting utilities
 │   ├── test_app.py              # Integration tests
-│   ├── test_vectordb.py         # Vector database tests
+│   ├── test_generation_quality.py # Answer quality tests
+│   ├── test_performance_metrics.py # Performance benchmarks
 │   ├── test_retrieval_quality.py # Retrieval performance tests
-│   ├── test_generation_quality.py # Answer quality tests (refactored)
-│   ├── test_performance_metrics.py # Performance benchmarks (refactored)
-│   ├── performance_reporter.py   # Metrics reporting utility (refactored)
-│   ├── metrics_utils.py         # Metric calculation utilities (NEW)
-│   ├── report_formatters.py     # Report formatting utilities (NEW)
-│   └── generation_test_helpers.py # Generation test helpers (NEW)
+│   └── test_vectordb.py         # Vector database tests
 │
 ├── requirements.txt              # Python dependencies
 ├── pytest.ini                   # Test configuration
@@ -200,11 +201,7 @@ agentic-ai-essentials-cert-project/
 
 ---
 
-## 🏗️ Code Quality & Architecture
-
-### Recent Improvements (January 2025)
-
-This project has undergone significant refactoring to improve code quality, maintainability, and test reliability:
+## 🏗️ Code Architecture
 
 #### ✅ Modular Test Architecture
 - **Separated Concerns**: Test logic split into focused utility modules
@@ -533,6 +530,7 @@ pytest
 ```bash
 pytest -v
 ```
+</details>
 
 **Run specific test categories:**
 ```bash
@@ -837,7 +835,7 @@ This project uses the following excellent open-source libraries:
 - **[Google Gemini API](https://ai.google.dev/)** - Gemini models
 - **[Pytest](https://pytest.org/)** - Testing framework
 
-Special thanks to the **Agentic AI Essentials Certification Program** for the learning framework and project structure.
+Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program](https://www.readytensor.ai/agentic-ai-essentials-cert/).
 
 ---
 
