@@ -148,30 +148,30 @@ agentic-ai-essentials-cert-project/
 │   └── vectordb.py               # Vector database wrapper for ChromaDB
 │
 ├── config/                       # Configuration directory
-│   └── config.yaml              # YAML configuration file (edit settings here)
+│   └── config.yaml               # YAML configuration file (edit settings here)
 │
 ├── data/                         # Document collection
-│   ├── api_documentation.md     # Sample: API documentation
-│   ├── company_policies.md      # Sample: HR policies
-│   ├── customer_faq.md          # Sample: FAQ
-│   ├── product_documentation.md # Sample: Product info
-│   └── security_compliance.md   # Sample: Security docs
+│   ├── api_documentation.md      # Sample: API documentation
+│   ├── company_policies.md       # Sample: HR policies
+│   ├── customer_faq.md           # Sample: FAQ
+│   ├── product_documentation.md  # Sample: Product info
+│   └── security_compliance.md    # Sample: Security docs
 │
-├── tests/                        # Comprehensive test suite
-│   ├── conftest.py # 
-│   ├── generation_test_helpers.py # Generation test helpers
-│   ├── metrics_utils.py         # Metric calculation utilities
-│   ├── performance_reporter.py   # Metrics reporting utility
-│   ├── report_formatters.py     # Report formatting utilities
-│   ├── test_app.py              # Integration tests
-│   ├── test_generation_quality.py # Answer quality tests
+├── tests/                          # Comprehensive test suite
+│   ├── conftest.py                 # Pytest configuration and shared fixtures
+│   ├── generation_test_helpers.py  # Generation test helpers
+│   ├── metrics_utils.py            # Metric calculation utilities
+│   ├── performance_reporter.py     # Metrics reporting utility
+│   ├── report_formatters.py        # Report formatting utilities
+│   ├── test_app.py                 # Integration tests
+│   ├── test_generation_quality.py  # Answer quality tests
 │   ├── test_performance_metrics.py # Performance benchmarks
-│   ├── test_retrieval_quality.py # Retrieval performance tests
-│   └── test_vectordb.py         # Vector database tests
+│   ├── test_retrieval_quality.py   # Retrieval performance tests
+│   └── test_vectordb.py            # Vector database tests
 │
 ├── requirements.txt              # Python dependencies
-├── pytest.ini                   # Test configuration
-├── .env                         # Environment variables (API keys) - DO NOT COMMIT
+├── pytest.ini                    # Test configuration
+├── .env                          # Environment variables (API keys) - DO NOT COMMIT
 ├── .env.example                 # Example environment file (safe to share)
 ├── .gitignore                   # Git ignore rules
 ├── LICENSE                      # MIT License
@@ -187,15 +187,16 @@ agentic-ai-essentials-cert-project/
 | `src/app.py` | Main application entry point | Add features, modify prompt template |
 | `src/vectordb.py` | Handles chunking, embedding, search | Adjust embedding logic |
 | `src/config.py` | Loads configuration from YAML | Rarely (handles loading automatically) |
-| `config/config.yaml` | **Main configuration file** | **Change settings here** |
+| `config/config.yaml` | Main configuration file | Change settings here |
 | `.env` | API keys and secrets | Set your API keys here |
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/` | Comprehensive test suite | Extend with new tests |
-| `tests/performance_reporter.py` | **Performance metrics calculator** | Use for generating evaluation reports |
-| `tests/metrics_utils.py` | **Metric calculation utilities** | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
-| `tests/report_formatters.py` | **Report formatting utilities** | Markdown/CSV/JSON report generation |
-| `tests/generation_test_helpers.py` | **Generation test helpers** | Helper functions for quality testing |
+| `tests/conftest.py` | Pytest configuration and shared fixtures | Add new fixtures or test markers |
+| `tests/performance_reporter.py` | Performance metrics calculator | Use for generating evaluation reports |
+| `tests/metrics_utils.py` | Metric calculation utilities | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
+| `tests/report_formatters.py` | Report formatting utilities | Markdown/CSV/JSON report generation |
+| `tests/generation_test_helpers.py` | Generation test helpers | Helper functions for quality testing |
 | `pytest.ini` | Test runner configuration | Modify test settings |
 
 ---
@@ -229,6 +230,7 @@ agentic-ai-essentials-cert-project/
 
 | Module | Purpose | Key Functions |
 |--------|---------|---------------|
+| `conftest.py` | Pytest configuration and shared fixtures | `reset_random_seeds()`, `test_data_directory()`, `temp_output_directory()` |
 | `metrics_utils.py` | Metric calculations | `calculate_precision_at_k()`, `calculate_recall_at_k()`, `calculate_mrr()`, `calculate_ndcg()`, `calculate_faithfulness()` |
 | `report_formatters.py` | Report generation | `format_markdown_report()`, `get_status()`, `get_status_emoji()` |
 | `generation_test_helpers.py` | Test helpers | `generate_answer_quality_report()`, `check_refusal_phrases()` |
