@@ -13,6 +13,7 @@
   - [Technical Approach](#technical-approach)
 - [Repository Structure](#-repository-structure)
 - [Features](#-features)
+- [Code Quality & Architecture](#️-code-quality--architecture)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -143,12 +144,12 @@ agentic-ai-essentials-cert-project/
 │   ├── test_app.py              # Integration tests
 │   ├── test_vectordb.py         # Vector database tests
 │   ├── test_retrieval_quality.py # Retrieval performance tests
-│   ├── test_generation_quality.py # Answer quality tests
-│   ├── test_performance_metrics.py # Performance benchmarks
-│   ├── performance_reporter.py   # Metrics reporting utility
-│   ├── metrics_utils.py         # Metric calculation utilities
-│   ├── report_formatters.py     # Report formatting utilities
-│   └── generation_test_helpers.py # Generation test helpers
+│   ├── test_generation_quality.py # Answer quality tests (refactored)
+│   ├── test_performance_metrics.py # Performance benchmarks (refactored)
+│   ├── performance_reporter.py   # Metrics reporting utility (refactored)
+│   ├── metrics_utils.py         # Metric calculation utilities (NEW)
+│   ├── report_formatters.py     # Report formatting utilities (NEW)
+│   └── generation_test_helpers.py # Generation test helpers (NEW)
 │
 ├── requirements.txt              # Python dependencies
 ├── pytest.ini                   # Test configuration
@@ -173,10 +174,10 @@ agentic-ai-essentials-cert-project/
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/` | Comprehensive test suite | Extend with new tests |
-| `tests/performance_reporter.py` | Performance metrics calculator | Use for generating evaluation reports |
-| `tests/metrics_utils.py` | Metric calculation utilities | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
-| `tests/report_formatters.py` | Report formatting utilities | Markdown/CSV/JSON report generation |
-| `tests/generation_test_helpers.py` | Generation test helpers | Helper functions for quality testing |
+| `tests/performance_reporter.py` | **Performance metrics calculator** | Use for generating evaluation reports |
+| `tests/metrics_utils.py` | **Metric calculation utilities** | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
+| `tests/report_formatters.py` | **Report formatting utilities** | Markdown/CSV/JSON report generation |
+| `tests/generation_test_helpers.py` | **Generation test helpers** | Helper functions for quality testing |
 | `pytest.ini` | Test runner configuration | Modify test settings |
 
 ---
@@ -194,6 +195,40 @@ agentic-ai-essentials-cert-project/
 - 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
 - 📄 **Multiple Performance Report Formats**: JSON, CSV, and Markdown exports
 - 🔐 **Environment-based Secrets**: Secure API key management
+- 🏗️ **Modular Test Architecture**: Refactored tests with utility modules for better maintainability
+- 🎲 **Reproducible Tests**: Explicit random seed setting for consistent test results
+
+---
+
+## 🏗️ Code Quality & Architecture
+
+### Recent Improvements (January 2025)
+
+This project has undergone significant refactoring to improve code quality, maintainability, and test reliability:
+
+#### ✅ Modular Test Architecture
+- **Separated Concerns**: Test logic split into focused utility modules
+- **Reusable Components**: Core metrics and formatting functions extracted for reuse
+- **Reduced File Complexity**: All test files now under 500 lines for better readability
+
+#### 📦 New Utility Modules
+
+| Module | Purpose | Key Functions |
+|--------|---------|---------------|
+| `metrics_utils.py` | Metric calculations | `calculate_precision_at_k()`, `calculate_recall_at_k()`, `calculate_mrr()`, `calculate_ndcg()`, `calculate_faithfulness()` |
+| `report_formatters.py` | Report generation | `format_markdown_report()`, `get_status()`, `get_status_emoji()` |
+| `generation_test_helpers.py` | Test helpers | `generate_answer_quality_report()`, `check_refusal_phrases()` |
+
+#### 🎲 Reproducible Testing
+- **Explicit Random Seeds**: All test files set `random.seed(42)` and `np.random.seed(42)`
+- **Consistent Results**: Tests produce identical results across runs
+- **Better Debugging**: Reproducibility aids in issue diagnosis
+
+#### 📊 Benefits
+- **Easier Maintenance**: Smaller, focused modules are easier to understand and modify
+- **Better Testing**: Individual utility functions can be tested in isolation
+- **Code Reuse**: Metrics functions can be imported across different test files
+- **Cleaner Codebase**: Reduced duplication and improved organization
 
 ---
 
@@ -899,4 +934,5 @@ du -sh chroma_db/                # Check database size
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: January 13, 2025*
+*Recent Updates: Code refactoring for improved maintainability and test reproducibility*

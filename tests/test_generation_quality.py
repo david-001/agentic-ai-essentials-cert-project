@@ -2,6 +2,8 @@
 Generation Quality Tests for RAG System.
 Tests evaluate the quality of generated answers including accuracy, hallucination detection,
 context adherence, and response formatting.
+
+Note: Random seeds are managed by conftest.py fixture for reproducibility.
 """
 
 import pytest
@@ -11,10 +13,6 @@ import numpy as np
 import random
 from unittest.mock import patch, MagicMock
 import re
-
-# Set random seeds for reproducibility
-np.random.seed(42)
-random.seed(42)
 
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
