@@ -12,7 +12,13 @@
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
 - [Repository Structure](#-repository-structure)
+  - [Key Files Explained](#key-files-explained)
 - [Features](#-features)
+- [Code Architecture](#️-code-architecture)
+  - [Modular Test Architecture](#-modular-test-architecture)
+  - [Utility Modules](#-utility-modules)
+  - [Reproducible Testing](#-reproducible-testing)
+  - [Benefits](#-benefits)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -22,14 +28,26 @@
   - [Example Session](#example-session)
   - [Example Questions](#example-questions)
 - [Configuration](#️-configuration)
+  - [YAML Configuration](#yaml-configuration)
+  - [After Changing Configuration](#after-changing-configuration)
 - [Testing](#-testing)
   - [Test Categories](#test-categories)
   - [Running Tests](#running-tests)
   - [Performance Metrics](#performance-metrics)
 - [Troubleshooting](#-troubleshooting)
+  - [Common Issues and Solutions](#common-issues-and-solutions)
+  - [Limitations](#limitations)
+- [Additional Resources](#-additional-resources)
+  - [Official Documentation](#official-documentation)
+  - [Learning Resources](#learning-resources)
+- [Quick Reference](#-quick-reference)
+  - [Common Commands](#common-commands)
 - [License](#-license)
+  - [What This Means](#what-this-means)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
+  - [Getting Help](#getting-help)
+  - [Contributing](#contributing)
 
 ---
 
@@ -53,7 +71,7 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 
 ### What This Project Does
 
-This RAG assistant solves a common problem: **how to make AI understand and answer questions about YOUR specific documents**. Unlike general-purpose chatbots that only know information from their training data, this system:
+This RAG assistant solves a common problem: **How to make AI understand and answer questions about YOUR specific documents**. Unlike general-purpose chatbots that only know information from their training data, this system:
 
 1. **Ingests** your documents (company policies, research papers, documentation, etc.)
 2. **Indexes** them using semantic embeddings for intelligent search
@@ -126,33 +144,34 @@ agentic-ai-essentials-cert-project/
 │
 ├── src/                          # Source code directory
 │   ├── app.py                    # Main application with RAG pipeline
-│   ├── vectordb.py               # Vector database wrapper for ChromaDB
-│   └── config.py                 # Configuration loader (loads from YAML)
+│   ├── config.py                 # Configuration loader (loads from YAML)
+│   └── vectordb.py               # Vector database wrapper for ChromaDB
 │
 ├── config/                       # Configuration directory
-│   └── config.yaml              # YAML configuration file (edit settings here)
+│   └── config.yaml               # YAML configuration file (edit settings here)
 │
 ├── data/                         # Document collection
-│   ├── api_documentation.md     # Sample: API documentation
-│   ├── company_policies.md      # Sample: HR policies
-│   ├── customer_faq.md          # Sample: FAQ
-│   ├── product_documentation.md # Sample: Product info
-│   └── security_compliance.md   # Sample: Security docs
+│   ├── api_documentation.md      # Sample: API documentation
+│   ├── company_policies.md       # Sample: HR policies
+│   ├── customer_faq.md           # Sample: FAQ
+│   ├── product_documentation.md  # Sample: Product info
+│   └── security_compliance.md    # Sample: Security docs
 │
-├── tests/                        # Comprehensive test suite
-│   ├── test_app.py              # Integration tests
-│   ├── test_vectordb.py         # Vector database tests
-│   ├── test_retrieval_quality.py # Retrieval performance tests
-│   ├── test_generation_quality.py # Answer quality tests
+├── tests/                          # Comprehensive test suite
+│   ├── conftest.py                 # Pytest configuration and shared fixtures
+│   ├── generation_test_helpers.py  # Generation test helpers
+│   ├── metrics_utils.py            # Metric calculation utilities
+│   ├── performance_reporter.py     # Metrics reporting utility
+│   ├── report_formatters.py        # Report formatting utilities
+│   ├── test_app.py                 # Integration tests
+│   ├── test_generation_quality.py  # Answer quality tests
 │   ├── test_performance_metrics.py # Performance benchmarks
-│   ├── performance_reporter.py   # Metrics reporting utility
-│   ├── metrics_utils.py         # Metric calculation utilities
-│   ├── report_formatters.py     # Report formatting utilities
-│   └── generation_test_helpers.py # Generation test helpers
+│   ├── test_retrieval_quality.py   # Retrieval performance tests
+│   └── test_vectordb.py            # Vector database tests
 │
 ├── requirements.txt              # Python dependencies
-├── pytest.ini                   # Test configuration
-├── .env                         # Environment variables (API keys) - DO NOT COMMIT
+├── pytest.ini                    # Test configuration
+├── .env                          # Environment variables (API keys) - DO NOT COMMIT
 ├── .env.example                 # Example environment file (safe to share)
 ├── .gitignore                   # Git ignore rules
 ├── LICENSE                      # MIT License
@@ -168,11 +187,12 @@ agentic-ai-essentials-cert-project/
 | `src/app.py` | Main application entry point | Add features, modify prompt template |
 | `src/vectordb.py` | Handles chunking, embedding, search | Adjust embedding logic |
 | `src/config.py` | Loads configuration from YAML | Rarely (handles loading automatically) |
-| `config/config.yaml` | **Main configuration file** | **Change settings here** |
+| `config/config.yaml` | Main configuration file | Change settings here |
 | `.env` | API keys and secrets | Set your API keys here |
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/` | Comprehensive test suite | Extend with new tests |
+| `tests/conftest.py` | Pytest configuration and shared fixtures | Add new fixtures or test markers |
 | `tests/performance_reporter.py` | Performance metrics calculator | Use for generating evaluation reports |
 | `tests/metrics_utils.py` | Metric calculation utilities | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
 | `tests/report_formatters.py` | Report formatting utilities | Markdown/CSV/JSON report generation |
@@ -194,6 +214,37 @@ agentic-ai-essentials-cert-project/
 - 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
 - 📄 **Multiple Performance Report Formats**: JSON, CSV, and Markdown exports
 - 🔐 **Environment-based Secrets**: Secure API key management
+- 🏗️ **Modular Test Architecture**: Refactored tests with utility modules for better maintainability
+- 🎲 **Reproducible Tests**: Explicit random seed setting for consistent test results
+
+---
+
+## 🏗️ Code Architecture
+
+### ✅ Modular Test Architecture
+- **Separated Concerns**: Test logic split into focused utility modules
+- **Reusable Components**: Core metrics and formatting functions extracted for reuse
+- **Reduced File Complexity**: All test files now under 500 lines for better readability
+
+### 📦 Utility Modules
+
+| Module | Purpose | Key Functions |
+|--------|---------|---------------|
+| `conftest.py` | Pytest configuration and shared fixtures | `reset_random_seeds()`, `test_data_directory()`, `temp_output_directory()` |
+| `metrics_utils.py` | Metric calculations | `calculate_precision_at_k()`, `calculate_recall_at_k()`, `calculate_mrr()`, `calculate_ndcg()`, `calculate_faithfulness()` |
+| `report_formatters.py` | Report generation | `format_markdown_report()`, `get_status()`, `get_status_emoji()` |
+| `generation_test_helpers.py` | Test helpers | `generate_answer_quality_report()`, `check_refusal_phrases()` |
+
+### 🎲 Reproducible Testing
+- **Explicit Random Seeds**: All test files set `random.seed(42)` and `np.random.seed(42)`
+- **Consistent Results**: Tests produce identical results across runs
+- **Better Debugging**: Reproducibility aids in issue diagnosis
+
+### 📊 Benefits
+- **Easier Maintenance**: Smaller, focused modules are easier to understand and modify
+- **Better Testing**: Individual utility functions can be tested in isolation
+- **Code Reuse**: Metrics functions can be imported across different test files
+- **Cleaner Codebase**: Reduced duplication and improved organization
 
 ---
 
@@ -419,7 +470,9 @@ Try these questions with the sample documents:
 
 ## ⚙️ Configuration
 
-### YAML Configuration (`config/config.yaml`)
+### YAML Configuration
+
+YAML Configuration (`config/config.yaml`)
 
 ```yaml
 # Embedding Model Configuration
@@ -498,6 +551,7 @@ pytest
 ```bash
 pytest -v
 ```
+</details>
 
 **Run specific test categories:**
 ```bash
@@ -802,7 +856,7 @@ This project uses the following excellent open-source libraries:
 - **[Google Gemini API](https://ai.google.dev/)** - Gemini models
 - **[Pytest](https://pytest.org/)** - Testing framework
 
-Special thanks to the **Agentic AI Essentials Certification Program** for the learning framework and project structure.
+Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program](https://www.readytensor.ai/agentic-ai-essentials-cert/).
 
 ---
 
@@ -899,4 +953,5 @@ du -sh chroma_db/                # Check database size
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: January 13, 2025*
+*Recent Updates: Code refactoring for improved maintainability and test reproducibility*

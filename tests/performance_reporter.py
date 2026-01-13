@@ -1,6 +1,8 @@
 """
 Performance Report Generator for RAG System.
 Generates detailed performance reports in JSON, CSV, and Markdown formats.
+
+Note: Random seeds are managed by conftest.py fixture for test reproducibility.
 """
 
 import json
@@ -11,10 +13,6 @@ import numpy as np
 import random
 from datetime import datetime
 from typing import Dict, List, Any
-
-# Set random seeds for reproducibility
-np.random.seed(42)
-random.seed(42)
 
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
