@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![LangChain](https://img.shields.io/badge/LangChain-Latest-green.svg)](https://python.langchain.com/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-1.4.1-orange.svg)](https://www.trychroma.com/)
 
 ## 📑 Table of Contents
 
@@ -11,14 +12,13 @@
   - [What This Project Does](#what-this-project-does)
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
+- [Key Features](#-key-features)
 - [Repository Structure](#-repository-structure)
   - [Key Files Explained](#key-files-explained)
-- [Features](#-features)
 - [Code Architecture](#️-code-architecture)
-  - [Modular Test Architecture](#-modular-test-architecture)
-  - [Utility Modules](#-utility-modules)
-  - [Reproducible Testing](#-reproducible-testing)
-  - [Benefits](#-benefits)
+  - [Core Components](#core-components)
+  - [Modular Test Architecture](#modular-test-architecture)
+  - [Benefits](#benefits)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -29,25 +29,20 @@
   - [Example Questions](#example-questions)
 - [Configuration](#️-configuration)
   - [YAML Configuration](#yaml-configuration)
-  - [After Changing Configuration](#after-changing-configuration)
+  - [Environment Variables](#environment-variables)
+  - [Supported LLM Providers](#supported-llm-providers)
 - [Testing](#-testing)
   - [Test Categories](#test-categories)
   - [Running Tests](#running-tests)
-  - [Performance Metrics](#performance-metrics)
+  - [RAG Evaluation Metrics](#rag-evaluation-metrics)
 - [Troubleshooting](#-troubleshooting)
   - [Common Issues and Solutions](#common-issues-and-solutions)
-  - [Limitations](#limitations)
+  - [Known Limitations](#known-limitations)
 - [Additional Resources](#-additional-resources)
-  - [Official Documentation](#official-documentation)
-  - [Learning Resources](#learning-resources)
 - [Quick Reference](#-quick-reference)
-  - [Common Commands](#common-commands)
 - [License](#-license)
-  - [What This Means](#what-this-means)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
-  - [Getting Help](#getting-help)
-  - [Contributing](#contributing)
 
 ---
 
@@ -63,7 +58,8 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 - 💾 Persistent vector storage with ChromaDB
 - ⚙️ YAML-based configuration for easy customization
 - 🔄 Intelligent text chunking with RecursiveCharacterTextSplitter
-- 🧪 Comprehensive test suite with performance metrics
+- 🧪 Comprehensive test suite with DeepEval quality metrics
+- 📊 Advanced RAG evaluation (Precision, Recall, MRR, NDCG, Faithfulness, Relevancy)
 
 ---
 
@@ -111,10 +107,10 @@ The system implements a complete RAG pipeline:
 
 **Step-by-Step Process:**
 
-1. **Document Loading**: Reads documents from the `data/` directory
+1. **Document Loading**: Reads `.txt` and `.md` files from the `data/` directory
 2. **Text Chunking**: Uses LangChain's RecursiveCharacterTextSplitter for intelligent chunking
 3. **Embedding Creation**: Converts text chunks to 384-dimensional vectors using sentence-transformers
-4. **Vector Storage**: Stores embeddings in ChromaDB for fast similarity search
+4. **Vector Storage**: Stores embeddings in ChromaDB with persistent local storage
 5. **Query Processing**: When you ask a question:
    - Your question is converted to a vector
    - System finds the most similar document chunks
@@ -137,6 +133,41 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 
 ---
 
+## 🌟 Key Features
+
+### Document Processing
+- 📚 **Automatic Loading**: Scans `data/` folder for `.txt` and `.md` files
+- 🔄 **Smart Chunking**: RecursiveCharacterTextSplitter preserves context across chunks
+- 💾 **Persistent Storage**: ChromaDB with local file-based persistence
+
+### Search & Retrieval
+- 🔍 **Semantic Search**: sentence-transformers/all-MiniLM-L6-v2 (384-dim embeddings)
+- 📊 **Configurable Results**: Retrieve top N most relevant chunks (default: 3)
+- 🎯 **High Precision**: Vector similarity ensures relevant context
+
+### LLM Integration
+- 🤖 **Multi-Provider Support**: 
+  - OpenAI (GPT-4o-mini)
+  - Groq (Llama-3.1-8b-instant)
+  - Google (Gemini-2.0-flash)
+- 🎛️ **Configurable Temperature**: Control response randomness via YAML
+- 🚫 **Hallucination Prevention**: Strict prompt constrains answers to provided context
+
+### Configuration & Flexibility
+- ⚙️ **YAML Configuration**: Edit `config/config.yaml` for easy customization
+- 🔐 **Secure API Keys**: Environment-based secrets via `.env` file
+- 📝 **Model Selection**: Choose LLM provider and model via environment variables
+
+### Testing & Evaluation
+- 🧪 **Comprehensive Tests**: pytest-based unit and integration tests
+- 📈 **DeepEval Integration**: Advanced quality metrics
+- 🎯 **Retrieval Metrics**: Precision, Recall, MRR, NDCG
+- 🔍 **Generation Metrics**: Faithfulness, Answer Relevancy, Contextual Precision/Recall
+- 🎲 **Reproducible Tests**: Explicit random seed setting for consistent results
+- 🏗️ **Modular Architecture**: Separated utility modules for maintainability
+
+---
+
 ## 📁 Repository Structure
 
 ```
@@ -153,98 +184,100 @@ agentic-ai-essentials-cert-project/
 ├── data/                         # Document collection
 │   ├── api_documentation.md      # Sample: API documentation
 │   ├── company_policies.md       # Sample: HR policies
-│   ├── customer_faq.md           # Sample: FAQ
-│   ├── product_documentation.md  # Sample: Product info
-│   └── security_compliance.md    # Sample: Security docs
+│   ├── customer_faq.md           # Sample: Customer FAQ
+│   ├── product_documentation.md  # Sample: Product information
+│   └── security_compliance.md    # Sample: Security documentation
 │
-├── tests/                          # Comprehensive test suite
-│   ├── conftest.py                 # Pytest configuration and shared fixtures
-│   ├── generation_test_helpers.py  # Generation test helpers
-│   ├── metrics_utils.py            # Metric calculation utilities
-│   ├── performance_reporter.py     # Metrics reporting utility
-│   ├── report_formatters.py        # Report formatting utilities
-│   ├── test_app.py                 # Integration tests
-│   ├── test_generation_quality.py  # Answer quality tests
-│   ├── test_performance_metrics.py # Performance benchmarks
-│   ├── test_retrieval_quality.py   # Retrieval performance tests
-│   └── test_vectordb.py            # Vector database tests
+├── tests/                        # Comprehensive test suite
+│   ├── conftest.py               # Pytest configuration and shared fixtures
+│   ├── metrics_utils.py          # Metric calculation utilities
+│   ├── rag_evaluator.py          # DeepEval-based RAG quality evaluator
+│   ├── rag_evaluator_utils.py    # Helper utilities for evaluation
+│   ├── test_app.py               # Integration tests for RAG pipeline
+│   └── test_vectordb.py          # Unit tests for vector database
 │
 ├── requirements.txt              # Python dependencies
-├── pytest.ini                    # Test configuration
+├── pytest.ini                    # Pytest configuration
 ├── .env                          # Environment variables (API keys) - DO NOT COMMIT
-├── .env.example                 # Example environment file (safe to share)
-├── .gitignore                   # Git ignore rules
-├── LICENSE                      # MIT License
-└── README.md                    # This file
+├── .env.example                  # Template for environment setup
+├── .gitignore                    # Git ignore rules
+├── LICENSE                       # MIT License
+└── README.md                     # This file
 │
-└── chroma_db/                   # Vector database storage (auto-created)
+└── chroma_db/                    # Vector database storage (auto-created)
+
 ```
 
 ### Key Files Explained
 
 | File/Directory | Purpose | When to Modify |
 |----------------|---------|----------------|
-| `src/app.py` | Main application entry point | Add features, modify prompt template |
-| `src/vectordb.py` | Handles chunking, embedding, search | Adjust embedding logic |
-| `src/config.py` | Loads configuration from YAML | Rarely (handles loading automatically) |
+| `src/app.py` | Main RAG application entry point | Add features, modify prompt template |
+| `src/vectordb.py` | ChromaDB wrapper with chunking & embedding | Adjust chunk size, embedding model |
+| `src/config.py` | Loads configuration from YAML | Rarely (auto-loads from config.yaml) |
 | `config/config.yaml` | Main configuration file | Change settings here |
 | `.env` | API keys and secrets | Set your API keys here |
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
-| `tests/` | Comprehensive test suite | Extend with new tests |
-| `tests/conftest.py` | Pytest configuration and shared fixtures | Add new fixtures or test markers |
-| `tests/performance_reporter.py` | Performance metrics calculator | Use for generating evaluation reports |
-| `tests/metrics_utils.py` | Metric calculation utilities | Core metrics functions (precision, recall, MRR, NDCG, etc.) |
-| `tests/report_formatters.py` | Report formatting utilities | Markdown/CSV/JSON report generation |
-| `tests/generation_test_helpers.py` | Generation test helpers | Helper functions for quality testing |
+| `tests/conftest.py` | Pytest fixtures and configuration | Add new fixtures or test markers |
+| `tests/rag_evaluator.py` | RAG system quality evaluator | Run for comprehensive metrics |
+| `tests/metrics_utils.py` | Core metric calculations | Extend with new metrics |
+| `tests/test_app.py` | Integration tests for RAG pipeline | Add new integration tests |
+| `tests/test_vectordb.py` | Unit tests for vector database | Add new unit tests |
 | `pytest.ini` | Test runner configuration | Modify test settings |
-
----
-
-## 🌟 Features
-
-- 📚 **Document Loading**: Automatically loads .txt and .md files from `data/` folder
-- 🔍 **Semantic Search**: Uses sentence transformers for accurate document retrieval
-- 💾 **Persistent Storage**: ChromaDB vector database with local persistence
-- 🤖 **Multi-LLM Support**: Works with OpenAI, Groq, or Google Gemini
-- 🔄 **Smart Chunking**: Uses RecursiveCharacterTextSplitter for context preservation
-- ⚙️ **YAML Configuration**: Easy-to-edit configuration file
-- 🧪 **Comprehensive Testing**: Unit, integration, and quality tests
-- 📊 **Performance Monitoring**: Built-in metrics and reporting with performance_reporter.py
-- 📈 **Detailed Analytics**: Precision, Recall, MRR, NDCG tracking
-- 📄 **Multiple Performance Report Formats**: JSON, CSV, and Markdown exports
-- 🔐 **Environment-based Secrets**: Secure API key management
-- 🏗️ **Modular Test Architecture**: Refactored tests with utility modules for better maintainability
-- 🎲 **Reproducible Tests**: Explicit random seed setting for consistent test results
 
 ---
 
 ## 🏗️ Code Architecture
 
-### ✅ Modular Test Architecture
-- **Separated Concerns**: Test logic split into focused utility modules
-- **Reusable Components**: Core metrics and formatting functions extracted for reuse
-- **Reduced File Complexity**: All test files now under 500 lines for better readability
+### Core Components
 
-### 📦 Utility Modules
+**1. Document Loader (`app.py:load_documents`)**
+- Scans `data/` directory for supported file types
+- Supports `.txt` and `.md` files
+- Returns list of documents with content and metadata
 
-| Module | Purpose | Key Functions |
-|--------|---------|---------------|
-| `conftest.py` | Pytest configuration and shared fixtures | `reset_random_seeds()`, `test_data_directory()`, `temp_output_directory()` |
-| `metrics_utils.py` | Metric calculations | `calculate_precision_at_k()`, `calculate_recall_at_k()`, `calculate_mrr()`, `calculate_ndcg()`, `calculate_faithfulness()` |
-| `report_formatters.py` | Report generation | `format_markdown_report()`, `get_status()`, `get_status_emoji()` |
-| `generation_test_helpers.py` | Test helpers | `generate_answer_quality_report()`, `check_refusal_phrases()` |
+**2. VectorDB (`vectordb.py:VectorDB`)**
+- Wraps ChromaDB for vector storage
+- Uses sentence-transformers for embeddings
+- Implements intelligent text chunking
+- Provides semantic search functionality
 
-### 🎲 Reproducible Testing
-- **Explicit Random Seeds**: All test files set `random.seed(42)` and `np.random.seed(42)`
-- **Consistent Results**: Tests produce identical results across runs
-- **Better Debugging**: Reproducibility aids in issue diagnosis
+**3. RAG Assistant (`app.py:RAGAssistant`)**
+- Orchestrates the complete RAG pipeline
+- Supports multiple LLM providers (OpenAI, Groq, Google)
+- Uses LangChain for prompt templating
+- Constrains answers to provided context
 
-### 📊 Benefits
-- **Easier Maintenance**: Smaller, focused modules are easier to understand and modify
-- **Better Testing**: Individual utility functions can be tested in isolation
-- **Code Reuse**: Metrics functions can be imported across different test files
-- **Cleaner Codebase**: Reduced duplication and improved organization
+**4. Configuration (`config.py`)**
+- Loads settings from YAML
+- Exports as Python constants
+- Supports environment variable overrides
+
+### Modular Test Architecture
+
+**Separated Concerns:**
+- `conftest.py`: Shared pytest fixtures and configuration
+- `metrics_utils.py`: Isolated metric calculation functions
+- `rag_evaluator.py`: High-level evaluation orchestration
+- `rag_evaluator_utils.py`: Helper utilities for evaluation
+- `test_app.py`: Integration tests
+- `test_vectordb.py`: Unit tests
+
+**Key Design Patterns:**
+- **Fixtures**: Reusable test data and mock objects
+- **Markers**: Categorize tests (`@pytest.mark.unit`, `@pytest.mark.integration`)
+- **Utilities**: Pure functions for metrics (easy to test and reuse)
+- **Separation**: Clear boundaries between test types
+
+### Benefits
+
+- ✅ **Maintainability**: Modular code is easier to update
+- ✅ **Reusability**: Shared fixtures and utilities across tests
+- ✅ **Clarity**: Clear separation of concerns
+- ✅ **Testability**: Isolated components are easier to test
+- ✅ **Reproducibility**: Explicit random seeds for consistent results
+- ✅ **Extensibility**: Easy to add new metrics or tests
 
 ---
 
@@ -252,108 +285,83 @@ agentic-ai-essentials-cert-project/
 
 ### Prerequisites
 
-- **Python 3.10 or higher** (Python 3.10 or 3.11 recommended)
-- **pip** (Python package installer)
-- **One of these API keys** (at least one required):
-  - OpenAI API key
-  - Google Gemini API key
-  - Groq API key
+- **Python**: 3.10 or higher (3.11 recommended)
+- **pip**: Python package manager (included with Python)
+- **API Key**: At least one of:
+  - OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+  - Groq API key ([Get one here](https://console.groq.com/keys))
+  - Google Gemini API key ([Get one here](https://ai.google.dev/))
 
 ### Step-by-Step Setup
 
-#### Step 1: Clone the Repository
-
+**1. Clone or Download the Repository**
 ```bash
-git clone <your-repo-url>
+git clone <repository-url>
 cd agentic-ai-essentials-cert-project
 ```
 
-#### Step 2: Create Virtual Environment (Recommended)
-
-**On macOS/Linux:**
+**2. Create a Virtual Environment** (Recommended)
 ```bash
+# Create virtual environment
 python -m venv venv
+
+# Activate virtual environment
+# On Linux/Mac:
 source venv/bin/activate
-```
 
-**On Windows:**
-```bash
-python -m venv venv
+# On Windows:
 venv\Scripts\activate
 ```
 
-#### Step 3: Install Dependencies
-
+**3. Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-**Key dependencies:**
-- `langchain` (v0.3.27) - LLM orchestration framework
-- `langchain-core` (v0.3.76) - Core LangChain functionality
-- `langchain-openai`, `langchain-groq`, `langchain-google-genai` - LLM provider integrations
-- `langchain-text-splitters` (v0.3.11) - Intelligent text chunking
-- `chromadb` (v1.0.12) - Vector database
-- `sentence-transformers` (v5.1.0) - Embedding models
-- `python-dotenv` (v1.1.1) - Environment variable management
-- `pyyaml` (v6.0.2) - YAML configuration support
-- `pytest` (v9.0.2) - Testing framework
-- `pytest-cov` (v7.0.0) - Test coverage reporting
+This installs:
+- `chromadb==1.4.1` - Vector database
+- `deepeval==3.8.0` - RAG evaluation framework
+- `langchain_core==1.2.7` - Core LangChain functionality
+- `langchain_google_genai==4.2.0` - Google Gemini integration
+- `langchain_groq==1.1.1` - Groq integration
+- `langchain_openai==1.1.7` - OpenAI integration
+- `langchain_text_splitters==1.1.0` - Text chunking utilities
+- `numpy==2.4.1` - Numerical operations
+- `pytest==9.0.2` - Testing framework
+- `python-dotenv==1.2.1` - Environment variable management
+- `PyYAML==6.0.3` - YAML configuration parsing
+- `sentence_transformers==5.2.0` - Embedding models
 
-**Installation time:** 2-3 minutes depending on internet speed
-
-#### Step 4: Set Up Environment Variables
-
-**IMPORTANT SECURITY NOTE:** Never commit your `.env` file to version control. It should already be in `.gitignore`.
-
-Create a `.env` file with your API key:
-
+**4. Configure Environment Variables**
 ```bash
-# Copy the example
+# Copy the example environment file
 cp .env.example .env
 
-# Edit with your favorite editor
+# Edit .env and add your API key
+# Use your preferred text editor (nano, vim, code, etc.)
 nano .env
 ```
 
-Add **at least one** API key to `.env`:
-
+**Example `.env` file:**
 ```bash
-# OpenAI
-OPENAI_API_KEY=sk-proj-your-key-here
+# Choose ONE provider (or multiple for fallback)
+
+# Option 1: OpenAI (Recommended for quality)
+OPENAI_API_KEY=sk-proj-your-actual-key-here
 OPENAI_MODEL=gpt-4o-mini
 
-# OR Groq
-GROQ_API_KEY=gsk-your-key-here
+# Option 2: Groq (Recommended for speed)
+GROQ_API_KEY=gsk-your-actual-key-here
 GROQ_MODEL=llama-3.1-8b-instant
 
-# OR Google Gemini
-GOOGLE_API_KEY=AIza-your-key-here
+# Option 3: Google Gemini (Generous free tier)
+GOOGLE_API_KEY=AIza-your-actual-key-here
 GOOGLE_MODEL=gemini-2.0-flash
-
-# Embedding Configuration (usually no need to change)
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-
-# Vector Database Configuration
-CHROMA_COLLECTION_NAME=rag_documents
-CHROMA_DB_PATH=./chroma_db
-
-# LLM Configuration
-DEFAULT_LLM_TEMPERATURE=0.0
-
-# File Paths
-DATA_DIRECTORY=data
 ```
 
-**Where to get API keys:**
-- **OpenAI:** https://platform.openai.com/api-keys
-- **Groq:** https://console.groq.com/keys
-- **Google Gemini:** https://makersuite.google.com/app/apikey
+**Important:** Remove the placeholder text and replace with your actual API key!
 
-#### Step 5: Add Your Documents
-
-Place your documents in the `data/` folder:
-
+**5. Add Your Documents** (Optional)
 ```bash
 # The project includes 5 sample documents (.md format):
 data/
@@ -363,49 +371,40 @@ data/
   ├── product_documentation.md
   └── security_compliance.md
 
-# Add your own documents (supported formats: .txt, .md)
-cp your_document.md data/
-cp another_doc.txt data/
+# You can add your own .txt or .md files:
+cp /path/to/your/document.txt data/
+cp /path/to/your/document.md data/
 ```
-
-**Supported formats:** `.txt`, `.md`
-
-**Document tips:**
-- Keep documents focused on specific topics
-- Use clear section headers for better chunking
-- Aim for 1-50 pages per document
-- Plain text works best
 
 ### Verify Installation
 
-Run this to verify everything is set up correctly:
+```bash
+# Run tests to verify everything works
+pytest
 
+# Or run with verbose output
+pytest -v
+
+# If you see tests passing, you're good to go!
+```
+
+---
+
+## 💡 Usage
+
+### Basic Usage
+
+**Start the Interactive Assistant:**
 ```bash
 python src/app.py
 ```
 
-If you see the interactive prompt, you're ready to go!
-
----
-
-## 💻 Usage
-
-### Basic Usage
-
-1. **Run the assistant:**
-   ```bash
-   python src/app.py
-   ```
-
-2. **Ask questions about your documents:**
-   ```
-   Your question: What is the remote work policy?
-   ```
-
-3. **Exit when done:**
-   ```
-   Your question: quit
-   ```
+**What Happens:**
+1. System initializes LLM (checks for API keys in order: OpenAI → Groq → Google)
+2. Loads documents from `data/` directory
+3. Chunks documents and creates embeddings
+4. Stores vectors in ChromaDB
+5. Starts interactive Q&A session
 
 ### Example Session
 
@@ -426,20 +425,23 @@ Loaded: security_compliance.md
 Loaded: product_documentation.md
 Loaded 5 sample documents
 Processing 5 documents...
-Document 1: Split into 33 chunks
-Document 2: Split into 55 chunks
-Document 3: Split into 37 chunks
-Document 4: Split into 45 chunks
-Document 5: Split into 40 chunks
-Creating embeddings for 210 chunks...
-Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:02<00:00,  3.08it/s]
+Document 1: Split into 71 chunks
+Document 2: Split into 120 chunks
+Document 3: Split into 81 chunks
+Document 4: Split into 106 chunks
+Document 5: Split into 77 chunks
+Creating embeddings for 455 chunks...
+Batches: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15/15 [00:02<00:00,  6.86it/s]
 Adding to vector database...
-Successfully added 210 chunks to vector database
+Successfully added 455 chunks to vector database
 Enter a question or 'quit' to exit: What vacation days do employees get?
-Employees get vacation days based on their years of service:
-*   0-2 years: 20 days (4 weeks) per year
-*   3-5 years: 25 days (5 weeks) per year
-*   6+ years: 30 days (6 weeks) per year
+Here is the breakdown of vacation days for employees:
+
+*   0-2 years: 20 days per year
+*   3-5 years: 25 days per year
+*   5+ years: 30 days per year
+*   Accrued monthly and available immediately
+*   Unused days roll over up to a maximum of 10 days
 ```
 
 ### Example Questions
@@ -472,266 +474,187 @@ Try these questions with the sample documents:
 
 ### YAML Configuration
 
-YAML Configuration (`config/config.yaml`)
+Edit `config/config.yaml` to customize system behavior:
 
 ```yaml
+# RAG Assistant - Configuration File
+
+# ============================================================================
 # Embedding Model Configuration
+# ============================================================================
 embedding:
   model: sentence-transformers/all-MiniLM-L6-v2
 
+# ============================================================================
 # Vector Database Configuration
+# ============================================================================
 database:
-  collection_name: rag_documents
-  path: ./chroma_db
+  collection_name: rag_documents  # ChromaDB collection name
+  path: ./chroma_db               # Path to store vector database
 
+# ============================================================================
 # LLM Configuration
+# ============================================================================
 llm:
-  temperature: 0.0
+  temperature: 0.0         # 0.0 = deterministic, 1.0 = creative
+  # Lower temperature = more consistent answers
+  # Higher temperature = more varied/creative answers
 
+# ============================================================================
 # File Paths
+# ============================================================================
 paths:
-  data_directory: data
+  data_directory: data     # Directory containing your documents
 ```
 
-### After Changing Configuration
+**After Changing Configuration:**
+```bash
+# No restart needed - config is loaded on each run
+python src/app.py
 
-If you change embedding model or chunking settings, delete the vector database to re-index:
+# For tests, pytest automatically picks up changes
+pytest
+```
+
+### Environment Variables
+
+Configure in `.env` file:
 
 ```bash
-rm -rf chroma_db/
-python src/app.py
+# ============================================================================
+# LLM Provider Selection (choose one or multiple for fallback)
+# ============================================================================
+
+# OpenAI Configuration
+OPENAI_API_KEY=sk-proj-your-key-here
+OPENAI_MODEL=gpt-4o-mini          # or gpt-4o, gpt-3.5-turbo
+
+# Groq Configuration
+GROQ_API_KEY=gsk-your-key-here
+GROQ_MODEL=llama-3.1-8b-instant   # or llama-3.1-70b-versatile
+
+# Google Gemini Configuration
+GOOGLE_API_KEY=AIza-your-key-here
+GOOGLE_MODEL=gemini-2.0-flash     # or gemini-2.0-flash-exp
+
+# ============================================================================
+# Optional: Override YAML Configuration
+# ============================================================================
+# CHROMA_COLLECTION_NAME=my_custom_collection
+# EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
 ```
+
+### Supported LLM Providers
+
+The system checks for API keys in this order:
+1. **OpenAI** (best quality, moderate cost)
+2. **Groq** (fastest inference, free tier)
+3. **Google Gemini** (generous free tier, good quality)
+
+**Provider Comparison:**
+
+| Provider | Speed | Quality | Free Tier | Best For |
+|----------|-------|---------|-----------|----------|
+| OpenAI GPT-4o-mini | Fast | Excellent | Limited | Production use |
+| Groq Llama-3.1 | Very Fast | Good | Generous | Development/testing |
+| Google Gemini-2.0 | Fast | Very Good | Very Generous | Cost-conscious projects |
 
 ---
 
 ## 🧪 Testing
 
-This project includes a comprehensive test suite with multiple categories of tests to ensure quality and performance.
-
 ### Test Categories
 
-The test suite is organized into several categories using pytest markers:
+Tests are organized with pytest markers:
 
-1. **Unit Tests** (`@pytest.mark.unit`)
-   - Individual component testing
-   - Vector database operations
-   - Document loading functions
-
-2. **Integration Tests** (`@pytest.mark.integration`)
-   - End-to-end RAG pipeline
-   - Multi-component interactions
-   - Complete workflow testing
-
-3. **Retrieval Quality Tests** (`@pytest.mark.quality`)
-   - Precision@k metrics
-   - Recall@k metrics
-   - Mean Reciprocal Rank (MRR)
-   - NDCG@k scores
-
-4. **Generation Quality Tests** (`@pytest.mark.generation`)
-   - Answer relevance
-   - Context usage
-   - Factual accuracy
-   - Response completeness
-
-5. **Performance Tests** (`@pytest.mark.performance`)
-   - Retrieval latency
-   - Generation latency
-   - End-to-end response time
-   - Throughput metrics
+- **Unit Tests** (`@pytest.mark.unit`): Test individual components in isolation
+  - Vector database operations
+  - Embedding creation
+  - Text chunking
+  
+- **Integration Tests** (`@pytest.mark.integration`): Test complete workflows
+  - End-to-end RAG pipeline
+  - Document loading and retrieval
+  - Answer generation
 
 ### Running Tests
 
-**Run all tests:**
 ```bash
+# Run all tests
 pytest
-```
 
-**Run with verbose output:**
-```bash
+# Run with verbose output
 pytest -v
-```
-</details>
 
-**Run specific test categories:**
-```bash
-# Unit tests only
+# Run only unit tests
 pytest -m unit
 
-# Integration tests only
+# Run only integration tests
 pytest -m integration
 
-# Quality tests only
-pytest -m quality
-
-# Performance tests only
-pytest -m performance
-
-# Generation tests only
-pytest -m generation
-```
-
-**Run specific test files:**
-```bash
-# Vector database tests
+# Run specific test file
 pytest tests/test_vectordb.py
 
-# Application integration tests
-pytest tests/test_app.py
+# Run specific test function
+pytest tests/test_app.py::TestRAGPipeline::test_add_documents
 
-# Retrieval quality tests
-pytest tests/test_retrieval_quality.py
-
-# Generation quality tests
-pytest tests/test_generation_quality.py
-
-# Performance metrics tests
-pytest tests/test_performance_metrics.py
 ```
 
-**Run with coverage report:**
-```bash
-pytest --cov=src --cov-report=html
-```
+### RAG Evaluation Metrics
 
-This generates an HTML coverage report in `htmlcov/index.html`.
-
-### Performance Metrics
-
-The test suite includes a sophisticated performance reporting system that tracks:
+The project includes comprehensive RAG evaluation using DeepEval:
 
 **Retrieval Metrics:**
-- **Precision@3**: Accuracy of top 3 retrieved documents
-- **Recall@3**: Coverage of relevant documents in top 3
-- **MRR (Mean Reciprocal Rank)**: Ranking quality of first relevant result
-- **NDCG@5**: Normalized discounted cumulative gain at 5
-- **Average Latency**: Retrieval speed in milliseconds
+- **Precision@K**: Proportion of retrieved documents that are relevant
+- **Recall@K**: Proportion of relevant documents that are retrieved
+- **MRR (Mean Reciprocal Rank)**: How early the first relevant result appears
+- **NDCG (Normalized Discounted Cumulative Gain)**: Quality of ranking
 
-**Generation Metrics:**
-- **Answer Relevance**: How well answers address the question
-- **Context Precision**: Accuracy of retrieved context
-- **Faithfulness**: Degree to which answers are grounded in context
-- **Hallucination Rate**: Detection of fabricated information
+**Generation Metrics (DeepEval):**
+- **Faithfulness**: Answer is grounded in retrieved context (no hallucination)
+- **Answer Relevancy**: Answer addresses the question
+- **Contextual Precision**: Retrieved context is relevant to the question
+- **Contextual Recall**: All necessary context is retrieved
+- **Contextual Relevancy**: Overall context quality
 
-### Utility Modules for Testing
-
-The testing infrastructure has been modularized for better maintainability:
-
-#### `metrics_utils.py`
-Core metric calculation functions used across test files:
-```python
-from metrics_utils import (
-    calculate_precision_at_k,
-    calculate_recall_at_k,
-    calculate_mrr,
-    calculate_ndcg,
-    calculate_faithfulness,
-    calculate_answer_relevance
-)
-```
-
-#### `report_formatters.py`
-Report generation and formatting utilities:
-```python
-from report_formatters import (
-    format_markdown_report,
-    get_status,
-    get_status_emoji
-)
-```
-
-#### `generation_test_helpers.py`
-Helper functions for generation quality tests:
-```python
-from generation_test_helpers import (
-    generate_answer_quality_report,
-    check_refusal_phrases,
-    check_context_reference_phrases
-)
-```
-
-### Performance Reporter Utility
-
-The `tests/performance_reporter.py` module provides comprehensive performance evaluation capabilities:
-
-**Calculated Metrics:**
-
-*Retrieval Performance:*
-- `precision_at_3`: Proportion of top-3 results that are relevant
-- `recall_at_3`: Proportion of relevant docs retrieved in top-3
-- `mrr`: Mean reciprocal rank (1/rank of first relevant result)
-- `ndcg_at_5`: Normalized discounted cumulative gain at position 5
-- `avg_latency_ms`: Average retrieval time in milliseconds
-
-*Generation Quality:*
-- `faithfulness`: % of answer tokens found in retrieved context
-- `answer_relevance`: Semantic similarity between answer and question
-- `hallucination_rate`: % of claims not supported by context
-- `context_adherence`: How closely answer follows retrieved information
-
-**Performance Reporter Usage:**
+**Run Evaluation:**
 ```bash
-python tests/performance_reporter.py
+# Run evaluation
+python tests/rag_evaluator.py
+
 ```
 
-**Performance Report Formats:**
-
-- JSON format for programmatic access
-- CSV format for spreadsheet analysis
-- Markdown format for documentation
-
-
-### Test Configuration
-
-Tests are configured via `pytest.ini`:
-
-```ini
-[pytest]
-# Test discovery
-python_files = test_*.py
-python_classes = Test*
-python_functions = test_*
-
-# Test paths
-testpaths = tests
-
-# Output options
-addopts = -v --strict-markers --tb=short --disable-warnings
-
-# Test markers
-markers =
-    unit: Unit tests
-    integration: Integration tests
-    generation: Generation tests
-    performance: Performance tests
-    quality: Quality tests
+**Sample Output:**
 ```
+======================================================================
+RAG SYSTEM PERFORMANCE REPORT (DeepEval)
+======================================================================
 
-### Writing Your Own Tests
+Generated: 2026-01-25T09:30:52.494262
+Model: <deepeval.models.llms.gemini_model.GeminiModel object at 0x7f7970f90110>
 
-To add custom tests:
+----------------------------------------------------------------------
+RETRIEVAL METRICS:
+  Precision@3:  0.8182
+  Recall@3:     1.0000
+  MRR:          1.0000
+  NDCG@5:       0.9854
+  Avg Latency:  19.94ms
 
-1. Create a new file in `tests/` following the `test_*.py` pattern
-2. Use pytest fixtures from existing tests
-3. Add appropriate markers: `@pytest.mark.unit`, `@pytest.mark.integration`, etc.
-4. Run your new tests: `pytest tests/your_test_file.py`
+GENERATION METRICS (DeepEval):
+  Faithfulness:          1.0000
+  Answer Relevance:      1.0000
+  Contextual Precision:  0.8472
+  Contextual Recall:     0.9167
+  Contextual Relevancy:  0.4289
 
-Example test structure:
-```python
-import pytest
-from src.app import RAGAssistant
+======================================================================
+OVERALL GRADE: A (Excellent)
+======================================================================
 
-@pytest.mark.unit
-def test_document_loading():
-    """Test that documents load correctly."""
-    # Your test code here
-    pass
-
-@pytest.mark.integration
-def test_full_pipeline():
-    """Test the complete RAG pipeline."""
-    # Your test code here
-    pass
+======================================================================
+Performance evaluation complete!
+======================================================================
 ```
 
 ---
@@ -740,18 +663,25 @@ def test_full_pipeline():
 
 ### Common Issues and Solutions
 
-#### "Environment variable not set"
+#### "Environment variable not set" or "No valid API key found"
+
 **Solution:**
-- Create `.env` file in project root
-- Add at least one API key:
-  ```bash
-  OPENAI_API_KEY=sk-your-key-here
-  ```
-- Remove placeholder text like `sk-your-key-here`
-- Ensure no spaces around the `=` sign
-- **Never commit `.env` to version control**
+```bash
+# 1. Create .env file if it doesn't exist
+cp .env.example .env
+
+# 2. Edit .env and add your API key
+nano .env
+
+# 3. Add at least one API key (remove placeholder text):
+OPENAI_API_KEY=sk-proj-YOUR-ACTUAL-KEY-HERE
+
+# 4. Ensure no spaces around the = sign
+# 5. Never commit .env to version control
+```
 
 #### "ModuleNotFoundError: No module named 'X'"
+
 **Solution:**
 ```bash
 # Ensure virtual environment is activated
@@ -763,64 +693,206 @@ pip install -r requirements.txt
 
 # If still failing, try force reinstall
 pip install --force-reinstall -r requirements.txt
+
+# Verify Python version (should be 3.10+)
+python --version
 ```
 
 #### "No documents found in data directory"
-**Solution:**
-- Add `.txt` or `.md` files to `data/` folder
-- Check that files have content (not empty)
-- Verify file permissions (should be readable)
 
-#### "Rate limit exceeded"
-**Solution:**
-- Switch to Google Gemini (more generous free tier)
-- Wait a few minutes and try again
-- Upgrade your API plan
-
-#### "Python version not supported"
-**Solution:**
-- Check your Python version: `python --version`
-- Ensure you are using Python 3.10 or higher
-- Python 3.10 or 3.11 recommended
-- Create fresh virtual environment with correct Python version:
-  ```bash
-  python -m venv venv
-  source venv/bin/activate
-  pip install -r requirements.txt
-  ```
-
-#### "ImportError: cannot import name 'config'"
 **Solution:**
 ```bash
-# Ensure you're in the correct directory
+# Check data directory exists
+ls -la data/
+
+# Add .txt or .md files
+cp your_document.txt data/
+
+# Verify files are readable
+cat data/your_document.txt
+
+# Ensure files have content (not empty)
+wc -l data/*.txt data/*.md
+```
+
+#### "Rate limit exceeded"
+
+**Solution:**
+- **Switch providers**: Use Google Gemini (most generous free tier)
+  ```bash
+  # In .env, comment out OpenAI and use:
+  GOOGLE_API_KEY=AIza-your-key-here
+  GOOGLE_MODEL=gemini-2.0-flash
+  ```
+- **Wait and retry**: Rate limits reset after time period
+- **Upgrade plan**: Consider paid API tier for higher limits
+
+#### "Python version not supported"
+
+**Solution:**
+```bash
+# Check your Python version
+python --version
+
+# Should be Python 3.10 or higher
+# If not, install Python 3.10+ and create new virtual environment:
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+#### "ImportError: cannot import name 'config'"
+
+**Solution:**
+```bash
+# Ensure you're running from the project root
 cd agentic-ai-essentials-cert-project
 
-# Run from src directory
+# Run with proper Python path
 python src/app.py
+
 ```
 
 #### "Test failures"
+
 **Solution:**
 ```bash
-# Run tests with verbose output to see details
+# Run tests with verbose output
 pytest -v
 
 # Run specific failing test
-pytest tests/test_name.py::test_function
+pytest tests/test_name.py::test_function -v
 
-# Check test dependencies are installed
-pip install pytest pytest-cov
+# Check test output for details
+pytest -v -s  # -s shows print statements
+
+# Ensure .env is configured
+cat .env  # Should have at least one API key
 ```
+
+#### "ChromaDB persistence errors"
+
+**Solution:**
+```bash
+# Reset vector database
+rm -rf chroma_db/
+
+# Re-run the application (will rebuild database)
+python src/app.py
+```
+
+### Known Limitations
+
+- **Document Size**: Maximum document size limited by available RAM
+- **Chunk Size**: 256 characters may split complex concepts; adjust in config
+- **Embedding Quality**: Depends on sentence-transformers model choice
+- **Answer Quality**: Depends on LLM provider and model selection
+- **Rate Limits**: Free tiers have usage restrictions
+- **Context Window**: Top-3 chunks may miss relevant information; increase `n_results`
+- **Language Support**: Optimized for English; multilingual models available
 
 ---
 
+## 📚 Additional Resources
 
-### Limitations
+### Official Documentation
+- [ChromaDB Documentation](https://docs.trychroma.com/) - Vector database guide
+- [LangChain Documentation](https://python.langchain.com/) - LLM framework
+- [Sentence Transformers](https://www.sbert.net/) - Embedding models
+- [OpenAI API Documentation](https://platform.openai.com/docs) - GPT models
+- [Google Gemini API Documentation](https://ai.google.dev/docs) - Gemini models
+- [Groq API Documentation](https://console.groq.com/docs) - Fast inference
+- [DeepEval Documentation](https://docs.confident-ai.com/) - RAG evaluation
 
-- Maximum document size limited by available RAM
-- Search quality depends on embedding model
-- Answer quality depends on LLM model choice
-- Rate limits apply to free tiers
+### Ready Tensor Resources
+- [Agentic AI Essentials Certification](https://www.readytensor.ai/agentic-ai-essentials-cert/) - Course overview
+- [AI Certification Programs](https://www.readytensor.ai/certifications/) - Additional certifications
+
+---
+
+## 🎯 Quick Reference
+
+### Common Commands
+
+```bash
+# ===== Setup =====
+python -m venv venv                      # Create virtual environment
+source venv/bin/activate                 # Activate (Linux/Mac)
+venv\Scripts\activate                    # Activate (Windows)
+pip install -r requirements.txt          # Install dependencies
+
+# ===== Configuration =====
+cp .env.example .env                     # Create environment file
+nano .env                                # Edit API keys
+
+# ===== Running =====
+python src/app.py                        # Start interactive assistant
+
+# ===== Testing =====
+pytest                                   # Run all tests
+pytest -v                                # Verbose output
+pytest -m unit                           # Unit tests only
+pytest -m integration                    # Integration tests only
+
+# ===== Evaluation =====
+python tests/rag_evaluator.py            # Evaluate RAG system quality
+
+# ===== Document Management =====
+cp my_doc.md data/                       # Add document
+cp my_doc.txt data/                      # Add text file
+ls -lh data/                             # List documents
+cat data/my_doc.txt                      # View document
+
+# ===== Database Management =====
+rm -rf chroma_db/                        # Reset database (will rebuild)
+du -sh chroma_db/                        # Check database size
+ls -la chroma_db/                        # View database files
+
+```
+
+### File Locations
+
+```bash
+# Configuration
+config/config.yaml           # Main configuration file (edit here)
+.env                         # API keys and secrets (DO NOT COMMIT)
+
+# Source Code
+src/app.py                   # Main RAG application
+src/vectordb.py              # Vector database wrapper
+src/config.py                # Configuration loader
+
+# Documents
+data/                        # Add your .txt or .md files here
+
+# Database
+chroma_db/                   # Vector database storage (auto-created)
+
+# Tests
+tests/test_app.py            # Integration tests
+tests/test_vectordb.py       # Unit tests
+
+# Evaluation
+tests/rag_evaluator.py       # RAG system  evaluator
+```
+
+### Environment Variables Quick Reference
+
+```bash
+# LLM Provider (choose one)
+OPENAI_API_KEY=sk-proj-...
+GROQ_API_KEY=gsk-...
+GOOGLE_API_KEY=AIza-...
+
+# Model Selection (optional)
+OPENAI_MODEL=gpt-4o-mini
+GROQ_MODEL=llama-3.1-8b-instant
+GOOGLE_MODEL=gemini-2.0-flash
+
+# Optional Overrides
+CHROMA_COLLECTION_NAME=my_collection
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
 
 ---
 
@@ -850,11 +922,15 @@ This project uses the following excellent open-source libraries:
 
 - **[LangChain](https://github.com/langchain-ai/langchain)** (MIT License) - LLM framework
 - **[ChromaDB](https://github.com/chroma-core/chroma)** (Apache 2.0) - Vector database
-- **[Sentence Transformers](https://github.com/UKPLab/sentence-transformers)** (Apache 2.0) - Embeddings
+- **[Sentence Transformers](https://github.com/UKPLab/sentence-transformers)** (Apache 2.0) - Embedding models
+- **[DeepEval](https://github.com/confident-ai/deepeval)** (Apache 2.0) - RAG evaluation framework
 - **[OpenAI API](https://platform.openai.com/)** - GPT models
 - **[Groq API](https://groq.com/)** - Fast LLM inference
 - **[Google Gemini API](https://ai.google.dev/)** - Gemini models
-- **[Pytest](https://pytest.org/)** - Testing framework
+- **[Pytest](https://pytest.org/)** (MIT License) - Testing framework
+- **[Python-dotenv](https://github.com/theskumar/python-dotenv)** (BSD-3-Clause) - Environment management
+- **[PyYAML](https://github.com/yaml/pyyaml)** (MIT License) - YAML parsing
+- **[NumPy](https://numpy.org/)** (BSD-3-Clause) - Numerical computing
 
 Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program](https://www.readytensor.ai/agentic-ai-essentials-cert/).
 
@@ -873,85 +949,44 @@ Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program]
 
 Contributions are welcome! Here's how to contribute:
 
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Make your changes**
-4. **Add tests** for new functionality
-5. **Run the test suite** (`pytest`)
-6. **Commit your changes** (`git commit -m 'Add amazing feature'`)
-7. **Push to the branch** (`git push origin feature/amazing-feature`)
+1. **Fork the Repository**
+   ```bash
+   # Click "Fork" on GitHub
+   ```
+
+2. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make Your Changes**
+   - Follow existing code style
+   - Add docstrings to functions
+   - Update README if needed
+
+4. **Add Tests**
+   ```bash
+   # Add tests for new functionality
+   pytest tests/test_your_feature.py
+   ```
+
+5. **Run the Test Suite**
+   ```bash
+   pytest -v
+   # Ensure all tests pass
+   ```
+
+6. **Commit Your Changes**
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+
+7. **Push to Branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
 8. **Open a Pull Request**
-
-**Contribution Guidelines:**
-- Follow existing code style
-- Add tests for new features
-- Update documentation as needed
-- Keep commits focused and descriptive
-
----
-
-
-## 📚 Additional Resources
-
-### Official Documentation
-- [ChromaDB Documentation](https://docs.trychroma.com/)
-- [LangChain Documentation](https://python.langchain.com/)
-- [Sentence Transformers](https://www.sbert.net/)
-- [OpenAI API Documentation](https://platform.openai.com/docs)
-- [Google Gemini API Documentation](https://ai.google.dev/docs)
-- [Groq API Documentation](https://console.groq.com/docs)
-
-### Learning Resources
-- [Python Best Practices](https://docs.python-guide.org/)
-- [RAG Best Practices](https://www.pinecone.io/learn/retrieval-augmented-generation/)
-- [Vector Database Guide](https://www.pinecone.io/learn/vector-database/)
-- [Pytest Documentation](https://docs.pytest.org/)
-
----
-
-## 🎯 Quick Reference
-
-### Common Commands
-
-```bash
-# ===== Setup =====
-python -m venv venv
-source venv/bin/activate          # Linux/Mac
-venv\Scripts\activate             # Windows
-pip install -r requirements.txt
-
-# ===== Configuration =====
-cp .env.example .env              # Create environment file
-nano .env                         # Edit with your API key
-
-# ===== Running =====
-python src/app.py                     # Start interactive assistant
-
-# ===== Testing =====
-pytest                            # Run all tests
-pytest -v                         # Verbose output
-pytest -m unit                    # Unit tests only
-pytest -m integration             # Integration tests only
-pytest -m quality                 # Quality tests only
-pytest -m performance             # Performance tests only
-pytest -m generation              # Generation tests only
-pytest --cov=src --cov-report=html  # Coverage report
-
-# ==== Performance Report =======
-python tests/performance_reporter.py  # Generate performance report
-
-# ===== Document Management =====
-cp my_doc.md data/               # Add document
-ls -lh data/                     # List documents
-
-# ===== Database Management =====
-rm -rf chroma_db/                # Reset database (will rebuild)
-du -sh chroma_db/                # Check database size
-
-```
-
-
----
-
-*Last Updated: January 13, 2025*
-*Recent Updates: Code refactoring for improved maintainability and test reproducibility*
+   - Describe your changes
+   - Reference any related issues
+   - Wait for review

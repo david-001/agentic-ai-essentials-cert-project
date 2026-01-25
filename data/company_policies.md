@@ -112,9 +112,9 @@ We provide comprehensive health coverage with the company covering 90% of premiu
 ### Paid Time Off
 
 **Vacation Days:**
-- 0-2 years: 20 days (4 weeks) per year
-- 3-5 years: 25 days (5 weeks) per year
-- 6+ years: 30 days (6 weeks) per year
+- 0-2 years: 20 days per year
+- 3-5 years: 25 days per year
+- 5+ years: 30 days per year
 - Accrued monthly and available immediately
 - Unused days roll over up to a maximum of 10 days
 

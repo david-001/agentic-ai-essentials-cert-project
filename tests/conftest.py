@@ -40,34 +40,6 @@ def reset_random_seeds():
     # random.seed(42)
 
 
-@pytest.fixture(scope="session")
-def test_data_directory():
-    """
-    Provide path to test data directory.
-    
-    Returns:
-        str: Absolute path to the test data directory
-    """
-    return os.path.join(os.path.dirname(__file__), '..', 'data')
-
-
-@pytest.fixture(scope="session")
-def temp_output_directory(tmp_path_factory):
-    """
-    Create a temporary directory for test outputs.
-    
-    This directory persists for the entire test session and is
-    automatically cleaned up by pytest afterwards.
-    
-    Args:
-        tmp_path_factory: pytest's factory for creating temp directories
-        
-    Returns:
-        Path: Path object to the temporary directory
-    """
-    return tmp_path_factory.mktemp("test_outputs")
-
-
 # Configure pytest markers
 def pytest_configure(config):
     """
@@ -80,13 +52,4 @@ def pytest_configure(config):
     )
     config.addinivalue_line(
         "markers", "integration: Integration tests for component interactions"
-    )
-    config.addinivalue_line(
-        "markers", "quality: Quality assessment tests (retrieval, generation)"
-    )
-    config.addinivalue_line(
-        "markers", "performance: Performance and benchmark tests"
-    )
-    config.addinivalue_line(
-        "markers", "generation: Answer generation quality tests"
     )
