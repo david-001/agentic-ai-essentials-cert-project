@@ -25,7 +25,6 @@ from deepeval.models import GPTModel, GeminiModel
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-
 from metrics_utils import (
     calculate_precision_at_k, 
     calculate_recall_at_k, 
@@ -35,9 +34,10 @@ from metrics_utils import (
 from rag_evaluator_utils import get_status
 from app import RAGAssistant
 
-# Reset random seeds
-np.random.seed(42)
-random.seed(42)
+# Set random seeds for reproducibility when run standalone
+RANDOM_SEED = 42
+np.random.seed(RANDOM_SEED)
+random.seed(RANDOM_SEED)
 
 class RagEvaluator:
     """Generate and export performance metrics reports using DeepEval."""
