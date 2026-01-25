@@ -1,0 +1,30 @@
+"""
+Report formatting utilities for performance metrics.
+Extracted from performance_reporter.py to reduce file size.
+"""
+
+from typing import Dict
+
+def get_status(metric: str, value: float, thresholds: Dict[str, Dict[str, float]]) -> str:
+    """Determine status (Excellent/Good/Needs Improvement) for a metric."""
+    if metric not in thresholds:
+        return "N/A"
+    
+    thresh = thresholds[metric]
+    
+    # For metrics where lower is better
+    if metric == 'avg_latency_ms':
+        if value <= thresh['excellent']:
+            return "Excellent"
+        elif value <= thresh['good']:
+            return "Good"
+        else:
+            return "Needs Improvement"
+    else:
+        # For metrics where higher is better
+        if value >= thresh['excellent']:
+            return "Excellent"
+        elif value >= thresh['good']:
+            return "Good"
+        else:
+            return "Needs Improvement"

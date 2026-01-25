@@ -30,9 +30,9 @@ def sample_documents():
             'content': (
                 "Company Vacation Policy\n\n"
                 "Employees receive vacation days based on tenure:\n"
-                "- Entry-level (0-2 years): 15 days per year\n"
-                "- Mid-level (3-5 years): 20 days per year\n"
-                "- Senior-level (5+ years): 25 days per year\n"
+                "- Entry-level (0-2 years): 20 days per year\n"
+                "- Mid-level (3-5 years): 25 days per year\n"
+                "- Senior-level (5+ years): 30 days per year\n"
                 "Vacation must be requested 2 weeks in advance."
             ),
             'metadata': {'source': 'company_policies.txt'}
