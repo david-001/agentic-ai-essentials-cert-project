@@ -1,14 +1,15 @@
 """
-# Evaluates RAG system quality by measuring retrieval accuracy (Precision, Recall, MRR, NDCG) and generation quality (Faithfulness, Relevance) using DeepEval, then outputs a graded console report.
+# Evaluates RAG system quality by measuring retrieval accuracy (Precision, Recall, MRR, NDCG) and generation quality (Faithfulness, Relevance) using DeepEval
+# Outputs a graded console report.
 """
 
 import os
 import sys
 import numpy as np
 import time
+import random
 from datetime import datetime
 from typing import Dict, List, Any
-from metrics_utils import *
 
 # DeepEval imports
 from deepeval.metrics import (
@@ -24,11 +25,21 @@ from deepeval.models import GPTModel, GeminiModel
 # Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
+
+from metrics_utils import (
+    calculate_precision_at_k, 
+    calculate_recall_at_k, 
+    calculate_mrr, 
+    calculate_ndcg
+)
 from rag_evaluator_utils import get_status
 from app import RAGAssistant
 
+# Reset random seeds
+np.random.seed(42)
+random.seed(42)
 
-class PerformanceReporter:
+class RagEvaluator:
     """Generate and export performance metrics reports using DeepEval."""
     
     def __init__(self):
@@ -369,7 +380,7 @@ if __name__ == "__main__":
     ]
     
     # Create reporter and evaluate
-    reporter = PerformanceReporter()
+    reporter = RagEvaluator()
     reporter.initialize_rag_system()
     metrics = reporter.evaluate_rag_system(test_queries, n_results=3)
     
