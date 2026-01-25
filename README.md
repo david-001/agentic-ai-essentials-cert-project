@@ -13,12 +13,16 @@
   - [How It Works](#how-it-works)
   - [Technical Approach](#technical-approach)
 - [Key Features](#-key-features)
+  - [Document Processing](#document-processing)
+  - [Search & Retrieval](#search--retrieval)
+  - [LLM Integration](#llm-integration)
+  - [Configuration & Flexibility](#configuration--flexibility)
+  - [Testing & Evaluation](#testing--evaluation)
 - [Repository Structure](#-repository-structure)
   - [Key Files Explained](#key-files-explained)
 - [Code Architecture](#️-code-architecture)
   - [Core Components](#core-components)
   - [Modular Test Architecture](#modular-test-architecture)
-  - [Benefits](#benefits)
 - [Installation](#-installation)
   - [Prerequisites](#prerequisites)
   - [Step-by-Step Setup](#step-by-step-setup)
@@ -43,6 +47,8 @@
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
 - [Support & Contact](#-support--contact)
+  - [Getting Help](#getting-help)
+  - [Contributing](#contributing)
 
 ---
 
@@ -270,15 +276,6 @@ agentic-ai-essentials-cert-project/
 - **Utilities**: Pure functions for metrics (easy to test and reuse)
 - **Separation**: Clear boundaries between test types
 
-### Benefits
-
-- ✅ **Maintainability**: Modular code is easier to update
-- ✅ **Reusability**: Shared fixtures and utilities across tests
-- ✅ **Clarity**: Clear separation of concerns
-- ✅ **Testability**: Isolated components are easier to test
-- ✅ **Reproducibility**: Explicit random seeds for consistent results
-- ✅ **Extensibility**: Easy to add new metrics or tests
-
 ---
 
 ## 🚀 Installation
@@ -287,16 +284,16 @@ agentic-ai-essentials-cert-project/
 
 - **Python**: 3.10 or higher (3.11 recommended)
 - **pip**: Python package manager (included with Python)
-- **API Key**: At least one of:
-  - OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
-  - Groq API key ([Get one here](https://console.groq.com/keys))
-  - Google Gemini API key ([Get one here](https://ai.google.dev/))
+- **API Key**: At least one is required:
+  - [OpenAI API key](https://platform.openai.com/api-keys)
+  - [Groq API key](https://console.groq.com/keys)
+  - [Google Gemini API key](https://aistudio.google.com/api-keys/)
 
 ### Step-by-Step Setup
 
 **1. Clone or Download the Repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/david-001/agentic-ai-essentials-cert-project.git
 cd agentic-ai-essentials-cert-project
 ```
 
@@ -537,11 +534,6 @@ GROQ_MODEL=llama-3.1-8b-instant   # or llama-3.1-70b-versatile
 GOOGLE_API_KEY=AIza-your-key-here
 GOOGLE_MODEL=gemini-2.0-flash     # or gemini-2.0-flash-exp
 
-# ============================================================================
-# Optional: Override YAML Configuration
-# ============================================================================
-# CHROMA_COLLECTION_NAME=my_custom_collection
-# EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
 ```
 
 ### Supported LLM Providers
@@ -949,44 +941,17 @@ Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program]
 
 Contributions are welcome! Here's how to contribute:
 
-1. **Fork the Repository**
-   ```bash
-   # Click "Fork" on GitHub
-   ```
-
-2. **Create a Feature Branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-
-3. **Make Your Changes**
-   - Follow existing code style
-   - Add docstrings to functions
-   - Update README if needed
-
-4. **Add Tests**
-   ```bash
-   # Add tests for new functionality
-   pytest tests/test_your_feature.py
-   ```
-
-5. **Run the Test Suite**
-   ```bash
-   pytest -v
-   # Ensure all tests pass
-   ```
-
-6. **Commit Your Changes**
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
-
-7. **Push to Branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes**
+4. **Add tests** for new functionality
+5. **Run the test suite** (`pytest`)
+6. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+7. **Push to the branch** (`git push origin feature/amazing-feature`)
 8. **Open a Pull Request**
-   - Describe your changes
-   - Reference any related issues
-   - Wait for review
+
+**Contribution Guidelines:**
+- Follow existing code style
+- Add tests for new features
+- Update documentation as needed
+- Keep commits focused and descriptive
