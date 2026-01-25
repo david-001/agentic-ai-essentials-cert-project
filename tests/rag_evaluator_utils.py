@@ -1,6 +1,5 @@
 """
-Report formatting utilities for performance metrics.
-Extracted from performance_reporter.py to reduce file size.
+Helper utilities for rag_evaluator.py
 """
 
 from typing import Dict

@@ -156,8 +156,6 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
   - OpenAI (GPT-4o-mini)
   - Groq (Llama-3.1-8b-instant)
   - Google (Gemini-2.0-flash)
-- 🎛️ **Configurable Temperature**: Control response randomness via YAML
-- 🚫 **Hallucination Prevention**: Strict prompt constrains answers to provided context
 
 ### Configuration & Flexibility
 - ⚙️ **YAML Configuration**: Edit `config/config.yaml` for easy customization
@@ -226,8 +224,8 @@ agentic-ai-essentials-cert-project/
 | `.env.example` | Template for environment variables | Reference for setup |
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/conftest.py` | Pytest fixtures and configuration | Add new fixtures or test markers |
-| `tests/rag_evaluator.py` | RAG system quality evaluator | Run for comprehensive metrics |
-| `tests/metrics_utils.py` | Core metric calculations | Extend with new metrics |
+| `tests/rag_evaluator.py` | RAG system quality evaluator | Add new evaluation metric |
+| `tests/metrics_utils.py` | RAG system quality evaluator utilies | Add new helper functions to RAG system quality evaluator |
 | `tests/test_app.py` | Integration tests for RAG pipeline | Add new integration tests |
 | `tests/test_vectordb.py` | Unit tests for vector database | Add new unit tests |
 | `pytest.ini` | Test runner configuration | Modify test settings |
@@ -881,9 +879,6 @@ OPENAI_MODEL=gpt-4o-mini
 GROQ_MODEL=llama-3.1-8b-instant
 GOOGLE_MODEL=gemini-2.0-flash
 
-# Optional Overrides
-CHROMA_COLLECTION_NAME=my_collection
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 ```
 
 ---
