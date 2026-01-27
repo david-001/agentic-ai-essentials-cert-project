@@ -313,19 +313,50 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-This installs:
-- `chromadb==1.4.1` - Vector database
-- `deepeval==3.8.0` - RAG evaluation framework
-- `langchain_core==1.2.7` - Core LangChain functionality
-- `langchain_google_genai==4.2.0` - Google Gemini integration
-- `langchain_groq==1.1.1` - Groq integration
-- `langchain_openai==1.1.7` - OpenAI integration
-- `langchain_text_splitters==1.1.0` - Text chunking utilities
-- `numpy==2.4.1` - Numerical operations
+This installs all required packages including:
+
+**Core RAG Components:**
+- `chromadb==1.4.1` - Vector database for embeddings storage
+- `sentence-transformers==5.2.0` - Embedding models for semantic search
+- `langchain-core==1.2.7` - Core LangChain functionality
+- `langchain-text-splitters==1.1.0` - Text chunking utilities
+
+**LLM Integrations:**
+- `langchain-openai==1.1.7` - OpenAI GPT integration
+- `langchain-groq==1.1.1` - Groq LLM integration
+- `langchain-google-genai==4.2.0` - Google Gemini integration
+- `openai==2.15.0` - OpenAI API client
+- `groq==0.37.1` - Groq API client
+- `google-genai==1.59.0` - Google Generative AI client
+
+**Testing & Evaluation:**
 - `pytest==9.0.2` - Testing framework
+- `pytest-asyncio==1.3.0` - Async test support
+- `pytest-repeat==0.9.4` - Test repetition
+- `pytest-rerunfailures==16.1` - Auto-retry failed tests
+- `pytest-xdist==3.8.0` - Parallel test execution
+- `deepeval==3.8.0` - RAG evaluation metrics (Faithfulness, Relevancy, etc.)
+
+**Machine Learning & Data Processing:**
+- `torch==2.9.1` - PyTorch deep learning framework
+- `transformers==4.57.6` - Hugging Face transformers
+- `numpy==2.4.1` - Numerical computing
+- `scikit-learn==1.8.0` - Machine learning utilities
+- `scipy==1.17.0` - Scientific computing
+
+**Configuration & Utilities:**
 - `python-dotenv==1.2.1` - Environment variable management
 - `PyYAML==6.0.3` - YAML configuration parsing
-- `sentence_transformers==5.2.0` - Embedding models
+- `pydantic==2.12.5` - Data validation
+- `pydantic-settings==2.12.0` - Settings management
+
+**API & Networking:**
+- `httpx==0.28.1` - Modern HTTP client
+- `aiohttp==3.13.3` - Async HTTP client
+- `requests==2.32.5` - HTTP library
+
+**Additional Dependencies:**
+- All other packages listed in `requirements.txt` including CUDA support for GPU acceleration, monitoring tools, and various utilities
 
 **4. Configure Environment Variables**
 ```bash
@@ -927,7 +958,7 @@ Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program]
 
 ### Getting Help
 
-- **Issues:** [Open an issue](https://github.com/your-username/rag-assistant/issues) on GitHub
+- **Issues:** [Open an issue](https://github.com/david-001/agentic-ai-essentials-cert-project/issues) on GitHub
 - **Documentation:** Check the README and code comments
 - **Questions:** Reach out through GitHub discussions
 - **Tests:** Run `pytest`
