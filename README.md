@@ -927,7 +927,7 @@ Special thanks to the [Ready Tensor Agentic AI Essentials Certification Program]
 
 ### Getting Help
 
-- **Issues:** [Open an issue](https://github.com/your-username/rag-assistant/issues) on GitHub
+- **Issues:** [Open an issue](https://github.com/david-001/agentic-ai-essentials-cert-project/issues) on GitHub
 - **Documentation:** Check the README and code comments
 - **Questions:** Reach out through GitHub discussions
 - **Tests:** Run `pytest`
