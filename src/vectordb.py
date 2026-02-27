@@ -40,13 +40,19 @@ class VectorDB:
 
         print(f"Vector database initialized with collection: {self.collection_name}")
 
-    def chunk_text(self, text: str, chunk_size: int = 256, chunk_overlap: int = 20) -> List[str]:
+    def chunk_text(self, text: str, chunk_size: int = 512, chunk_overlap: int = 50) -> List[str]:
         """
-        Simple text chunking by splitting on spaces and grouping into chunks.
+        Split text into overlapping chunks using LangChain's RecursiveCharacterTextSplitter.
+
+        Chunk size is set to 512 characters with 50-character overlap by default,
+        which balances context preservation with retrieval precision for the
+        TaskFlow Pro markdown documents. RecursiveCharacterTextSplitter respects
+        sentence and paragraph boundaries, avoiding mid-sentence splits.
 
         Args:
             text: Input text to chunk
-            chunk_size: Approximate number of characters per chunk
+            chunk_size: Maximum number of characters per chunk (default: 512)
+            chunk_overlap: Number of overlapping characters between chunks (default: 50)
 
         Returns:
             List of text chunks
