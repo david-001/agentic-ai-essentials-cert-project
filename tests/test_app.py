@@ -160,8 +160,10 @@ class TestRAGPipeline:
     @pytest.mark.integration
     def test_query_retrieves_context(self, assistant_with_docs):
         """Test that query retrieves relevant context."""
-        # Mock the LLM to avoid actual API calls
-        with patch.object(assistant_with_docs, 'chain') as mock_chain:
+        # Mock both LLM chains to avoid actual API calls
+        with patch.object(assistant_with_docs, 'query_optimization_chain') as mock_opt_chain, \
+             patch.object(assistant_with_docs, 'chain') as mock_chain:
+            mock_opt_chain.invoke.return_value = "vacation days employees tenure"
             mock_chain.invoke.return_value = "Mocked answer"
             
             # Perform query
@@ -177,7 +179,9 @@ class TestRAGPipeline:
     @pytest.mark.integration
     def test_query_returns_string(self, assistant_with_docs):
         """Test that query returns a string answer."""
-        with patch.object(assistant_with_docs, 'chain') as mock_chain:
+        with patch.object(assistant_with_docs, 'query_optimization_chain') as mock_opt_chain, \
+             patch.object(assistant_with_docs, 'chain') as mock_chain:
+            mock_opt_chain.invoke.return_value = "test question optimized"
             mock_chain.invoke.return_value = "Test answer"
             
             result = assistant_with_docs.query("Test question")
@@ -189,7 +193,9 @@ class TestRAGPipeline:
     def test_query_context_relevance(self, assistant_with_docs):
         """Test that retrieved context is relevant to query."""
         # Query about vacation policy
-        with patch.object(assistant_with_docs, 'chain') as mock_chain:
+        with patch.object(assistant_with_docs, 'query_optimization_chain') as mock_opt_chain, \
+             patch.object(assistant_with_docs, 'chain') as mock_chain:
+            mock_opt_chain.invoke.return_value = "vacation days policy employee tenure"
             mock_chain.invoke.return_value = "Mocked answer"
             
             assistant_with_docs.query("vacation policy")
@@ -205,25 +211,26 @@ class TestRAGPipeline:
     @pytest.mark.integration
     def test_query_n_results_parameter(self, assistant_with_docs):
         """Test that n_results parameter controls retrieval."""
-        with patch.object(assistant_with_docs.vector_db, 'search') as mock_search:
+        with patch.object(assistant_with_docs, 'query_optimization_chain') as mock_opt_chain, \
+             patch.object(assistant_with_docs.vector_db, 'search') as mock_search, \
+             patch.object(assistant_with_docs, 'chain') as mock_chain:
+            mock_opt_chain.invoke.return_value = "test optimized"
             mock_search.return_value = {
                 'documents': ['doc1'], 
                 'metadatas': [{}], 
                 'distances': [0.1], 
                 'ids': ['1']
             }
+            mock_chain.invoke.return_value = "Answer"
             
-            with patch.object(assistant_with_docs, 'chain') as mock_chain:
-                mock_chain.invoke.return_value = "Answer"
-                
-                # Query with custom n_results
-                assistant_with_docs.query("test", n_results=5)
-                
-                # Verify search was called with correct n_results
-                assert mock_search.called, "Search should be called"
-                call_kwargs = mock_search.call_args[1]
-                assert call_kwargs.get('n_results') == 5, \
-                    "Should use custom n_results parameter"
+            # Query with custom n_results
+            assistant_with_docs.query("test", n_results=5)
+            
+            # Verify search was called with correct n_results
+            assert mock_search.called, "Search should be called"
+            call_kwargs = mock_search.call_args[1]
+            assert call_kwargs.get('n_results') == 5, \
+                "Should use custom n_results parameter"
 
 
 class TestLLMProviderSelection:
@@ -261,7 +268,9 @@ class TestErrorHandling:
         with patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'}):
             assistant = RAGAssistant()
             
-            with patch.object(assistant, 'chain') as mock_chain:
+            with patch.object(assistant, 'query_optimization_chain') as mock_opt_chain, \
+                 patch.object(assistant, 'chain') as mock_chain:
+                mock_opt_chain.invoke.return_value = ""
                 mock_chain.invoke.return_value = "Default response"
                 
                 result = assistant.query("")
@@ -274,7 +283,9 @@ class TestErrorHandling:
         with patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'}):
             assistant = RAGAssistant()
             
-            with patch.object(assistant, 'chain') as mock_chain:
+            with patch.object(assistant, 'query_optimization_chain') as mock_opt_chain, \
+                 patch.object(assistant, 'chain') as mock_chain:
+                mock_opt_chain.invoke.return_value = "test query optimized"
                 mock_chain.invoke.return_value = "No context answer"
                 
                 # Should still work but with no context
@@ -302,8 +313,10 @@ def test_end_to_end_workflow(sample_documents, tmp_path):
             # Add documents
             assistant.add_documents(docs)
             
-            # Mock the chain to avoid API calls
-            with patch.object(assistant, 'chain') as mock_chain:
+            # Mock both LLM chains to avoid API calls
+            with patch.object(assistant, 'query_optimization_chain') as mock_opt_chain, \
+                 patch.object(assistant, 'chain') as mock_chain:
+                mock_opt_chain.invoke.return_value = "test query optimized"
                 mock_chain.invoke.return_value = "Test answer"
                 
                 # Query
