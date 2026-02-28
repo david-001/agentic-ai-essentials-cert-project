@@ -188,15 +188,39 @@ class RagEvaluator:
         self.metrics['ndcg_at_5'] = np.mean(ndcg_scores) if ndcg_scores else 0
         self.metrics['avg_latency_ms'] = np.mean(latencies) if latencies else 0
     
+    # Delay between individual metric calls to avoid rate limits (seconds)
+    INTER_METRIC_DELAY  = 4
+    # Delay between query batches
+    INTER_QUERY_DELAY   = 10
+    # Retry settings for 429 errors
+    MAX_RETRIES         = 5
+    RETRY_BASE_DELAY    = 30   # seconds; doubles each attempt
+
+    def _measure_with_retry(self, metric, test_case):
+        """Call metric.measure() with exponential backoff on 429 rate-limit errors."""
+        delay = self.RETRY_BASE_DELAY
+        for attempt in range(1, self.MAX_RETRIES + 1):
+            try:
+                metric.measure(test_case)
+                return metric.score
+            except Exception as e:
+                is_rate_limit = "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e) or "quota" in str(e).lower()
+                if is_rate_limit and attempt < self.MAX_RETRIES:
+                    print(f"    ⏳ Rate limit hit — waiting {delay}s before retry {attempt}/{self.MAX_RETRIES - 1}...")
+                    time.sleep(delay)
+                    delay *= 2
+                else:
+                    raise
+
     def _calculate_generation_metrics(self, results: List[Dict]):
-        """Calculate generation metrics using DeepEval."""
+        """Calculate generation metrics using DeepEval with rate-limit protection."""
         faithfulness_scores = []
         relevancy_scores = []
         precision_scores = []
         recall_scores = []
         relevancy_context_scores = []
         
-        for result in results:
+        for idx, result in enumerate(results):
             if not result['context'] or not result['ground_truth']:
                 continue
             
@@ -206,27 +230,36 @@ class RagEvaluator:
                 expected_output=result['ground_truth'],
                 retrieval_context=result['context']
             )
+
+            # Pause between queries to stay under RPM limits
+            if idx > 0:
+                print(f"    ⏸  Pausing {self.INTER_QUERY_DELAY}s between queries...")
+                time.sleep(self.INTER_QUERY_DELAY)
             
             try:
                 # Faithfulness
-                self.faithfulness_metric.measure(test_case)
-                faithfulness_scores.append(self.faithfulness_metric.score)
-                
+                score = self._measure_with_retry(self.faithfulness_metric, test_case)
+                faithfulness_scores.append(score)
+                time.sleep(self.INTER_METRIC_DELAY)
+
                 # Answer Relevancy
-                self.answer_relevancy_metric.measure(test_case)
-                relevancy_scores.append(self.answer_relevancy_metric.score)
-                
+                score = self._measure_with_retry(self.answer_relevancy_metric, test_case)
+                relevancy_scores.append(score)
+                time.sleep(self.INTER_METRIC_DELAY)
+
                 # Contextual Precision
-                self.contextual_precision_metric.measure(test_case)
-                precision_scores.append(self.contextual_precision_metric.score)
-                
+                score = self._measure_with_retry(self.contextual_precision_metric, test_case)
+                precision_scores.append(score)
+                time.sleep(self.INTER_METRIC_DELAY)
+
                 # Contextual Recall
-                self.contextual_recall_metric.measure(test_case)
-                recall_scores.append(self.contextual_recall_metric.score)
-                
+                score = self._measure_with_retry(self.contextual_recall_metric, test_case)
+                recall_scores.append(score)
+                time.sleep(self.INTER_METRIC_DELAY)
+
                 # Contextual Relevancy
-                self.contextual_relevancy_metric.measure(test_case)
-                relevancy_context_scores.append(self.contextual_relevancy_metric.score)
+                score = self._measure_with_retry(self.contextual_relevancy_metric, test_case)
+                relevancy_context_scores.append(score)
                 
             except Exception as e:
                 print(f"    Warning: Metric calculation failed: {e}")
@@ -311,18 +344,23 @@ class RagEvaluator:
 
 # Example usage
 if __name__ == "__main__":
-    # ── Auto-generate test queries from source documents
     from synthesize_test_queries import synthesize_test_queries
+
+    print("\n" + "="*70)
+    print("RAG System Evaluation with Synthesized Test Queries")
+    print("="*70)
+
+    # Generate test queries from source documents via deepeval.synthesizer
     test_queries = synthesize_test_queries()
 
     # Create reporter and evaluate
     reporter = RagEvaluator()
     reporter.initialize_rag_system()
     metrics = reporter.evaluate_rag_system(test_queries, n_results=3)
-    
-    # Print and export results
+
+    # Print results
     reporter.print_console_report()
-    
+
     print("\n" + "="*70)
     print("Performance evaluation complete!")
     print("="*70)
