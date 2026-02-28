@@ -53,12 +53,14 @@
 
 ## 📋 Project Summary
 
-An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers based on your own document collection. Built as part of the [Ready Tensor Agentic AI Essentials certification program](https://www.readytensor.ai/agentic-ai-essentials-cert/), this assistant combines semantic search with large language models to create a personalized knowledge base that you can query in natural language.
+An intelligent question-answering system that uses **Retrieval-Augmented Generation (RAG)** to provide accurate answers about the **TaskFlow Pro** project management platform. Built as part of the [Ready Tensor Agentic AI Essentials certification program](https://www.readytensor.ai/agentic-ai-essentials-cert/), this assistant combines semantic search with large language models and a two-stage query optimization pipeline to create a domain-aware knowledge base that you can query in natural language.
 
 **Key Capabilities:**
 - 🔍 Semantic document search using vector embeddings
-- 💬 Natural language question answering
+- 🧠 LLM-based query optimization — rewrites user queries before retrieval for better results
+- 💬 Natural language question answering with source attribution
 - 📚 Support for multiple document formats (.txt, .md)
+- 🏷️ Domain-aware document metadata (type, description, search keywords)
 - 🤖 Multi-provider LLM support (OpenAI, Groq, Google Gemini)
 - 💾 Persistent vector storage with ChromaDB
 - ⚙️ YAML-based configuration for easy customization
@@ -72,57 +74,69 @@ An intelligent question-answering system that uses **Retrieval-Augmented Generat
 
 ### What This Project Does
 
-This RAG assistant solves a common problem: **How to make AI understand and answer questions about YOUR specific documents**. Unlike general-purpose chatbots that only know information from their training data, this system:
+This RAG assistant is purpose-built for the **TaskFlow Pro** project management platform knowledge base. Unlike general-purpose chatbots that only know information from their training data, this system:
 
-1. **Ingests** your documents (company policies, research papers, documentation, etc.)
-2. **Indexes** them using semantic embeddings for intelligent search
-3. **Retrieves** the most relevant information when you ask a question
-4. **Generates** accurate, context-aware answers using state-of-the-art LLMs
+1. **Ingests** TaskFlow Pro documents (API docs, company policies, customer FAQ, product docs, security & compliance)
+2. **Indexes** them using semantic embeddings with domain-aware metadata for intelligent search
+3. **Optimizes** your query — an LLM rewrites and expands it before retrieval
+4. **Retrieves** the most relevant information when you ask a question
+5. **Generates** accurate, context-aware answers with source attribution using state-of-the-art LLMs
 
 ### How It Works
 
-The system implements a complete RAG pipeline:
+The system implements a **two-stage RAG pipeline** with LLM query optimization:
 
 ```
 ┌─────────────────┐
-│  Your Documents │
+│  Your Documents │  (TaskFlow Pro: API docs, policies, FAQ, etc.)
 └────────┬────────┘
          │
          ▼
 ┌─────────────────┐     ┌──────────────────┐
 │ Text Chunking   │────▶│ Create Embeddings│
-│ (Intelligent)   │     │ (Vector Space)   │
+│ (512 chars,     │     │ (Vector Space)   │
+│  50 overlap)    │     │                  │
 └─────────────────┘     └────────┬─────────┘
                                  │
                                  ▼
                         ┌─────────────────┐
                         │   Store in      │
                         │   ChromaDB      │
+                        │ (with domain    │
+                        │  metadata)      │
                         └────────┬────────┘
                                  │
          ┌───────────────────────┘
          │
          ▼
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  User Question  │────▶│ Semantic Search  │────▶│   LLM Generates  │
-│                 │     │ (Find Top 3)     │     │   Answer with    │
-└─────────────────┘     └──────────────────┘     │   Context        │
-                                                 └──────────────────┘
+│  User Question  │────▶│  Stage 1: LLM    │────▶│  Stage 2:        │
+│                 │     │  Query           │     │  Semantic Search │
+└─────────────────┘     │  Optimization    │     │  (Find Top N)    │
+                        │  (Rewrite &      │     └────────┬─────────┘
+                        │  Expand Query)   │              │
+                        └──────────────────┘              ▼
+                                                ┌──────────────────┐
+                                                │  LLM Generates   │
+                                                │  Answer with     │
+                                                │  Source Citation │
+                                                └──────────────────┘
 ```
 
 **Step-by-Step Process:**
 
-1. **Document Loading**: Reads `.txt` and `.md` files from the `data/` directory
-2. **Text Chunking**: Uses LangChain's RecursiveCharacterTextSplitter for intelligent chunking
+1. **Document Loading**: Reads `.txt` and `.md` files from the `data/` directory with domain-specific metadata (document type, description, search keywords)
+2. **Text Chunking**: Uses LangChain's RecursiveCharacterTextSplitter (512-char chunks, 50-char overlap)
 3. **Embedding Creation**: Converts text chunks to 384-dimensional vectors using sentence-transformers
 4. **Vector Storage**: Stores embeddings in ChromaDB with persistent local storage
 5. **Query Processing**: When you ask a question:
-   - Your question is converted to a vector
-   - System finds the most similar document chunks
-   - Chunks are combined as context for the LLM
-   - LLM generates an answer based on the retrieved context
+   - **Stage 1 — Query Optimization**: The LLM rewrites your raw question into an optimized retrieval query (expands abbreviations, adds domain synonyms, removes filler words)
+   - **Stage 2 — Retrieval & Generation**: The optimized query finds the most similar document chunks; the LLM generates an answer with source attribution from the retrieved context
 
 ### Technical Approach
+
+**Two-Stage RAG Pipeline:**
+The core innovation in this project is the two-stage pipeline. Rather than searching with the raw user question, the system first sends it through an LLM-based **query optimizer** that expands abbreviations (e.g., "2FA" → "two-factor authentication"), adds domain synonyms likely to appear in TaskFlow Pro documents, and strips filler words. Only then does it perform the semantic search. This consistently improves retrieval precision.
 
 **Vector Search vs. Keyword Search:**
 Traditional keyword search looks for exact word matches. This RAG system uses *semantic search*, which understands meaning. For example:
@@ -134,7 +148,7 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 - ✅ No expensive model retraining needed
 - ✅ Update knowledge base by just adding documents
 - ✅ Reduces hallucinations (answers based on your docs)
-- ✅ Transparent and explainable results
+- ✅ Transparent and explainable results with source attribution
 
 ---
 
@@ -142,13 +156,15 @@ Traditional keyword search looks for exact word matches. This RAG system uses *s
 
 ### Document Processing
 - 📚 **Automatic Loading**: Scans `data/` folder for `.txt` and `.md` files
-- 🔄 **Smart Chunking**: RecursiveCharacterTextSplitter preserves context across chunks
+- 🏷️ **Domain Metadata**: Each document is tagged with its type (API Docs, FAQ, Policies, etc.), description, and search keywords
+- 🔄 **Smart Chunking**: RecursiveCharacterTextSplitter with 512-char chunks and 50-char overlap preserves context across chunks
 - 💾 **Persistent Storage**: ChromaDB with local file-based persistence
 
 ### Search & Retrieval
+- 🧠 **Query Optimization**: LLM rewrites user queries for better retrieval — expands abbreviations, adds domain synonyms, removes filler
 - 🔍 **Semantic Search**: sentence-transformers/all-MiniLM-L6-v2 (384-dim embeddings)
 - 📊 **Configurable Results**: Retrieve top N most relevant chunks (default: 3)
-- 🎯 **High Precision**: Vector similarity ensures relevant context
+- 🎯 **Source Attribution**: Answers cite the document type and filename they came from
 
 ### LLM Integration
 - 🤖 **Multi-Provider Support**: 
@@ -236,21 +252,22 @@ agentic-ai-essentials-cert-project/
 ### Core Components
 
 **1. Document Loader (`app.py:load_documents`)**
-- Scans `data/` directory for supported file types
-- Supports `.txt` and `.md` files
-- Returns list of documents with content and metadata
+- Scans `data/` directory for supported file types (`.txt`, `.md`)
+- Attaches domain-specific metadata to each document: `document_type`, `document_description`, `search_keywords`, `domain`
+- Uses `DOCUMENT_TYPE_MAP` to classify documents (customer_faq, api_documentation, company_policies, product_documentation, security_compliance)
 
 **2. VectorDB (`vectordb.py:VectorDB`)**
 - Wraps ChromaDB for vector storage
-- Uses sentence-transformers for embeddings
-- Implements intelligent text chunking
-- Provides semantic search functionality
+- Uses sentence-transformers for embeddings (384-dim, all-MiniLM-L6-v2)
+- Implements intelligent text chunking (512-char chunks, 50-char overlap)
+- Provides semantic search functionality returning documents, metadatas, distances, and IDs
 
 **3. RAG Assistant (`app.py:RAGAssistant`)**
-- Orchestrates the complete RAG pipeline
+- Orchestrates the complete two-stage RAG pipeline
+- **Stage 1 — Query Optimization**: `_optimize_query()` uses the LLM to rewrite user queries for better retrieval
+- **Stage 2 — Retrieval & Generation**: `query()` retrieves top-N chunks and generates answers with `_format_context()` providing source attribution
 - Supports multiple LLM providers (OpenAI, Groq, Google)
-- Uses LangChain for prompt templating
-- Constrains answers to provided context
+- Uses LangChain for prompt templating; constrains answers strictly to provided context
 
 **4. Configuration (`config.py`)**
 - Loads settings from YAML
@@ -443,25 +460,29 @@ Vector database initialized with collection: rag_documents
 RAG Assistant initialized successfully
 
 Loading documents...
-Loaded: api_documentation.md
-Loaded: customer_faq.md
-Loaded: company_policies.md
-Loaded: security_compliance.md
-Loaded: product_documentation.md
-Loaded 5 sample documents
+Loaded [API Documentation]: api_documentation.md
+Loaded [Customer FAQ]: customer_faq.md
+Loaded [Company Policies]: company_policies.md
+Loaded [Security & Compliance]: security_compliance.md
+Loaded [Product Documentation]: product_documentation.md
+Loaded 5 documents
 Processing 5 documents...
-Document 1: Split into 71 chunks
-Document 2: Split into 120 chunks
-Document 3: Split into 81 chunks
-Document 4: Split into 106 chunks
-Document 5: Split into 77 chunks
-Creating embeddings for 455 chunks...
-Batches: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15/15 [00:02<00:00,  6.86it/s]
+Document 1: Split into 33 chunks
+Document 2: Split into 49 chunks
+Document 3: Split into 36 chunks
+Document 4: Split into 44 chunks
+Document 5: Split into 40 chunks
+Creating embeddings for 202 chunks...
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:02<00:00,  3.34it/s]
 Adding to vector database...
-Successfully added 455 chunks to vector database
-Enter a question or 'quit' to exit: What vacation days do employees get?
-Here is the breakdown of vacation days for employees:
 
+Enter a question or 'quit' to exit: What vacation days do employees get?
+  [Query Optimization] Original: 'What vacation days do employees get?'
+  [Query Optimization] Optimized: 'Employee vacation days policy; employee time off benefits; TaskFlow Pro company policies.'
+
+According to the Company Policies:
+
+**Vacation Days:**
 *   0-2 years: 20 days per year
 *   3-5 years: 25 days per year
 *   5+ years: 30 days per year
@@ -530,6 +551,20 @@ llm:
 # ============================================================================
 paths:
   data_directory: data     # Directory containing your documents
+
+# ============================================================================
+# Chunking Configuration
+# ============================================================================
+chunking:
+  chunk_size: 512        # Characters per chunk (optimised for TaskFlow Pro markdown docs)
+  chunk_overlap: 50      # Overlap to preserve context across chunk boundaries
+
+# ============================================================================
+# RAG Query Configuration
+# ============================================================================
+rag:
+  default_n_results: 3      # Number of chunks to retrieve per query
+  query_optimization: true  # Enable LLM-based query rewriting before retrieval
 ```
 
 **After Changing Configuration:**
@@ -804,11 +839,11 @@ python src/app.py
 ### Known Limitations
 
 - **Document Size**: Maximum document size limited by available RAM
-- **Chunk Size**: 256 characters may split complex concepts; adjust in config
+- **Chunk Size**: 512-character chunks may split complex concepts; adjust `chunking.chunk_size` in config.yaml
 - **Embedding Quality**: Depends on sentence-transformers model choice
 - **Answer Quality**: Depends on LLM provider and model selection
-- **Rate Limits**: Free tiers have usage restrictions
-- **Context Window**: Top-3 chunks may miss relevant information; increase `n_results`
+- **Rate Limits**: Free tiers have usage restrictions; query optimization doubles LLM calls per question
+- **Context Window**: Top-3 chunks may miss relevant information; increase `rag.default_n_results` in config.yaml
 - **Language Support**: Optimized for English; multilingual models available
 
 ---
