@@ -1,0 +1,1416 @@
+[
+  {
+    "query": "How to use GET /tasks endpoint to filter tasks by project and limit results?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_8"
+    ],
+    "ground_truth": "To filter tasks by project and limit results using the `GET /tasks` endpoint, use the `project_id` and `limit` query parameters. For example: `GET /tasks?project_id=your_project_id&limit=20`.\n"
+  },
+  {
+    "query": "If an employee is sick for 3 weeks, what documentation is needed?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_14"
+    ],
+    "ground_truth": "Medical documentation may be required for an extended illness beyond 2 weeks.\n"
+  },
+  {
+    "query": "If a critical task was reassigned, how would notification settings ensure you're promptly alerted?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_19"
+    ],
+    "ground_truth": "You can customize notification preferences in Settings > Notifications to receive email, in-app, mobile push, or browser push notifications for task assignments.\n"
+  },
+  {
+    "query": "Examine the storage limitations for each user during the 14-day professional plan trial.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_1"
+    ],
+    "ground_truth": "During the 14-day free trial, each user has 100GB of storage.\n"
+  },
+  {
+    "query": "What OS versions do TaskFlow Pro's iOS and Android apps require?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_3"
+    ],
+    "ground_truth": "The iOS app requires iOS 14 or later, and the Android app requires Android 10 or later.\n"
+  },
+  {
+    "query": "What specific learning and development opportunities, including courses, conferences, and certifications, are covered under the company's $3,000 annual budget?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_16"
+    ],
+    "ground_truth": "The company's $3,000 annual budget covers courses, conferences, and certifications.\n"
+  },
+  {
+    "query": "Analyze MFA issues during login and suggest troubleshooting steps for account recovery.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_40"
+    ],
+    "ground_truth": "The provided context does not contain information about MFA issues or account recovery. Therefore, I cannot analyze MFA issues during login or suggest troubleshooting steps for account recovery.\n"
+  },
+  {
+    "query": "Detail the process of assigning granular user permissions within a multi-tenant cloud environment.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_28"
+    ],
+    "ground_truth": "The context does not provide details on assigning granular user permissions within a multi-tenant cloud environment. Therefore, I cannot detail the process.\n"
+  },
+  {
+    "query": "Is onboarding assistance part of your service offerings?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_34"
+    ],
+    "ground_truth": "Yes, onboarding assistance is offered.\n"
+  },
+  {
+    "query": "What is the request limit/hr for the Starter plan, according to the API key?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_5"
+    ],
+    "ground_truth": "The Starter plan has a limit of 100 requests per hour per API key.\n"
+  },
+  {
+    "query": "After canceling, how long is data preserved before deletion?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_8"
+    ],
+    "ground_truth": "After cancellation, your data is preserved for 90 days.\n"
+  },
+  {
+    "query": "If TaskFlow Pro eliminated all offices, how would its remote-first policy be affected?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_4"
+    ],
+    "ground_truth": "TaskFlow Pro's remote-first policy would not be affected because all positions can be performed remotely from anywhere with reliable internet access. The offices are only for employees who prefer occasional in-person work.\n"
+  },
+  {
+    "query": "Explain the architecture of push notification systems and their impact on mobile app engagement.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_18"
+    ],
+    "ground_truth": "The context does not provide information about the architecture of push notification systems or their impact on mobile app engagement. Therefore, I cannot answer your question.\n"
+  },
+  {
+    "query": "Analyze the common causes of persistent file upload failures, focusing on network instability.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_46"
+    ],
+    "ground_truth": "The context provided does not contain information about the common causes of persistent file upload failures or network instability. Therefore, I cannot answer your question.\n"
+  },
+  {
+    "query": "If a task is deleted, what HTTP response code confirms successful deletion?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_13"
+    ],
+    "ground_truth": "204 No Content\n"
+  },
+  {
+    "query": "If company performance drastically exceeds expectations, when might employees see additional compensation adjustments beyond the annual review?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_7"
+    ],
+    "ground_truth": "Mid-year adjustments may occur for promotions or significant role changes.\n"
+  },
+  {
+    "query": "Who should I contact for notification issues, and what info should I provide?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_44"
+    ],
+    "ground_truth": "Contact support with details about which notifications aren't working.\n"
+  },
+  {
+    "query": "How do task dependencies ensure sequential work and affect project visualization?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_14"
+    ],
+    "ground_truth": "Task dependencies ensure sequential work by preventing dependent tasks from being moved to \"In Progress\" until their blockers are complete. They are visualized in Gantt chart view and affect critical path calculations.\n"
+  },
+  {
+    "query": "If 2FA is enabled and login fails, what steps should be taken before emailing support@taskflowpro.com?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_41"
+    ],
+    "ground_truth": "Ensure your authenticator app is showing current codes, clear your browser cache and cookies, or try a different browser.\n"
+  },
+  {
+    "query": "Examine the stipulations for int'l remote work, incl. tax/legal implications and approval processes.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_5"
+    ],
+    "ground_truth": "International remote work requires approval and may involve tax/legal considerations.\n"
+  },
+  {
+    "query": "Examine payment options for enterprise accounts, focusing on bank transfers and NET 30 terms.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_5"
+    ],
+    "ground_truth": "Enterprise customers can pay via bank transfer (ACH or wire) with NET 30 payment terms.\n"
+  },
+  {
+    "query": "If all time entries lacked a project ID, how could you retrieve entries?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_19"
+    ],
+    "ground_truth": "The provided documentation does not specify a way to retrieve time entries based on the absence of a project ID. You can only filter by `project_id` if you have a specific project ID.\n"
+  },
+  {
+    "query": "Outline the process for Business and Enterprise clients to escalate API request limits.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_7"
+    ],
+    "ground_truth": "Business and Enterprise customers can request higher rate limits by emailing api-support@taskflowpro.com, providing their use case and expected request volume. Approval typically takes within 2 business days.\n"
+  },
+  {
+    "query": "Besides badge access, what amenities are available to employees at the office?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_6"
+    ],
+    "ground_truth": "Hot desks, conference rooms, complimentary snacks and beverages, catered lunch on Wednesdays, bike storage, and shower facilities are available to employees at the office.\n"
+  },
+  {
+    "query": "If TaskFlow Pro suddenly couldn't integrate w/ Slack, how would users connect?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_20"
+    ],
+    "ground_truth": "The context does not provide information on how users would connect if TaskFlow Pro suddenly couldn't integrate with Slack.\n"
+  },
+  {
+    "query": "After navigating to Settings, Developers, and API Keys, what steps ensure secure API key generation?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_2"
+    ],
+    "ground_truth": "To ensure secure API key generation, provide a descriptive name, select appropriate scopes/permissions, copy the key immediately, and store it securely in environment variables.\n"
+  },
+  {
+    "query": "How can tasks deleted within 30 days be restored, and where can they be found?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_45"
+    ],
+    "ground_truth": "Tasks deleted within the last 30 days can be restored from the Trash by going to Settings > Trash and clicking \"Restore.\"\n"
+  },
+  {
+    "query": "How is the X-TaskFlow-Signature verified using the hmac module and a secret key?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_24"
+    ],
+    "ground_truth": "The X-TaskFlow-Signature is verified using the `hmac` module by creating a SHA256 hash of the payload using the secret key, and then comparing it to the provided signature. The example Python code shows how to accomplish this using `hmac.new` and `hmac.compare_digest`.\n"
+  },
+  {
+    "query": "Compare vision insurance coverage for eye exams and mental health support regarding therapy sessions.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_11"
+    ],
+    "ground_truth": "Vision insurance covers annual eye exams at 100%, while mental health support offers unlimited therapy sessions through the EAP.\n"
+  },
+  {
+    "query": "Compare Taskflowpro's GDPR and CCPA compliance: What rights do users have regarding their data?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_30"
+    ],
+    "ground_truth": "Taskflowpro is fully GDPR and CCPA compliant. Users own their data and can export or delete it at any time. They can also request data access, correction, or deletion by contacting privacy@taskflowpro.com.\n"
+  },
+  {
+    "query": "Compare the project creation limits between the Starter plan and paid plans, including archived projects.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_11"
+    ],
+    "ground_truth": "With the free Starter plan, you can create up to 3 active projects, while paid plans allow unlimited projects. Archived projects don't count toward this limit on either plan.\n"
+  },
+  {
+    "query": "For US employees, what is the company's 401(k) matching policy, including vesting details?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_12"
+    ],
+    "ground_truth": "The company matches 100% of contributions up to 6% of salary, with immediate vesting of the company match for US employees.\n"
+  },
+  {
+    "query": "Compare the meanings of 200 OK, 400 Bad Request, and 401 Unauthorized HTTP status codes.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_26"
+    ],
+    "ground_truth": "`200 OK` means the request was successful. `400 Bad Request` means there were invalid request parameters. `401 Unauthorized` means there was an invalid or missing API key.\n"
+  },
+  {
+    "query": "What's the required format and response code for logging time via POST?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_18"
+    ],
+    "ground_truth": "To log time via POST to `/time-entries`, the request body should be in JSON format, including fields like `task_id`, `user_id`, `duration`, `description`, `started_at`, and `billable`. The response code for a successful request is `201 Created`.\n"
+  },
+  {
+    "query": "How do response times vary across support levels, and what is the update frequency for the API?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_32"
+    ],
+    "ground_truth": "Response times vary across support levels: Professional (24 hours), Business (4 hours), and Enterprise (1 hour). The API version is v1.0, and it was last updated in January 2026.\n"
+  },
+  {
+    "query": "Why aren't notifications working? Explain possible causes.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_42"
+    ],
+    "ground_truth": "The context provided is \"Why aren't my notifications working?\". Therefore, a response explaining possible causes is appropriate.\n"
+  },
+  {
+    "query": "How does the GET `/users/me` endpoint provide a user's `id`, `email`, and `created_at`?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_17"
+    ],
+    "ground_truth": "The GET `/users/me` endpoint returns a JSON object containing the user's `id`, `email`, and `created_at` along with other user details such as `name`, `role`, `avatar_url`, and `timezone`.\n"
+  },
+  {
+    "query": "Examine the policy on accruing & rolling over vacation days for employees with 5+ years tenure.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_13"
+    ],
+    "ground_truth": "Employees with 5+ years tenure receive 30 vacation days per year, accrued monthly and available immediately. Unused days roll over up to a maximum of 10 days.\n"
+  },
+  {
+    "query": "If wellness stipends doubled, how would employee health change, considering ergonomic equipment access?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_17"
+    ],
+    "ground_truth": "The context doesn't provide information on how doubling wellness stipends would change employee health, especially considering ergonomic equipment access. It only lists current wellness benefits.\n"
+  },
+  {
+    "query": "What are the recommended security practices for API keys regarding version control and access privileges?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_3"
+    ],
+    "ground_truth": "Never commit API keys to version control and limit API key permissions to the minimum required access.\n"
+  },
+  {
+    "query": "How can I set up daily, weekly, monthly, yearly, or custom recurring tasks with specified end dates?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_13"
+    ],
+    "ground_truth": "When creating or editing a task, click \"Make Recurring\" and choose your schedule. Options include daily, weekly, monthly, yearly, or custom intervals. You can specify an end date.\n"
+  },
+  {
+    "query": "If an employee starts at 7 AM, what is the latest start time possible with manager approval?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_3"
+    ],
+    "ground_truth": "The latest start time possible with manager approval is 11:00 AM, as long as core hours are covered and team collaboration isn't impacted.\n"
+  },
+  {
+    "query": "Compare the error response's 'details' and 'message' fields. What info do they contain?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_25"
+    ],
+    "ground_truth": "The `details` field in the error response provides specific information about individual errors, including the `field` where the error occurred and a more detailed `message` describing the issue. The `message` field provides a general description of the error.\n"
+  },
+  {
+    "query": "How do I begin a TaskFlow Pro trial, and what info is needed?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_0"
+    ],
+    "ground_truth": "To begin a TaskFlow Pro trial, visit taskflowpro.com and click \"Start Free Trial\". You'll need to provide your work email address and create a password.\n"
+  },
+  {
+    "query": "How to enable TaskFlow notifications via settings and resolve email notification issues?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_43"
+    ],
+    "ground_truth": "To enable TaskFlow notifications, check your notification settings in Settings > Notifications and ensure notifications are enabled for the event types you want. For email issues, check your spam folder and add noreply@taskflowpro.com to your contacts.\n"
+  },
+  {
+    "query": "What support options are available for Taskflowpro's Starter, Professional, Business, and Enterprise plans?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_32"
+    ],
+    "ground_truth": "Starter plan users can submit tickets via email (support@taskflowpro.com). Professional plan users get priority email and live chat support (Mon-Fri, 9 AM - 6 PM EST). Business plan users can call our support line (1-888-TASKFLOW). Enterprise customers receive 24/7 support via dedicated Slack channel or phone.\n"
+  },
+  {
+    "query": "Examine the utilization of webhooks for immediate alerts upon task completion within TaskFlow Pro.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_21"
+    ],
+    "ground_truth": "Webhooks in TaskFlow Pro can be used to receive real-time notifications when events occur, including \"task.completed\". You can create a webhook by sending a POST request to `/webhooks` with the `events` array including \"task.completed\".\n"
+  },
+  {
+    "query": "What is the purpose of `project_id` and `assignee_id` when creating a task?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_31"
+    ],
+    "ground_truth": "When creating a task, `project_id` (e.g., `proj_abc123`) specifies the project to which the task belongs, and `assignee_id` (e.g., `user_456`) specifies the user to whom the task is assigned.\n"
+  },
+  {
+    "query": "What request body parameters, like title and description, are required to create a new task?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_12"
+    ],
+    "ground_truth": "To create a new task, the request body should include parameters such as \"title\", \"description\", \"project_id\", \"assignee_id\", \"due_date\", \"priority\", \"status\", \"tags\", and \"time_estimate\".\n"
+  },
+  {
+    "query": "Compare the health insurance premium coverage for employees vs. dependents alongside stock options and RSUs eligibility.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_9"
+    ],
+    "ground_truth": "The company covers 90% of health insurance premiums for employees and 70% for dependents. Stock options are for roles hired before 2023, while RSUs are for roles hired 2023 onwards.\n"
+  },
+  {
+    "query": "What query parameters can filter `/projects`, and how do they affect the GET request?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_14"
+    ],
+    "ground_truth": "The query parameters that can filter `/projects` are `status`, `team_id`, `limit`, and `offset`. `status` filters by status (active, archived, completed), `team_id` filters by team, `limit` dictates results per page, and `offset` is for pagination.\n"
+  },
+  {
+    "query": "What are the refund policies for annual vs. monthly subscriptions, and what about enterprise contracts?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_10"
+    ],
+    "ground_truth": "Annual subscriptions have a 30-day money-back guarantee. Monthly subscriptions are not refundable. Enterprise contracts have custom refund terms specified in your agreement.\n"
+  },
+  {
+    "query": "How does logging in during billing affect workspace charges, considering guest exceptions and user adjustments?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_7"
+    ],
+    "ground_truth": "We charge based on the number of active users in your workspace, and an active user is anyone who logs in during the billing period. Guest users don't count toward your user total. You can add or remove users at any time, and when you add users mid-cycle, we'll charge a prorated amount.\n"
+  },
+  {
+    "query": "What other permissions exist besides `tasks:read` and what does `tasks:write` allow?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_4"
+    ],
+    "ground_truth": "Besides `tasks:read`, other permissions include `tasks:write`, `projects:read`, `projects:write`, `users:read`, `users:write`, `reports:read`, `webhooks:manage`, and `admin:all`. `tasks:write` allows you to create and update tasks.\n"
+  },
+  {
+    "query": "Compare the request body needed to create a project vs. getting the current user's info.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_16"
+    ],
+    "ground_truth": "To create a project, use a POST request to `/projects` with a JSON body containing project details like name, description, owner\\_id, team\\_id, start\\_date, due\\_date, and template\\_id. To get the current user's info, use a GET request to `/users/me` without a request body.\n"
+  },
+  {
+    "query": "List steps to check file size, storage, connection, type, and browser when uploads fail.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_47"
+    ],
+    "ground_truth": "1.  Check that your file is under the size limit (500MB per file).\n2.  Verify you haven't exceeded your storage quota (visible in Settings > Usage).\n3.  Ensure your internet connection is stable.\n4.  Check that the file type is not blocked.\n5.  Try a different browser or disable browser extensions.\n"
+  },
+  {
+    "query": "What are the maximum support response times via email, chat, or phone for each plan?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_33"
+    ],
+    "ground_truth": "*   **Starter:** 48 hours via email\n*   **Professional:** 4 hours via email/chat\n*   **Business:** 1 hour via phone/email/chat\n*   **Enterprise:** 30 minutes via dedicated channel\n"
+  },
+  {
+    "query": "If a new task is created, what webhook event is triggered?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_22"
+    ],
+    "ground_truth": "When a new task is created, the `task.created` webhook event is triggered.\n"
+  },
+  {
+    "query": "How does customer obsession relate to exceeding expectations and listening to customers?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_1"
+    ],
+    "ground_truth": "Customer obsession means every decision starts with the customer; the company listens, iterates, and delivers solutions that exceed expectations.\n"
+  },
+  {
+    "query": "Examine the automation capabilities of TaskFlow Pro API for custom workflow integrations.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_0"
+    ],
+    "ground_truth": "The TaskFlow Pro REST API allows developers to integrate TaskFlow functionality into their applications, automate workflows, and build custom integrations.\n"
+  },
+  {
+    "query": "List the installation commands for the Taskflowpro SDKs in Python and Ruby.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_30"
+    ],
+    "ground_truth": "To install the Taskflowpro SDK in Python, use `pip install taskflowpro`. For Ruby, use `gem install taskflowpro`.\n"
+  },
+  {
+    "query": "If a full-time employee leaves after 1yr, what equity portion is vested?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_8"
+    ],
+    "ground_truth": "After 1 year of employment, a full-time employee's equity is fully vested due to the 1-year cliff (Equity Grants).\n"
+  },
+  {
+    "query": "What on-demand materials become accessible post live sessions?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_38"
+    ],
+    "ground_truth": "Materials are available on-demand after live sessions.\n"
+  },
+  {
+    "query": "What is TaskFlow Pro's mission re: project management tools and team empowerment?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_0"
+    ],
+    "ground_truth": "TaskFlow Pro's mission is to empower teams worldwide with intuitive, powerful tools that make project management effortless and collaboration seamless.\n"
+  },
+  {
+    "query": "What training opportunities exist for teams, and how can they enhance team performance?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_36"
+    ],
+    "ground_truth": "Training is available for your team.\n"
+  },
+  {
+    "query": "Examine the platform's custom report builder capabilities, including data filtering and automated delivery options.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_17"
+    ],
+    "ground_truth": "You can create custom reports using our drag-and-drop report builder, filter data, and schedule automated report delivery via email.\n"
+  },
+  {
+    "query": "After connecting a GitHub account, how do TaskFlow task IDs link commits and issues?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_23"
+    ],
+    "ground_truth": "After connecting your GitHub account, you can reference TaskFlow tasks in commit messages using task IDs (e.g., \"Fixed bug #TASK-123\").\n"
+  },
+  {
+    "query": "How do diverse teams & work-life balance contribute to sustained excellence?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_2"
+    ],
+    "ground_truth": "Diverse perspectives make us stronger, and balance is essential to sustained excellence.\n"
+  },
+  {
+    "query": "How do TaskFlowPro's web, mobile, API statuses relate to real-time system status updates?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_39"
+    ],
+    "ground_truth": "The status page includes separate monitors for web app, mobile apps, API, and integrations.\n"
+  },
+  {
+    "query": "How to filter tasks by status and priority using API query parameters?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_28"
+    ],
+    "ground_truth": "Use query parameters to filter results: `GET /tasks?status=open&priority=high`.\n"
+  },
+  {
+    "query": "How does clicking the timer icon on a task initiate time tracking, and where is the logged data stored?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_16"
+    ],
+    "ground_truth": "Clicking the timer icon on a task starts the timer, which runs in the background. Time entries are logged against the task with start and end timestamps, and all time data appears in your timesheets.\n"
+  },
+  {
+    "query": "Where are AWS data centers for NA and EU customers located?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_26"
+    ],
+    "ground_truth": "Data for North American customers is stored in US East (Virginia) and US West (Oregon) regions. European customers' data is stored in EU West (Ireland) or EU Central (Frankfurt).\n"
+  },
+  {
+    "query": "What is the data retention period after cancellation, and how can I request immediate deletion?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_31"
+    ],
+    "ground_truth": "Your data is retained for 90 days after cancellation. To immediately delete your data, contact support with a deletion request.\n"
+  },
+  {
+    "query": "If TaskFlowPro's API access was suddenly free, what programmatic actions could users perform?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_24"
+    ],
+    "ground_truth": "Users could create, read, update, and delete tasks, projects, users, and time entries programmatically using the API.\n"
+  },
+  {
+    "query": "Compare inviting team members via email vs. using a shareable invite link.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_4"
+    ],
+    "ground_truth": "You can invite team members by entering their email addresses or by importing a CSV file with email addresses. Alternatively, you can generate a shareable invite link, which allows team members to sign up without requiring individual email invitations.\n"
+  },
+  {
+    "query": "If rate limits are consistently exceeded, what strategies, like exponential backoff, can optimize API usage?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_6"
+    ],
+    "ground_truth": "Implement exponential backoff for retries, cache responses when possible, use webhooks instead of polling, batch requests when supported, and monitor rate limit headers.\n"
+  },
+  {
+    "query": "How do custom workflows and automation rules enhance project task management?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_15"
+    ],
+    "ground_truth": "Custom workflows, with customizable columns, and automation rules enhance project task management by allowing you to add, remove, or rename columns and set up automation rules that move tasks between columns based on triggers.\n"
+  },
+  {
+    "query": "Compare permission levels for Admins, Members, and Guests in TaskFlow; what custom roles are available in higher plans?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_29"
+    ],
+    "ground_truth": "Admins have full access, Members can create projects and tasks, and Guests have read-only access. Business and Enterprise plans offer custom roles.\n"
+  },
+  {
+    "query": "Explain the syntax for sorting tasks by priority (descending) and due date (ascending) via API.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_29"
+    ],
+    "ground_truth": "To sort tasks by priority (descending) and due date (ascending), use the following syntax: `GET /tasks?sort=priority:desc,due_date:asc`.\n"
+  },
+  {
+    "query": "On which specific subscription levels is 2FA a mandatory security feature, and what methods are supported?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_27"
+    ],
+    "ground_truth": "2FA is required on Professional plans and above. Supported methods include authenticator apps (Google Authenticator, Authy, 1Password), SMS codes, and hardware security keys (YubiKey).\n"
+  },
+  {
+    "query": "What functionalities, like task creation and updates, does the TaskFlow Slack integration offer users?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_21"
+    ],
+    "ground_truth": "The TaskFlow Slack integration allows users to receive task updates, create tasks using slash commands like `/taskflow create`, search TaskFlow with `/taskflow find`, and convert Slack messages to tasks.\n"
+  },
+  {
+    "query": "Explain the recommended method, i.e., Bearer Token, for API key authentication in requests.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_1"
+    ],
+    "ground_truth": "The recommended method for API key authentication is using a Bearer Token in the `Authorization` header: `Authorization: Bearer YOUR_API_KEY`.\n"
+  },
+  {
+    "query": "How does TLS 1.3 encryption during data transit ensure security, as validated by audits and compliance?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_25"
+    ],
+    "ground_truth": "Data is encrypted in transit using TLS 1.3, and the security practices are validated through regular security audits and compliance with GDPR, CCPA, and other privacy regulations.\n"
+  },
+  {
+    "query": "Explain the billing implications of downgrading a subscription mid-cycle, including feature access.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_6"
+    ],
+    "ground_truth": "When you downgrade, the change takes effect at the end of your current billing cycle, and you'll retain access to premium features until then.\n"
+  },
+  {
+    "query": "If a task has the max subtask nesting, how many tasks are there?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_12"
+    ],
+    "ground_truth": "The context states that you can nest subtasks up to 5 levels deep, but it doesn't specify the number of tasks at each level. Therefore, it's impossible to determine the total number of tasks.\n"
+  },
+  {
+    "query": "List Taskflowpro's training options, noting which incur extra fees and who gets free quarterly training.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_37"
+    ],
+    "ground_truth": "Taskflowpro offers: a free self-service Academy, weekly public webinars, and private training sessions for Business and Enterprise customers (additional fees may apply). Enterprise customers receive complimentary quarterly training sessions.\n"
+  },
+  {
+    "query": "Examine the eligibility criteria for subsequent paid sabbaticals and their approved usage post-5 years' service.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_15"
+    ],
+    "ground_truth": "After 5 years of continuous service, employees are eligible for a 4-week paid sabbatical, with additional sabbaticals available every 5 years thereafter. Sabbaticals must be taken in a continuous block and can be used for travel, rest, learning, or personal projects.\n"
+  },
+  {
+    "query": "What's the status, priority, assignee ID, and due date for updating API documentation?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_10"
+    ],
+    "ground_truth": "The status is in progress, the priority is high, the assignee ID is user_123, and the due date is 2026-01-15T17:00:00Z for updating API documentation.\n"
+  },
+  {
+    "query": "If a user switches from Jira, what steps ensure complete data migration?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_2"
+    ],
+    "ground_truth": "To ensure complete data migration from Jira, go to Settings > Import Data and select Jira as your source platform. The import wizard will guide you through the process, migrating your projects, tasks, comments, attachments, and user assignments while preserving dates and relationships.\n"
+  },
+  {
+    "query": "List medical insurance plan options, their coverage start date, and PPO max out-of-pocket.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_10"
+    ],
+    "ground_truth": "The medical insurance plan options are PPO, HMO, and High-Deductible with HSA. Coverage begins on your first day of employment. The PPO maximum out-of-pocket is $3,000 for individuals and $6,000 for families.\n"
+  },
+  {
+    "query": "Compare the request body and the response after initial implementation; what IDs are generated?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_20"
+    ],
+    "ground_truth": "The response generates a comment ID (\"comment_abc\") and associates it with a task ID (\"task_xyz789\").\n"
+  },
+  {
+    "query": "How can TaskFlow tasks w/ due dates automatically appear on Google Calendar via Settings > Integrations?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_22"
+    ],
+    "ground_truth": "Connect Google Calendar in Settings > Integrations > Google Calendar. Once connected, your TaskFlow tasks with due dates automatically appear on your Google Calendar.\n"
+  },
+  {
+    "query": "What specific data fields, like `id`, `name`, `description`, `status`, `owner_id`, `team_id`, `start_date`, `due_date`, `created_at`, `task_count`, `completed_tasks`, and `progress_percent`, are contained within the JSON object representing a project?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_15"
+    ],
+    "ground_truth": "The JSON object representing a project contains the data fields: `id`, `name`, `description`, `status`, `owner_id`, `team_id`, `start_date`, `due_date`, `created_at`, `task_count`, `completed_tasks`, and `progress_percent`.\n"
+  },
+  {
+    "query": "How can registered nonprofits/educational institutions get a 50% discount on Taskflowpro's annual subscriptions?\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_9"
+    ],
+    "ground_truth": "Registered nonprofits and educational institutions can get a 50% discount on Taskflowpro's annual subscriptions by applying at taskflowpro.com/nonprofit or taskflowpro.com/education and providing proof of status.\n"
+  },
+  {
+    "query": "How to use curl to list all 'urgent' tasks in 'proj_abc123' from Taskflowpro API?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_9"
+    ],
+    "ground_truth": "```bash\ncurl -X GET \"https://api.taskflowpro.com/v1/tasks?project_id=proj_abc123&status=open\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\"\n```\nThis command retrieves tasks with `project_id` of `proj_abc123` and `status` of `open` from the Taskflowpro API.  The provided example does not filter by urgency.\n"
+  },
+  {
+    "query": "Compare onboarding processes for Professional, Business, and Enterprise plans, noting support and training differences.\n",
+    "relevant_doc_ids": [
+      "doc_1_chunk_35"
+    ],
+    "ground_truth": "Professional plan users can schedule a 30-minute onboarding call with the customer success team. Business plan users receive personalized onboarding, training sessions, and ongoing support from a dedicated customer success manager. Enterprise plans include custom onboarding programs tailored to your organization's needs, including admin training, user workshops, and change management support.\n"
+  },
+  {
+    "query": "What are the key differences between the \"event\" and \"data\" fields in the `task.created` webhook payload?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_23"
+    ],
+    "ground_truth": "The \"event\" field in the `task.created` webhook payload specifies the event type (e.g., \"task.created\"), while the \"data\" field contains the actual data associated with the event, such as task details (id, title, project_id, etc.).\n"
+  },
+  {
+    "query": "What is the notice period for individual contributors during resignation?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_33"
+    ],
+    "ground_truth": "Individual contributors are required to provide 2 weeks' notice.\n"
+  },
+  {
+    "query": "How do annual penetration tests by independent firms ensure remediation of vulnerabilities?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_11"
+    ],
+    "ground_truth": "All critical and high-severity findings are remediated within 30 days.\n"
+  },
+  {
+    "query": "What specific security training must employees complete during their first week?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_30"
+    ],
+    "ground_truth": "Complete security training.\n"
+  },
+  {
+    "query": "What does TaskFlow Pro's SOC 2 Type II certification indicate about its security commitment?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_19"
+    ],
+    "ground_truth": "TaskFlow Pro's SOC 2 Type II certification demonstrates their commitment to security, availability, processing integrity, confidentiality, and privacy.\n"
+  },
+  {
+    "query": "Upon involuntary employment termination, when is system access terminated?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_34"
+    ],
+    "ground_truth": "Upon involuntary employment termination, access to systems is terminated on the last day.\n"
+  },
+  {
+    "query": "If background checks were skipped, what risks might the company face?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_35"
+    ],
+    "ground_truth": "The context states that all employees undergo background checks appropriate to their role and location before hire. It does not mention the risks of skipping background checks.\n"
+  },
+  {
+    "query": "Examine JIT provisioning within SSO's SAML 2.0 integration for streamlined user onboarding.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_16"
+    ],
+    "ground_truth": "SAML 2.0 integration supports Just-in-time (JIT) user provisioning.\n"
+  },
+  {
+    "query": "Compare reporting methods via direct manager vs. anonymous hotline; what protections are in place for reporters?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_27"
+    ],
+    "ground_truth": "Reports can be made to a direct manager, HR, any executive, or via an anonymous hotline (1-855-TASKFLOW-ETHICS). All reports are investigated promptly and confidentially, and there is no retaliation for good-faith reports.\n"
+  },
+  {
+    "query": "Does TaskFlow Pro use customer data to train AI models without opt-in?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_26"
+    ],
+    "ground_truth": "No, TaskFlow Pro never uses customer data to train AI models without explicit opt-in.\n"
+  },
+  {
+    "query": "What GDPR features ensure EU data residency, and how does GDPR handle data breach notifications?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_22"
+    ],
+    "ground_truth": "GDPR ensures EU data residency with options for Ireland and Frankfurt data centers. Data breach notifications are handled within 72 hours.\n"
+  },
+  {
+    "query": "List prohibited behaviors related to discrimination, violence, substance abuse, misuse, and conflicts of interest.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_25"
+    ],
+    "ground_truth": "Prohibited behaviors include harassment, discrimination, bullying, violence, threats of violence, substance abuse that impairs work performance, misuse of company resources or information, and conflicts of interest without disclosure.\n"
+  },
+  {
+    "query": "Outline the critical steps for effective incident containment and system isolation during a cyberattack.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_31"
+    ],
+    "ground_truth": "Containment involves isolating affected systems to prevent further spread of the cyberattack (Context 3).\n"
+  },
+  {
+    "query": "Why should employees treat colleagues with respect and embrace diverse perspectives?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_24"
+    ],
+    "ground_truth": "The code of conduct states that employees should treat colleagues with respect and embrace diverse perspectives.\n"
+  },
+  {
+    "query": "What is the reward range for vulnerabilities found via Taskflowpro's bug bounty?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_12"
+    ],
+    "ground_truth": "The reward range is $100 to $10,000 depending on severity (hackerone.com/taskflowpro).\n"
+  },
+  {
+    "query": "What capabilities do Owner, Admin, Member, and Guest roles have within RBAC?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_14"
+    ],
+    "ground_truth": "Owners have full workspace control, Admins manage users/projects/settings, Members create/manage own projects and view all, and Guests have view-only access.\n"
+  },
+  {
+    "query": "What security measures, such as API keys with permission scopes, are in place?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_10"
+    ],
+    "ground_truth": "API Security measures include API keys with fine-grained permission scopes, rate limiting to prevent abuse, API request signing for webhooks, IP whitelist capability for Enterprise customers, API activity logging and anomaly detection, and automatic API key rotation recommendations.\n"
+  },
+  {
+    "query": "If underrepresented group representation stagnates, how will the company achieve its 50% goal by 2027?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_29"
+    ],
+    "ground_truth": "This question cannot be answered from the context, as the context does not provide information on how the company will respond if underrepresented group representation stagnates.\n"
+  },
+  {
+    "query": "If a user requests account deletion, how does TaskFlow Pro ensure GDPR compliance?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_21"
+    ],
+    "ground_truth": "TaskFlow Pro ensures GDPR compliance for account deletion requests via the \"Right to Erasure,\" allowing users to request account and data deletion.\n"
+  },
+  {
+    "query": "Compare access management for privileged vs. non-privileged users, including logging and review frequency.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_37"
+    ],
+    "ground_truth": "Privileged access is logged and monitored, while access reviews are conducted quarterly for all access. The principle of least privilege applies to all access.\n"
+  },
+  {
+    "query": "Compare the enforceability of non-compete agreements vs. stock option exercisability post-employment at Taskflowpro.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_35"
+    ],
+    "ground_truth": "Non-compete agreements are not enforced in most states, while stock options remain exercisable for 10 years post-employment at Taskflowpro.\n"
+  },
+  {
+    "query": "If employees chose *only* laptops, how would the tech budget be affected?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_18"
+    ],
+    "ground_truth": "The tech budget would not be affected, as the choice of MacBook Pro or high-end Windows laptop is already covered. The $1,500 budget is specifically for monitor(s) and accessories.\n"
+  },
+  {
+    "query": "How long are daily and monthly backups retained, and what happens post-retention?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_28"
+    ],
+    "ground_truth": "Daily backups are retained for 30 days, and monthly backups are retained for 90 days. Backups are deleted according to the retention schedule, and no data recovery is possible after the deletion period.\n"
+  },
+  {
+    "query": "What conduct does TaskFlow Pro's anti-harassment policy prohibit based on protected characteristics?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_26"
+    ],
+    "ground_truth": "TaskFlow Pro's anti-harassment policy prohibits unwelcome conduct based on protected characteristics including race, color, religion, sex, national origin, age, disability, or genetic information.\n"
+  },
+  {
+    "query": "How will affected customers be notified of a data breach, and what details/guidance will be provided?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_33"
+    ],
+    "ground_truth": "Affected customers will be notified via email and in-app announcement within 72 hours. The notification will include details of what happened, what data was affected, actions taken, and guidance on protective measures.\n"
+  },
+  {
+    "query": "How does the network architecture use WAF and AWS Shield for security?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_5"
+    ],
+    "ground_truth": "The network architecture uses a Web Application Firewall (WAF) to filter malicious traffic and DDoS protection through AWS Shield.\n"
+  },
+  {
+    "query": "If bcrypt hashing failed, what vulnerabilities might arise in authentication security?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_8"
+    ],
+    "ground_truth": "The context does not provide information on vulnerabilities that might arise if bcrypt hashing failed. It only states that passwords are, in fact, hashed using bcrypt with individual salts.\n"
+  },
+  {
+    "query": "Compare Custom Residency's data storage and transfer policies with those of standard AWS services.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_29"
+    ],
+    "ground_truth": "Custom Residency allows you to choose specific AWS regions for data storage and ensures no cross-border data transfers occur without your consent. Standard AWS services do not offer this level of control over data residency.\n"
+  },
+  {
+    "query": "Which authentication methods, including backup options, are available across all plans?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_9"
+    ],
+    "ground_truth": "SMS-based codes are available as a backup option across all plans.\n"
+  },
+  {
+    "query": "What benefits do healthcare enterprises gain by requesting HIPAA-compliant configurations?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_24"
+    ],
+    "ground_truth": "Healthcare enterprises gain the following benefits by requesting HIPAA-compliant configurations: a Business Associate Agreement (BAA), enhanced encryption and access logging, dedicated infrastructure with no multi-tenancy, encrypted backups with extended retention, PHI-specific data handling procedures, HIPAA-trained support staff, and annual compliance audits.\n"
+  },
+  {
+    "query": "Considering the pagination details, what is the significance of the 480 time estimate?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_11"
+    ],
+    "ground_truth": "The context does not provide any information about the significance of the 480 time estimate in relation to the pagination details. The time estimate and pagination details appear to be separate pieces of information.\n"
+  },
+  {
+    "query": "Outline the key steps for employees to compliantly discuss TaskFlow Pro on social media platforms.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_32"
+    ],
+    "ground_truth": "To compliantly discuss TaskFlow Pro on social media, employees must disclose their employment, make it clear they're speaking personally and not for the company, and be respectful and professional.\n"
+  },
+  {
+    "query": "What rights do California consumers have under CCPA, according to Taskflowpro?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_23"
+    ],
+    "ground_truth": "According to Taskflowpro, California consumers have the right to know what personal information is collected, the right to delete personal information, the right to opt-out of data \"sales\" (though Taskflowpro doesn't sell data), and the right to non-discrimination for exercising privacy rights.\n"
+  },
+  {
+    "query": "What failover strategies ensure RTO is 4 hrs, given hot DBs and quarterly tests?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_34"
+    ],
+    "ground_truth": "Automated failover procedures and quarterly tested simulated disasters ensure the Recovery Time Objective (RTO) of 4 hours, given hot standby databases.\n"
+  },
+  {
+    "query": "What security measures are in place for TaskFlow Pro's AWS cloud infrastructure?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_4"
+    ],
+    "ground_truth": "TaskFlow Pro's AWS cloud infrastructure utilizes AWS data centers that feature 24/7 physical security, biometric access controls, and extensive monitoring systems. The infrastructure also spans multiple availability zones for redundancy.\n"
+  },
+  {
+    "query": "Examine client-side encryption's role in safeguarding sensitive enterprise project data within TaskFlow's architecture.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_3"
+    ],
+    "ground_truth": "End-to-end encryption, an enterprise feature, encrypts data on the client side before transmission, ensuring that only authorized users with the encryption key can decrypt it. TaskFlow servers never have access to the unencrypted data, thus safeguarding sensitive enterprise project data.\n"
+  },
+  {
+    "query": "Compare initial onboarding vs. ongoing security training: What topics are covered, and how often is each conducted?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_36"
+    ],
+    "ground_truth": "Onboarding security training, conducted in the first week, covers comprehensive security training, phishing simulation testing, security policy acknowledgment, data handling procedures, and incident reporting requirements. Ongoing training includes an annual security refresher, quarterly phishing simulations and incident response drills, role-specific security training, and a monthly security awareness newsletter.\n"
+  },
+  {
+    "query": "List common API errors, including those related to authentication and authorization, noting their causes.\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_27"
+    ],
+    "ground_truth": "Common API errors include `authentication_error` caused by an invalid API key, `authorization_error` due to insufficient permissions, `validation_error` from invalid parameters, `not_found` when a resource isn't found, `rate_limit_exceeded` from too many requests, and `server_error` indicating an internal error.\n"
+  },
+  {
+    "query": "Compare the commuter benefits and professional development opportunities, including performance reviews, offered by the company.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_19"
+    ],
+    "ground_truth": "The company offers pre-tax commuter benefits up to the IRS maximum ($315/month in 2026), free parking or transit pass coverage, and bike purchase/repair reimbursement up to $500/year. For professional development, the company conducts quarterly check-ins (30-60 minutes) to discuss progress toward goals, provide feedback, have career development conversations, and adjust goals if needed, as well as annual comprehensive reviews.\n"
+  },
+  {
+    "query": "When was the information 'Last Updated: January 2026' last updated, according to the provided context?\n",
+    "relevant_doc_ids": [
+      "doc_0_chunk_32"
+    ],
+    "ground_truth": "The information was last updated in January 2026.\n"
+  },
+  {
+    "query": "How does intelligent automation specifically diminish manual labor?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_13"
+    ],
+    "ground_truth": "Intelligent automation reduces manual work.\n"
+  },
+  {
+    "query": "What industry-leading practices ensure data protection and maintain user trust in TaskFlow Pro?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_0"
+    ],
+    "ground_truth": "TaskFlow Pro employs industry-leading security practices to protect data and maintain user trust.\n"
+  },
+  {
+    "query": "Where can I find the complete list of subprocessors, as indicated at taskflowpro.com?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_30"
+    ],
+    "ground_truth": "The complete subprocessor list is available at taskflowpro.com/subprocessors.\n"
+  },
+  {
+    "query": "How does comprehensive time tracking aid teams in understanding capacity and improving estimates?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_7"
+    ],
+    "ground_truth": "Comprehensive time tracking helps teams understand capacity and improve estimates.\n"
+  },
+  {
+    "query": "What is the immediate response time for data breaches and service outages?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_32"
+    ],
+    "ground_truth": "Immediate response is required for critical incidents such as data breaches and service outages.\n"
+  },
+  {
+    "query": "Compare the RAM and storage requirements for the desktop vs. mobile applications.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_29"
+    ],
+    "ground_truth": "Desktop applications require a minimum of 4GB RAM and 200MB disk space, while mobile applications require 150MB storage.\n"
+  },
+  {
+    "query": "Outline the conditions under which the 18-month tenure rule for internal transfers can be waived.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_23"
+    ],
+    "ground_truth": "The 18-month minimum in current role before transferring is waivable.\n"
+  },
+  {
+    "query": "If a quarterly security review revealed a critical vulnerability, what steps would the company take?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_20"
+    ],
+    "ground_truth": "The company has incident response procedures tested quarterly, which would be used to address a critical vulnerability.\n"
+  },
+  {
+    "query": "If a team uses the Starter Plan, what is the annual cost for each user?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_16"
+    ],
+    "ground_truth": "The annual cost for each user on the Starter Plan is $8 per user/month (billed annually).\n"
+  },
+  {
+    "query": "What capabilities does TaskFlow Pro offer beyond project management and team collaboration?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_0"
+    ],
+    "ground_truth": "TaskFlow Pro also offers time tracking and advanced reporting capabilities.\n"
+  },
+  {
+    "query": "Examine TaskFlow Pro's user growth from its inception to serving Fortune 500 enterprises.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_1"
+    ],
+    "ground_truth": "TaskFlow Pro, founded in 2020, has grown to serve over 50,000 companies worldwide, including Fortune 500 enterprises.\n"
+  },
+  {
+    "query": "How long is version history retained for active Professional vs. Business accounts?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_27"
+    ],
+    "ground_truth": "Version history is retained for 90 days for active Professional accounts and 1 year for active Business accounts.\n"
+  },
+  {
+    "query": "Detail the security measures, including SAST, DAST, and code reviews, integrated into the secure development lifecycle.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_7"
+    ],
+    "ground_truth": "Our secure development lifecycle includes security training for engineers, code reviews by senior engineers, SAST on every commit, DAST on staging environments, dependency scanning, and security-focused QA testing.\n"
+  },
+  {
+    "query": "Examine the API access of the Business plan, specifically the daily call limit.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_18"
+    ],
+    "ground_truth": "The Business plan provides API access with a limit of 10,000 calls per day.\n"
+  },
+  {
+    "query": "Besides manager nomination and committee review, what is the basis for promotions?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_22"
+    ],
+    "ground_truth": "Promotions are based on demonstrated performance at the next level.\n"
+  },
+  {
+    "query": "Confirm database runs in private subnet, and specify access restrictions and connection encryption method.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_6"
+    ],
+    "ground_truth": "The database runs in a private subnet with no direct internet access. Access is restricted to application servers via security groups, and database connections are encrypted with TLS.\n"
+  },
+  {
+    "query": "What features differentiate the Professional Plan from other unnamed plans, regarding storage and support?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_17"
+    ],
+    "ground_truth": "The Professional Plan includes 100GB storage per user and priority email and chat support with a 4-hour response time.\n"
+  },
+  {
+    "query": "Can TaskFlow Pro be accessed through Firefox 88+ and what is the minimum screen resolution?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_28"
+    ],
+    "ground_truth": "Yes, TaskFlow Pro can be accessed through Firefox 88 or later. The minimum screen resolution is 1280x720.\n"
+  },
+  {
+    "query": "How do GitHub, GitLab, Jira, and Bitbucket link commits, pull requests, and issues to tasks?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_23"
+    ],
+    "ground_truth": "GitHub, GitLab, Jira, and Bitbucket link commits, pull requests, and issues to tasks.\n"
+  },
+  {
+    "query": "How do custom roles enhance security via granular permissions for project, user, and billing management?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_15"
+    ],
+    "ground_truth": "Custom roles enhance security via granular permissions for project creation/deletion, user invitation/removal, and billing/payment method management.\n"
+  },
+  {
+    "query": "How can TaskFlow integration triggers be optimized for real-time application event handling?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_15"
+    ],
+    "ground_truth": "Integration triggers in TaskFlow trigger actions based on events in connected apps.\n"
+  },
+  {
+    "query": "Compare confidential customer data with confidential employee data, noting types of information in each.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_31"
+    ],
+    "ground_truth": "I am unable to compare confidential customer data with confidential employee data, noting types of information in each, as both are classified as confidential information.\n"
+  },
+  {
+    "query": "If the sidebar's \"New Project\" button disappeared, how else could a user start a new project?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_33"
+    ],
+    "ground_truth": "The provided context does not offer alternative methods for starting a new project if the \"New Project\" button is missing from the sidebar.\n"
+  },
+  {
+    "query": "Compare TLS 1.3 and HTTPS, noting their roles in securing data in transit between devices and servers.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_1"
+    ],
+    "ground_truth": "Data transmitted between devices and servers is encrypted using TLS 1.3. HTTPS is enforced on all connections.\n"
+  },
+  {
+    "query": "What is the timeframe for applying critical security patches, according to the patch management policy?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_13"
+    ],
+    "ground_truth": "Critical security patches are applied within 24 hours, according to the patch management policy.\n"
+  },
+  {
+    "query": "Outline the key components of a 360-degree feedback process during annual performance reviews.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_20"
+    ],
+    "ground_truth": "During the Annual Review (90 minutes), 360-degree feedback from peers and stakeholders is a key component.\n"
+  },
+  {
+    "query": "Examine the key mgmt strategies for AES-256 encrypted DB backups, including rotation frequency.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_2"
+    ],
+    "ground_truth": "Database backups are encrypted using AES-256 before storage. Encryption keys are managed using AWS Key Management Service (KMS) with automatic key rotation every 90 days.\n"
+  },
+  {
+    "query": "Compare ERGs and unconscious bias training as DEI initiatives: who do they target, and how often are they conducted?\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_28"
+    ],
+    "ground_truth": "ERGs target underrepresented communities, while unconscious bias training targets all employees. ERGs are ongoing initiatives, and unconscious bias training is conducted annually.\n"
+  },
+  {
+    "query": "Compare file storage integrations of Google Drive, Dropbox, OneDrive, and Box within TaskFlow; what functionalities do they offer?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_24"
+    ],
+    "ground_truth": "Google Drive offers direct file attachments with real-time sync, Dropbox allows access and attachment of files without leaving TaskFlow, OneDrive provides full integration with Microsoft's cloud storage, and Box offers enterprise file management connected to tasks.\n"
+  },
+  {
+    "query": "Compare the minimum and recommended internet connection speeds, also listing other network requirements.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_30"
+    ],
+    "ground_truth": "The minimum internet connection speed is 1 Mbps, while 5 Mbps is recommended for video. Other network requirements include WebSocket support and accessible ports 80 and 443.\n"
+  },
+  {
+    "query": "Outline the career progression from Senior to Distinguished IC, emphasizing technical expertise and project influence.\n",
+    "relevant_doc_ids": [
+      "doc_2_chunk_21"
+    ],
+    "ground_truth": "The Individual Contributor (IC) track progresses from Senior to Staff, Principal, and finally Distinguished. This track focuses on technical depth and project impact, without requiring management responsibilities.\n"
+  },
+  {
+    "query": "Explain the admin-configurable concurrent session limits and their impact on SOC 2 compliance.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_18"
+    ],
+    "ground_truth": "Concurrent session limits are configurable by admins, and the provided text mentions SOC 2 Type II compliance, but it does not explain the impact of session limits on SOC 2 compliance.\n"
+  },
+  {
+    "query": "What are the key steps for TaskFlow setup: configuring attribute mapping vs. enabling SSO enforcement?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_17"
+    ],
+    "ground_truth": "The key steps for TaskFlow setup are: providing metadata, configuring attribute mapping, testing with sandbox users, and enabling SSO enforcement (optional). Configuring attribute mapping is step 2, while enabling SSO enforcement is step 4 and optional.\n"
+  },
+  {
+    "query": "Besides API access (10,000 calls/day), what onboarding and logging features are included?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_19"
+    ],
+    "ground_truth": "Custom onboarding and training are included, as well as audit logs with 1-year retention.\n"
+  },
+  {
+    "query": "If a business user needs custom training, what options are available?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_37"
+    ],
+    "ground_truth": "Custom training is available for Business and Enterprise plans (additional fee).\n"
+  },
+  {
+    "query": "How do detailed time reports illustrate time allocation across projects?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_9"
+    ],
+    "ground_truth": "Time reports generate detailed reports showing time distribution across projects and tasks.\n"
+  },
+  {
+    "query": "Examine the collaborative annotation features during simultaneous screen sharing across multiple video platforms.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_6"
+    ],
+    "ground_truth": "Screen sharing includes annotation tools.\n"
+  },
+  {
+    "query": "What uptime % does the Business plan guarantee, and what recourse is available if it's not met?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_38"
+    ],
+    "ground_truth": "The Business plan guarantees 99.5% uptime. The context does not specify recourse if this is not met.\n"
+  },
+  {
+    "query": "Although Stripe handles credit card data, does the company's infrastructure meet PCI DSS vendor requirements?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_25"
+    ],
+    "ground_truth": "Yes, the company's infrastructure meets PCI DSS requirements for vendors, even though Stripe handles credit card data.\n"
+  },
+  {
+    "query": "What real-time features keep a team connected and aligned?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_4"
+    ],
+    "ground_truth": "Real-time collaboration features keep your team connected and aligned.\n"
+  },
+  {
+    "query": "What kind of data-driven decisions are facilitated by reporting and analytics tools?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_10"
+    ],
+    "ground_truth": "The reporting and analytics tools facilitate data-driven decisions.\n"
+  },
+  {
+    "query": "If the Android app lost offline mode, would it still have feature parity w/ iOS?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_27"
+    ],
+    "ground_truth": "No, the Android app would not have complete feature parity with iOS if it lost offline mode, based on the context.\n"
+  },
+  {
+    "query": "Compare budget tracking alerts to available export formats (PDF, Excel, CSV).\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_12"
+    ],
+    "ground_truth": "Budget tracking includes alerts when approaching limits, while export options allow reports to be exported to PDF, Excel, or CSV formats.\n"
+  },
+  {
+    "query": "How do recurring tasks and subtasks help automate repetitive work?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_3"
+    ],
+    "ground_truth": "Recurring tasks automate repetitive work with customizable schedules, while subtasks break down complex work into manageable pieces.\n"
+  },
+  {
+    "query": "List 3 communication tools TaskFlow Pro connects with and their functionalities.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_22"
+    ],
+    "ground_truth": "TaskFlow Pro connects with Slack for real-time task updates, Microsoft Teams to embed projects, and Email to create tasks from emails.\n"
+  },
+  {
+    "query": "What steps are involved in connecting tools like Slack and Google Drive via Settings > Integrations?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_34"
+    ],
+    "ground_truth": "To connect tools, go to Settings > Integrations, connect your most-used tools (Slack, Google Drive, etc.), configure integration settings and permissions, and test connections with sample actions.\n"
+  },
+  {
+    "query": "List vendor security assessments before engagement, including SOC 2/ISO 27001 and data handling review.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_38"
+    ],
+    "ground_truth": "Before engagement, vendors undergo security assessments including SOC 2 or ISO 27001 certification, security questionnaire completion, review of data handling practices, and assessment of subprocessor risks.\n"
+  },
+  {
+    "query": "Examine the integration capabilities of Google Workspace with Calendly and Zapier for automated task management.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_25"
+    ],
+    "ground_truth": "Calendly auto-creates tasks from scheduled meetings, and Zapier connects to 5,000+ apps with no-code automation; Google Workspace has Calendar sync.\n"
+  },
+  {
+    "query": "Compare the file attachment and team chat features, noting size limits, version history, and channel options.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_5"
+    ],
+    "ground_truth": "File attachments support up to 500MB per file and include version history tracking, while team chat offers built-in messaging with channels for projects, teams, and direct messages.\n"
+  },
+  {
+    "query": "Compare the benefits of unlimited projects to custom workflows in project management.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_2"
+    ],
+    "ground_truth": "Unlimited projects allow you to create as many projects as you need without limits, while custom workflows let you design workflows that match your team's processes.\n"
+  },
+  {
+    "query": "Describe project dashboards and custom reports features for project health and progress tracking.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_11"
+    ],
+    "ground_truth": "Project dashboards provide real-time views of project health and progress, while custom reports allow you to build reports using a drag-and-drop builder.\n"
+  },
+  {
+    "query": "If a user has a DPA request and a vulnerability report, to whom should they email?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_40"
+    ],
+    "ground_truth": "For a DPA request, email compliance@taskflowpro.com. For a vulnerability report, email security@taskflowpro.com or submit via hackerone.com/taskflowpro.\n"
+  },
+  {
+    "query": "If TaskFlow Pro stopped threat intelligence monitoring, what impact would that have?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_42"
+    ],
+    "ground_truth": "According to the context, threat intelligence monitoring is part of how TaskFlow Pro continuously enhances its security program. Stopping it would negatively impact TaskFlow Pro's commitment to security and its ability to remain a trusted platform.\n"
+  },
+  {
+    "query": "Outline the Taskflowpro sign-up: emphasizing work email, password creation, and plan selection.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_31"
+    ],
+    "ground_truth": "To sign up for Taskflowpro: First, visit taskflowpro.com and click \"Start Free Trial\". Then, enter your work email and create a password. Finally, choose your plan, noting that all plans come with a 14-day free trial.\n"
+  },
+  {
+    "query": "For iOS 14.0+, what task mgmt features, incl. offline sync, notifications, & time tracking, are available?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_26"
+    ],
+    "ground_truth": "For iOS 14.0 and later, the iOS app (iPhone and iPad) provides full task management capabilities, offline mode with automatic sync, push notifications for task updates, and time tracking with timer.\n"
+  },
+  {
+    "query": "List the frequency & types of external security audits Taskflow Pro undergoes, plus contact info for general inquiries.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_39"
+    ],
+    "ground_truth": "Taskflow Pro undergoes the following external security audits: Annual SOC 2 Type II audit, Annual ISO 27001 audit, Annual penetration testing, and Quarterly vulnerability assessments. For general security inquiries, contact security@taskflowpro.com; response time is 24-48 hours.\n"
+  },
+  {
+    "query": "What benefits, beyond the Business plan, does the Enterprise plan offer large organizations?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_20"
+    ],
+    "ground_truth": "The Enterprise plan offers unlimited storage, a 99.9% uptime SLA with financial guarantees, 24/7 premium support with a dedicated Slack channel, advanced compliance features (SOC 2, ISO 27001, HIPAA), custom integrations, white-label options, unlimited API calls, advanced data residency options, dedicated infrastructure options, custom contracts and invoicing, and unlimited admin users.\n"
+  },
+  {
+    "query": "Compare Taskflowpro's public and NDA-protected resources for demonstrating security through transparency.\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_41"
+    ],
+    "ground_truth": "Taskflowpro demonstrates security through transparency with a status page (status.taskflowpro.com), a security page (taskflowpro.com/security), a privacy policy (taskflowpro.com/privacy), terms of service (taskflowpro.com/terms), and a subprocessor list (taskflowpro.com/subprocessors) publicly available. Compliance documentation is available to customers under NDA.\n"
+  },
+  {
+    "query": "If team members aren't imported via CSV, how else can you add them?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_32"
+    ],
+    "ground_truth": "You can invite team members via email.\n"
+  },
+  {
+    "query": "Can managers approve submitted timesheets, and can users track actual vs. estimated time?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_8"
+    ],
+    "ground_truth": "Yes, managers can review and approve submitted timesheets, and users can track actual vs. estimated time.\n"
+  },
+  {
+    "query": "What comprehensive documentation, including video tutorials and API guides, does Taskflowpro.com's help center offer?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_35"
+    ],
+    "ground_truth": "Taskflowpro.com's help center offers comprehensive documentation, including video tutorials (200+ videos) and API documentation.\n"
+  },
+  {
+    "query": "If admin user limits were removed, how might quarterly executive business reviews address potential security risks?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_21"
+    ],
+    "ground_truth": "Quarterly executive business reviews can address potential security risks from unlimited admin users.\n"
+  },
+  {
+    "query": "Examine TaskFlow Pro's real-time update latency and its impact on team collaboration efficiency.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_39"
+    ],
+    "ground_truth": "TaskFlow Pro has a real-time update latency of less than 500ms, which supports team collaboration efficiency.\n"
+  },
+  {
+    "query": "What support channels and response times are offered across TaskFlow Pro's plans?\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_36"
+    ],
+    "ground_truth": "TaskFlow Pro offers different support channels and response times based on the plan:\n\n*   **Starter Plan**: 48 hours via email.\n*   **Professional Plan**: 4 hours via email/chat. Live chat is available Mon-Fri, 9 AM - 6 PM EST.\n*   **Business Plan**: 1 hour via phone/email/chat. Phone support is available at 1-888-TASKFLOW.\n*   **Enterprise Plan**: 30 minutes via a dedicated Slack channel.\n"
+  },
+  {
+    "query": "Name the automation feature that enables custom rules for triggering actions.\n",
+    "relevant_doc_ids": [
+      "doc_4_chunk_14"
+    ],
+    "ground_truth": "Rule-based Automation enables custom rules that trigger actions automatically.\n"
+  },
+  {
+    "query": "When is the next scheduled security audit, as indicated by the provided 'Next Security Audit' date?\n",
+    "relevant_doc_ids": [
+      "doc_3_chunk_43"
+    ],
+    "ground_truth": "The next scheduled security audit is in March 2026, according to the 'Next Security Audit' date.\n"
+  }
+]

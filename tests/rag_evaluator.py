@@ -311,74 +311,10 @@ class RagEvaluator:
 
 # Example usage
 if __name__ == "__main__":
-    print("\n" + "="*70)
-    print("Direct RAG System Evaluation Example")
-    print("-"*70)
-    
-    # Example test queries
-    test_queries = [
-        {
-            'query': 'How many vacation days do entry-level employees receive?',
-            'relevant_doc_ids': ['doc_2_chunk_33', 'doc_2_chunk_34'],
-            'ground_truth': 'Entry-level employees receive 20 vacation days per year.'
-        },
-        {
-            'query': 'What is the annual maximum benefit for dental?',
-            'relevant_doc_ids': ['doc_2_chunk_26','doc_2_chunk_27'],
-            'ground_truth': 'The annual maximum benefit for dental is $1,500.'
-        },
-        {
-            'query': 'What is the rate limit for the Starter plan API keys?',
-            'relevant_doc_ids': ['doc_0_chunk_11', 'doc_4_chunk_27'],
-            'ground_truth': '100 requests per hour per API key'
-        },
-        {
-            'query': 'Can I access the API without a key?',
-            'relevant_doc_ids': ['doc_0_chunk_3', 'doc_0_chunk_5', 'doc_0_chunk_8'],
-            'ground_truth': 'You cannot access the API without a key.'
-        },
-        {
-            'query': 'What is the capital of France?',
-            'relevant_doc_ids': [],
-            'ground_truth': 'The question is not answerable given the documents.'
-        },
-        {
-            'query': 'Are Visa credit cards accepted for payment?',
-            'relevant_doc_ids': ['doc_1_chunk_16', 'doc_1_chunk_17'],
-            'ground_truth': 'Yes, Visa credit cards are accepted as a payment method.'
-        },
-        {
-            'query': 'How many therapy sessions are covered under mental health support?',
-            'relevant_doc_ids': ['doc_2_chunk_29', 'doc_2_chunk_35'],
-            'ground_truth': 'Unlimited therapy sessions are covered through the EAP (Employee Assistance Program).'
-        },
-        {
-            'query': 'What are the core collaboration hours for employees?',
-            'relevant_doc_ids': ['doc_2_chunk_8', 'doc_2_chunk_9'],
-            'ground_truth': 'The core collaboration hours are 10:00 AM to 3:00 PM'
-        },
-        {
-            'query': 'How long is the free trial period?',
-            'relevant_doc_ids': ['doc_1_chunk_3', 'doc_1_chunk_4', 'doc_1_chunk_5'],
-            'ground_truth': 'The free trial period is 14 days.'
-        },
-        {
-            'query': 'Is there a mobile app?',
-            'relevant_doc_ids': ['doc_1_chunk_9', 'doc_1_chunk_10', 'doc_1_chunk_11'],
-            'ground_truth': 'Yes, there is a mobile app available.'
-        },
-        {
-            'query': 'Can I get a refund?',
-            'relevant_doc_ids': ['doc_1_chunk_30', 'doc_1_chunk_31', 'doc_1_chunk_32'],
-            'ground_truth': 'Yes, you can get a refund on all annual subscriptions if you contact support within the first 30 days.'
-        },
-        {
-            'query': 'Is there end to end encryption?',
-            'relevant_doc_ids': ['doc_1_chunk_72', 'doc_3_chunk_10', 'doc_3_chunk_11'],
-            'ground_truth': 'Yes, Enterprise customers can enable end-to-end encryption for sensitive projects.'
-        }
-    ]
-    
+    # ── Auto-generate test queries from source documents
+    from synthesize_test_queries import synthesize_test_queries
+    test_queries = synthesize_test_queries()
+
     # Create reporter and evaluate
     reporter = RagEvaluator()
     reporter.initialize_rag_system()
