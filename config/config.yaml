@@ -24,3 +24,17 @@ llm:
 # ============================================================================
 paths:
   data_directory: data     # Directory containing your documents
+
+# ============================================================================
+# Chunking Configuration
+# ============================================================================
+chunking:
+  chunk_size: 512        # Characters per chunk (optimised for TaskFlow Pro markdown docs)
+  chunk_overlap: 50      # Overlap to preserve context across chunk boundaries
+
+# ============================================================================
+# RAG Query Configuration
+# ============================================================================
+rag:
+  default_n_results: 3   # Number of chunks to retrieve per query
+  query_optimization: true  # Enable LLM-based query rewriting before retrieval
