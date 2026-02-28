@@ -212,6 +212,7 @@ agentic-ai-essentials-cert-project/
 │   ├── metrics_utils.py          # Metric calculation utilities
 │   ├── rag_evaluator.py          # DeepEval-based RAG quality evaluator
 │   ├── rag_evaluator_utils.py    # Helper utilities for evaluation
+│   ├── synthesize_test_queries.py# LLM-generated ground-truth Q&A pairs for evaluation
 │   ├── test_app.py               # Integration tests for RAG pipeline
 │   └── test_vectordb.py          # Unit tests for vector database
 │
@@ -240,6 +241,8 @@ agentic-ai-essentials-cert-project/
 | `data/` | Your document collection | Add your .txt or .md files |
 | `tests/conftest.py` | Pytest fixtures and configuration | Add new fixtures or test markers |
 | `tests/rag_evaluator.py` | RAG system quality evaluator | Add new evaluation metric |
+| `tests/rag_evaluator_utils.py` | RAG system quality evaluator utilies | Add new helper functions to RAG system quality evaluator |
+| `tests/synthesize_test_queries.py` | Generates ground-truth Q&A pairs from documents using an LLM; output is consumed by `rag_evaluator.py` | Update prompts or add new document types to coverage |
 | `tests/metrics_utils.py` | RAG system quality evaluator utilies | Add new helper functions to RAG system quality evaluator |
 | `tests/test_app.py` | Integration tests for RAG pipeline | Add new integration tests |
 | `tests/test_vectordb.py` | Unit tests for vector database | Add new unit tests |
@@ -278,6 +281,7 @@ agentic-ai-essentials-cert-project/
 
 **Separated Concerns:**
 - `conftest.py`: Shared pytest fixtures and configuration
+- `synthesize_test_queries.py`: LLM-based ground-truth generator — reads the documents in `data/` and produces question-answer pairs used as the evaluation dataset by `rag_evaluator.py`
 - `metrics_utils.py`: Isolated metric calculation functions
 - `rag_evaluator.py`: High-level evaluation orchestration
 - `rag_evaluator_utils.py`: Helper utilities for evaluation
@@ -674,10 +678,15 @@ The project includes comprehensive RAG evaluation using DeepEval:
 
 **Run Evaluation:**
 ```bash
-# Run evaluation
-python tests/rag_evaluator.py
+# Step 1 (optional): Regenerate the ground-truth Q&A dataset from your documents
+# Run this whenever you add or update documents in data/
+python tests/synthesize_test_queries.py
 
+# Step 2: Run the full RAG evaluation against the generated dataset
+python tests/rag_evaluator.py
 ```
+
+> **Note:** `synthesize_test_queries.py` uses your configured LLM to read each document in `data/` and generate realistic question-answer pairs. The output is saved as a JSON dataset that `rag_evaluator.py` loads as ground truth. Re-run it any time your document corpus changes to keep evaluation coverage accurate.
 
 **Sample Output:**
 ```
