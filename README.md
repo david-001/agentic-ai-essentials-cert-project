@@ -685,23 +685,23 @@ python tests/rag_evaluator.py
 RAG SYSTEM PERFORMANCE REPORT (DeepEval)
 ======================================================================
 
-Generated: 2026-01-25T09:30:52.494262
-Model: <deepeval.models.llms.gemini_model.GeminiModel object at 0x7f7970f90110>
+Generated: 2026-02-28T06:20:27.811803
+Model: <deepeval.models.llms.gemini_model.GeminiModel object at 0x7fcdd09d4b60>
 
 ----------------------------------------------------------------------
 RETRIEVAL METRICS:
-  Precision@3:  0.8182
-  Recall@3:     1.0000
-  MRR:          1.0000
-  NDCG@5:       0.9854
-  Avg Latency:  19.94ms
+  Precision@3:  0.3152
+  Recall@3:     0.9455
+  MRR:          0.8804
+  NDCG@5:       0.8972
+  Avg Latency:  22.94ms
 
 GENERATION METRICS (DeepEval):
-  Faithfulness:          1.0000
-  Answer Relevance:      1.0000
-  Contextual Precision:  0.8472
-  Contextual Recall:     0.9167
-  Contextual Relevancy:  0.4289
+  Faithfulness:          0.9971
+  Answer Relevance:      0.9481
+  Contextual Precision:  0.9138
+  Contextual Recall:     0.9513
+  Contextual Relevancy:  0.4505
 
 ======================================================================
 OVERALL GRADE: A (Excellent)
