@@ -86,42 +86,7 @@ This RAG assistant is purpose-built for the **TaskFlow Pro** project management 
 
 The system implements a **two-stage RAG pipeline** with LLM query optimization:
 
-```
-┌─────────────────┐
-│  Your Documents │  (TaskFlow Pro: API docs, policies, FAQ, etc.)
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐     ┌──────────────────┐
-│ Text Chunking   │────▶│ Create Embeddings│
-│ (512 chars,     │     │ (Vector Space)   │
-│  50 overlap)    │     │                  │
-└─────────────────┘     └────────┬─────────┘
-                                 │
-                                 ▼
-                        ┌─────────────────┐
-                        │   Store in      │
-                        │   ChromaDB      │
-                        │ (with domain    │
-                        │  metadata)      │
-                        └────────┬────────┘
-                                 │
-         ┌───────────────────────┘
-         │
-         ▼
-┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  User Question  │────▶│  Stage 1: LLM    │────▶│  Stage 2:        │
-│                 │     │  Query           │     │  Semantic Search │
-└─────────────────┘     │  Optimization    │     │  (Find Top N)    │
-                        │  (Rewrite &      │     └────────┬─────────┘
-                        │  Expand Query)   │              │
-                        └──────────────────┘              ▼
-                                                ┌──────────────────┐
-                                                │  LLM Generates   │
-                                                │  Answer with     │
-                                                │  Source Citation │
-                                                └──────────────────┘
-```
+![RAG Architecture](images/RAG_architecture.png)
 
 **Step-by-Step Process:**
 
